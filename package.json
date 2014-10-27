@@ -4,7 +4,7 @@
 	"dependencies" : {
 		"express" : "4.10.0",
 		"ejs" : "1.0.0",
-		"sequelize" : "1.7.x",
+		"sequelize" : "1.7.10",
 		"passport" : "0.2.1",
 		"passport-local" : "1.0.0",
 		"connect-flash" : "0.1.1",
