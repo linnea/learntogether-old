@@ -16,8 +16,8 @@ Install PostgreSQL (Mac)
 - [Postgres.app](http://postgresapp.com/) (PG server)  
 - [PG Commander](https://eggerapps.at/pgcommander/) (GUI client)  
 
-Install PostgreSQL (PC)  
-- [Graphical Installer](http://www.postgresql.org/download/windows/) (PG/GUI/etc bundle)  
+Install PostgreSQL (other)  
+- [Postgres downloads](http://www.postgresql.org/download/) (various OS options)  
 
 **Local**
 
