@@ -14,7 +14,7 @@ $ npm install -g bower
 ```
 Install PostgreSQL 
 - Mac  
-  - [Postgres.app](http://postgresapp.com/) (PG server)  
+  - [Postgres.app](http://postgresapp.com/) (PG server) + [add CLI tools](http://postgresapp.com/documentation/cli-tools.html)
   - [PG Commander](https://eggerapps.at/pgcommander/) (GUI client)  
 - Other
   - [Postgres downloads](http://www.postgresql.org/download/) (various OS options)  
