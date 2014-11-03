@@ -24,6 +24,7 @@ Install PostgreSQL
 Clone git repo, install node/bower packages
 ```
 $ git clone https://github.com/alexburner/learntogether.git
+$ cd learntogether
 $ npm install
 $ bower install
 ```
