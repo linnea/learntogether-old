@@ -1,0 +1,16 @@
+i'm thinking db scripts will go in here?
+like:
+- initial create
+- v0.1 update
+- v0.2 update
+... etc
+
+likelike
+- 0.0.0.sql
+- 0.0.1.sql
+- 0.0.2.sql
+- 0.1.2.sql
+- 0.1.11.sql
+
+and the system runs them in order to make sure things are kosher?
+or we run them by hand? or however we decide to manage schema version
