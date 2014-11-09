@@ -1,17 +1,20 @@
-learntogether
-=============  
+LearnTogether
+===========
 
-Setup
------
+Modular LMS platform designed for the next generation of learning.
   
+### Installation
+
 **Prerequisites**
 
-Install Homebrew, Node.js, Bower
+Install Homebrew, Node.js, Bower, Nodemon
 ```
 $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 $ brew install node
 $ npm install -g bower
+$ npm install -g nodemon
 ```
+
 Install PostgreSQL 
 - Mac  
   - [Postgres.app](http://postgresapp.com/) (PG server) + [add CLI tools](http://postgresapp.com/documentation/cli-tools.html)
@@ -21,10 +24,24 @@ Install PostgreSQL
 
 **Local**
 
-Clone git repo, install node/bower packages
+Clone git repo, setup db, install node/bower packages
 ```
-$ git clone https://github.com/alexburner/learntogether.git
-$ cd learntogether
+$ git clone https://github.com/alexburner/synthergize.git
+$ cd synthergize
+$ ./scripts/dbconfig.sh
 $ npm install
 $ bower install
+```
+
+Setup PostgreSQL
+- If you have a pre-existing PostgreSQL database named "learntogether" run the tear down script first `./scripts/dbteardown.sh`
+- Then run the build script: `./scripts/dbconfig.sh`
+
+
+
+### Run
+
+From project folder root
+```
+$ nodemon server/server.js
 ```
