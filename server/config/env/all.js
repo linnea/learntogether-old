@@ -3,7 +3,7 @@
 module.exports = {
 	app: {
 		title: 'LearnTogether',
-		description: 'Next-generation modular LMS platform',
+		description: 'Modular LMS platform designed for the next generation of online learning',
 		keywords: 'learn, together'
 	},
 	port: process.env.PORT || 3000,

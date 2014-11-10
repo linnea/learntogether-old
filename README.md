@@ -1,7 +1,7 @@
 LearnTogether
 ===========
 
-Modular LMS platform designed for the next generation of learning.
+Modular LMS platform designed for the next generation of online learning.
   
 ### Installation
 
