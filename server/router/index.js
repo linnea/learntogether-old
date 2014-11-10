@@ -29,10 +29,6 @@ module.exports = function () {
 
 	// all leftovers go to angular
 	router.get('*', users.webRequiresLogin, function (req, res) {
-
-		console.log('get catchall');
-		console.log('req.isAuthenticated() = ' + req.isAuthenticated());
-
 		res.sendFile(
 			path.resolve(__dirname, '..', '..', config.angularRoot)
 		);

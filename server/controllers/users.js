@@ -22,9 +22,6 @@ exports.getCurrent = function (req, res) {
  * Require login routing middleware for api requests
  */
 exports.apiRequiresLogin = function(req, res, next) {
-
-	console.log('apiRequiresLogin');
-	console.log('req.isAuthenticated() = ' + req.isAuthenticated());
 	
 	// if user isn't authenticated, return error
 	if (!req.isAuthenticated()) {
@@ -41,9 +38,6 @@ exports.apiRequiresLogin = function(req, res, next) {
  */
 exports.webRequiresLogin = function(req, res, next) {
 
-	console.log('webRequiresLogin');
-	console.log('req.isAuthenticated() = ' + req.isAuthenticated());
-	
 	// if user isn't authenticated, return error
 	if (!req.isAuthenticated()) {
 		return res.redirect('/welcome');
