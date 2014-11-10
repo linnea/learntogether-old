@@ -45,3 +45,19 @@ From project folder root
 ```
 $ nodemon server/server.js
 ```
+
+
+TODO
+===========  
+
+#### Node  
+- better error handling
+- should we https?
+
+#### Angular  
+- install in project
+- are we using bower?
+
+#### Both
+- should we use grunt/gulp to minify/concat stuff?
+- testing
