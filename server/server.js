@@ -15,8 +15,14 @@ require('./config/passport')();
 // initialize and configure express
 var app = require('./config/express')();
 
+/**
+ * TODO
+ * - https
+ * - graceful shutdown
+ */
+
 // start the app by listening on <port>
 app.listen(config.port);
 
 // startup success!
-console.log('LearnTogether -- started on port ' + config.port);
+console.log('LearnTogether >>> started on port ' + config.port);

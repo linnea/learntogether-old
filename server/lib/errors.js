@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Middleware -- http error handler
+ * Middleware - http error handler
  */
 module.exports = function() {
     return function(err, req, res, next) {

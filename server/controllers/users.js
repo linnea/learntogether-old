@@ -9,7 +9,7 @@ var models = require('../models');
 var User = models.User;
 
 /**
- * domain.com/api/users/current
+ * Endpoint - GET domain.com/api/users/current
  */
 exports.getCurrent = function (req, res) {
 	// grab user from session
@@ -21,12 +21,13 @@ exports.getCurrent = function (req, res) {
 };
 
 /**
- * Require login routing middleware for api requests
+ * Middleware - require login for api requests
  */
 exports.apiRequiresLogin = function(req, res, next) {
 	
-	// if user isn't authenticated, send error
+	// if request isn't authenticated
 	if (!req.isAuthenticated()) {
+		// send error
 		next(errors.unauthorized());
 	}
 
@@ -34,12 +35,13 @@ exports.apiRequiresLogin = function(req, res, next) {
 };
 
 /**
- * Require login routing middleware for web requests
+ * Middleware - require login for web requests
  */
 exports.webRequiresLogin = function(req, res, next) {
 
-	// if user isn't authenticated, redirect to public welcome
+	// if request isn't authenticated
 	if (!req.isAuthenticated()) {
+		// redirect to public welcome
 		return res.redirect('/welcome');
 	}
 
