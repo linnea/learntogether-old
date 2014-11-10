@@ -55,6 +55,7 @@ TODO
 - should we https?
 - dave's "graceful shutdown"
 - what happened to promises
+- what is up with favicon
 
 #### Angular  
 - install in project
