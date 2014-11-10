@@ -51,11 +51,12 @@ TODO
 ===========  
 
 #### Node  
-- better error handling
+- ~~better error handling~~
+- even better error handling
 - should we https?
 - dave's "graceful shutdown"
 - what happened to promises
-- what is up with favicon
+- ~~what is up with favicon~~
 - right now routers are peppered with "users.requiresLogin"
 	- would it be better to separate into "public" & "secure" folders?
 	- and then hm also authorization where to
