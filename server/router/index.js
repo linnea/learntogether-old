@@ -30,7 +30,7 @@ module.exports = function () {
 	// any remaining requests go to angular
 	router.get('*', users.webRequiresLogin, function (req, res) {
 		res.sendFile(
-			path.resolve(__dirname, '..', '..', config.angularRoot)
+			path.resolve(__dirname, '..', '..', config.paths.angularRoot)
 		);
 	});
 

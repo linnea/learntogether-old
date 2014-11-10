@@ -14,6 +14,7 @@ var helmet = require('helmet');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var favicon = require('serve-favicon');
 
 var config = require('./env');
 var router = require('../router');
@@ -32,13 +33,13 @@ module.exports = function () {
 		app.use(morgan('dev')); 
 	}
 
-	// read cookies
+	// serve favicon
+	app.use(favicon(path.resolve(__dirname, '..', '..', config.paths.favicon)));
+
+	// parse all the things
 	app.use(cookieParser());
-	// parse application/json
 	app.use(bodyParser.json());
-	// parse application/vnd.api+json as json
 	app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
-	// parse application/x-www-form-urlencoded
 	app.use(bodyParser.urlencoded({ extended: true }));
 
 	// setup ejs templating for server-side views
@@ -73,7 +74,7 @@ module.exports = function () {
 	app.use(errors());
 
 	// set the static files location
-	app.use(express.static(path.resolve(__dirname, '..', '..', 'client')));
+	app.use(express.static(path.resolve(__dirname, '..', '..', config.paths.staticFiles)));
 
 	return app;
 };
