@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Express configuration
+ */
+
 var path = require('path');
 
 var express = require('express');
@@ -13,18 +17,22 @@ var session = require('express-session');
 
 var config = require('./env');
 var router = require('../router');
+var errors = require('../lib/errors');
 
 module.exports = function () {
-	
-	// initialize express app
 	var app = express();
 
-	// log requests
+	/**
+	 * Middleware fiesta
+	 */
+
+	// in dev mode?
 	if (process.env.NODE_ENV === 'development') {
+		// log requests
 		app.use(morgan('dev')); 
 	}
 
-	// read cookies (needed for auth)
+	// read cookies
 	app.use(cookieParser());
 	// parse application/json
 	app.use(bodyParser.json());
@@ -33,7 +41,7 @@ module.exports = function () {
 	// parse application/x-www-form-urlencoded
 	app.use(bodyParser.urlencoded({ extended: true }));
 
-	// set up for ejs templating
+	// setup ejs templating for server-side views
 	app.set('view engine', 'ejs');
 	app.set('views', path.resolve(__dirname, '..', 'views'));
 
@@ -60,6 +68,9 @@ module.exports = function () {
 
 	// add routes
 	app.use('/', router());
+
+	// add http error handler
+	app.use(errors());
 
 	// set the static files location
 	app.use(express.static(path.resolve(__dirname, '..', '..', 'client')));

@@ -56,11 +56,15 @@ TODO
 - dave's "graceful shutdown"
 - what happened to promises
 - what is up with favicon
+- right now routers are peppered with "users.requiresLogin"
+	- would it be better to separate into "public" & "secure" folders?
+	- and then hm also authorization where to
 
 #### Angular  
 - install in project
 - are we using bower?
 
-#### Both
-- should we use grunt/gulp to minify/concat stuff?
+#### General
 - testing
+- should we use grunt/gulp to minify/concat stuff?
+- how to names (first, middle, last, full, display)

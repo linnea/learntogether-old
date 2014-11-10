@@ -62,9 +62,13 @@ module.exports = function () {
 	
 	// if user is authenticated, let them see their profile
 	router.get('/profile', users.webRequiresLogin, function (req, res) {
+		// grab user from session
+		var user = req.user;
+		// overwrite sensitive info
+		user.password = undefined;
+		// render the profile page
 		res.render('profile.ejs', { 
-			// get the user out of session and pass to template
-			user: req.user 
+			user: user
 		});
 	});
 

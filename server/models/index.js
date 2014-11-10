@@ -3,8 +3,9 @@
 var _ = require('lodash-node');
 var Sequelize = require('sequelize');
 
-// instantiate sequelize with our database
 var config = require('../config/env').database;
+
+// instantiate sequelize with our database
 var sequelize = new Sequelize(
 	config.database, 
 	config.username, 

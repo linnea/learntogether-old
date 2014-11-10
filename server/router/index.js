@@ -27,7 +27,7 @@ module.exports = function () {
 	// domain.com/... 
 	router.use(authRouter());
 
-	// all leftovers go to angular
+	// any remaining requests go to angular
 	router.get('*', users.webRequiresLogin, function (req, res) {
 		res.sendFile(
 			path.resolve(__dirname, '..', '..', config.angularRoot)

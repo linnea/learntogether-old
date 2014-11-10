@@ -3,7 +3,9 @@
 var _ = require('lodash-node');
 var passport = require('passport');
 
+var errors = require('../lib/errors');
 var models = require('../models');
+
 var User = models.User;
 
 /**
@@ -23,11 +25,9 @@ exports.getCurrent = function (req, res) {
  */
 exports.apiRequiresLogin = function(req, res, next) {
 	
-	// if user isn't authenticated, return error
+	// if user isn't authenticated, send error
 	if (!req.isAuthenticated()) {
-		return res.status(401).send({
-			message: 'User is not logged in'
-		});
+		next(errors.unauthorized());
 	}
 
 	next();
@@ -38,7 +38,7 @@ exports.apiRequiresLogin = function(req, res, next) {
  */
 exports.webRequiresLogin = function(req, res, next) {
 
-	// if user isn't authenticated, return error
+	// if user isn't authenticated, redirect to public welcome
 	if (!req.isAuthenticated()) {
 		return res.redirect('/welcome');
 	}

@@ -1,9 +1,14 @@
 'use strict';
 
+/**
+ * Passport configuration
+ */
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var models = require('../models');
+
 var User = models.User;
 
 module.exports = function () {
