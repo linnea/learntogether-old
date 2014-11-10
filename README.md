@@ -53,6 +53,8 @@ TODO
 #### Node  
 - better error handling
 - should we https?
+- dave's "graceful shutdown"
+- what happened to promises
 
 #### Angular  
 - install in project
