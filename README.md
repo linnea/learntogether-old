@@ -17,6 +17,11 @@ Then, in the command line, run `vagrant up` in the root of the repository.  Vagr
 
 Bingo, you're ready to develop in an environment consistent with the rest of the team.
 
+### Tips:
+* When you're done working, run `vagrant halt` to shut down the vm.  `vagrant up` will bring it back up.
+* If you have a problem, run `vagrant destroy` to wipe the VM out completely.
+* `vagrant status` shows you the status of the VM.
+
 ### Issues:
 * Nasty red text on npm install (no performance issues, just looks bad)
 * Password entry on vagrant up for NFS share mounting: should be supressed
