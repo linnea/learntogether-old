@@ -53,13 +53,13 @@ TODO
 #### Node  
 - ~~better error handling~~
 - even better error handling
-- should we https?
+- ~~should we https?~~ yes
 - dave's "graceful shutdown"
-- what happened to promises
+- ~~what happened to promises~~ they'll come when they're needed
 - ~~what is up with favicon~~
-- right now routers are peppered with "users.requiresLogin"
-	- would it be better to separate into "public" & "secure" folders?
-	- and then hm also authorization where to
+- ~~right now routers are peppered with "users.requiresLogin"~~
+	- ~~would it be better to separate into "public" & "secure" folders?~~
+	- yes it would! the switch has been made
 
 #### Angular  
 - install in project

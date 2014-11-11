@@ -1,38 +1,26 @@
 'use strict';
 
 /**
- * Main application router
+ * Main request router
  */
 
 var path = require('path');
 
 var express = require('express');
 
-var config = require('../config/env');
-var users = require('../controllers/users');
-var apiRouter = require('./api');
-var authRouter = require('./auth');
+var publicRouter = require('./public');
+var privateRouter = require('./private');
 
 module.exports = function () {
 	var router = express.Router();
 
-	// public welcome page
-	router.get('/welcome', function (req, res) {
-		res.render('welcome.ejs');
-	});
+	// public requests 
+	// -> check first! before auth screen
+	router.use('/', publicRouter());
 
-	// domain.com/api/...
-	router.use('/api', apiRouter());
-
-	// domain.com/... 
-	router.use(authRouter());
-
-	// any remaining requests go to angular
-	router.get('*', users.webRequiresLogin, function (req, res) {
-		res.sendFile(
-			path.resolve(__dirname, '..', '..', config.paths.angularRoot)
-		);
-	});
+	// private requests
+	// -> must be authenticated
+	router.use('/', privateRouter());
 
 	return router;
 };

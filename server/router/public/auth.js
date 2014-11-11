@@ -1,13 +1,11 @@
 'use strict';
 
 /**
- * Authentication router
+ * Public authentication router
  */
 
 var express = require('express');
 var passport = require('passport');
-
-var users = require('../controllers/users');
 
 module.exports = function () {
 	var router = express.Router();
@@ -54,23 +52,6 @@ module.exports = function () {
 		// allow flash messages
 		failureFlash: true
 	}));
-
-
-	/**
-	 * Profile
-	 */
-	
-	// if user is authenticated, let them see their profile
-	router.get('/profile', users.webRequiresLogin, function (req, res) {
-		// grab user from session
-		var user = req.user;
-		// overwrite sensitive info
-		user.password = undefined;
-		// render the profile page
-		res.render('profile.ejs', { 
-			user: user
-		});
-	});
 
 
 	/**

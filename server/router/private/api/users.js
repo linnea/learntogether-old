@@ -1,12 +1,12 @@
 'use strict';
 
 /**
- * Users API router
+ * Private users API router
  */
 
 var express = require('express');
 
-var users = require('../../controllers/users');
+var users = require('../../../controllers/users');
 
 module.exports = function () {
 	var router = express.Router();
@@ -14,7 +14,7 @@ module.exports = function () {
 	// add all user routes here
 	
 	// get current user
-	router.get('/current', users.apiRequiresLogin, users.getCurrent);
+	router.get('/current', users.getCurrent);
 
 	return router;
 };
