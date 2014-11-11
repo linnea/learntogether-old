@@ -19,7 +19,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ## https://docs.vagrantup.com/v2/synced-folders/nfs.html
 
   ## INSTALL PKGS
-  config.vm.provision "shell", path: "scripts/provision.sh"
+  config.vm.provision "shell", 
+    inline: "apt-get install -y git vim sudo nodejs npm postgresql"
 
   ## SETUP DB
   config.vm.provision "shell",
