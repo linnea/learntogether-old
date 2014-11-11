@@ -1,3 +1,27 @@
+### Vagrant Branch
+This branch adds a Vagrant-powered Ubuntu virtual box for testing and development of LearnTogether.  
+Advantages:
+* Common OS environment makes for cohesive development
+* Working with Linux gives us a headstart on deployment issues
+* Change OS-level configs without screwing up your laptop
+
+### How It Works:
+Vagrant is wrapper for VirtualBox that allows for efficient config and boot of virtual machines.  By authoring a Vagrantfile (like the one in this repo), you can configure various aspects of a VM such as OS distro, networking, provisioning and virtual hardware (RAM, CPU, etc).  Then, it takes one simple command to boot the entire VM: `vagrant up`.
+
+### Prereqs:
+You will need to download and install both VirtualBox and Vagrant for your host OS to use the features in this branch:
+* VirtualBox: https://www.virtualbox.org/wiki/Downloads
+* Vagrant: https://www.vagrantup.com/downloads.html  
+
+Then, in the command line, run `vagrant up` in the root of the repository.  Vagrant will pull the OS binaries, install dependencies, set up the database, and launch LearnTogether.  It will forward port 3001 through localhost, so `localhost:3001` in the web browser will bring up LearnTogether hosted on your own local Linux VM.  Saved changes will restart the server like usual.
+
+Bingo, you're ready to develop in an environment consistent with the rest of the team.
+
+### Issues:
+* Nasty red text on npm install (no performance issues, just looks bad)
+* Password entry on vagrant up for NFS share mounting: should be supressed
+* Reload on save is kind of flakey
+
 LearnTogether
 ===========
 
