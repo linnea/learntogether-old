@@ -78,6 +78,9 @@ Notes
 	- Dave's 343 app @ https://bitbucket.org/drstearns/info343/src
 	- MEAN.JS starter app @ http://meanjs.org/
 	- generator-angular-fullstack @ https://github.com/DaftMonk/generator-angular-fullstack
+- most of the magic starts in a few files and branches out from there:
+	- server/server.js: start the node server
+	- server/config/express.js: setup express middleware
 - any folder with index.js is owned by index.js
 	- `require('./path/to/folder');` will execute index.js
 	- index.js can be expected to handle all other files in folder
