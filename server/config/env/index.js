@@ -15,7 +15,7 @@ module.exports = _.extend(
 		paths: {
 			staticFiles: 'client',
 			favicon: 'client/favicon.ico',
-			angularRoot: 'client/index.html',
+			angularRoot: 'client/ng.html',
 		},
 		port: process.env.PORT || 3000,
 		secure: process.env.SECURE || false,

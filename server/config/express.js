@@ -67,14 +67,14 @@ module.exports = function () {
 	app.use(helmet.ienoopen());
 	app.disable('x-powered-by');
 
+	// set the static files location
+	app.use(express.static(path.resolve(__dirname, '..', '..', config.paths.staticFiles)));
+
 	// add routes
 	app.use('/', router());
 
 	// add http error handler
 	app.use(errors());
-
-	// set the static files location
-	app.use(express.static(path.resolve(__dirname, '..', '..', config.paths.staticFiles)));
 
 	return app;
 };
