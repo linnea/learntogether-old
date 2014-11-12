@@ -9,7 +9,7 @@ angular.module('appRoutes', [])
 			$routeProvider
 
 				// user profile page
-				.when('/profile', {
+				.when('/user-profile', {
 					templateUrl: 'views/UserProfile.html',
 					controller: 'UserProfController'
 				});
