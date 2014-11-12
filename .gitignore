@@ -203,3 +203,9 @@ crashlytics-build.properties
 ## https://github.com/github/gitignore/blob/master/Global/Vagrant.gitignore
 
 .vagrant/
+
+
+#################################################
+## Bower
+
+client/private/libs
