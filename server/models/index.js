@@ -40,7 +40,9 @@ var modelNames = [
 
 // use Sequelize to import each model
 _(modelNames).forEach(function (modelName) {
-	models[modelName] = sequelize['import']('./' + modelName + '.js');
+	models[modelName] = sequelize['import'](
+		'./' + modelName.toLowerCase() + '.js'
+	);
 });
 
 // associate models if needed
