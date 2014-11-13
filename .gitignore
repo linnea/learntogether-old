@@ -196,3 +196,10 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+
+
+#################################################
+## Vagrant
+## https://github.com/github/gitignore/blob/master/Global/Vagrant.gitignore
+
+.vagrant/
