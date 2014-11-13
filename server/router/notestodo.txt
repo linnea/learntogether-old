@@ -1,0 +1,19 @@
+
+- should we put lib in public instead of private?
+	1. they're all publicly available (free third party components)
+	2. won't need an auth check on every request
+
+- should we "auth" namespace
+	- "auth" routes
+		- domain.com/auth/login,signup,logout,profile
+	- "auth" controller
+		- auth.webRequiresLogin
+		- auth.apiRequiresLogin
+
+	"auth" controller things are MIDDLEWARE
+	most API things will be ENDPOINTS
+
+	should those be separated?
+
+	MEAN.JS merges both in "controllers"
+	generator-angular-fullstack uses component-style folders with rails-style endpoints
