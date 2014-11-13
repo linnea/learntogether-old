@@ -13,9 +13,22 @@ module.exports = _.extend(
 			keywords: 'learn, together'
 		},
 		paths: {
-			staticFiles: 'client',
-			favicon: 'client/favicon.ico',
-			angularRoot: 'client/ng.html',
+			favicon: 'client/public/favicon.ico',
+			angulars: {
+				main: 'client/private/apps/main/index.html',
+				author: 'client/private/apps/author/index.html',
+				admin: 'client/private/apps/admin/index.html'
+			},
+			statics: {
+				public: 'client/public',
+				privates: {
+					libs: 'client/private/libs',
+					assets: 'client/private/assets',
+					main: 'client/private/apps/main',
+					author: 'client/private/apps/author',
+					admin: 'client/private/apps/admin'
+				}
+			}
 		},
 		port: process.env.PORT || 3000,
 		secure: process.env.SECURE || false,

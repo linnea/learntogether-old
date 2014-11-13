@@ -15,7 +15,6 @@ module.exports = function () {
 	 * Profile
 	 */
 	
-	// if user is authenticated, let them see their profile
 	router.get('/profile', function (req, res) {
 		// grab user from session
 		var user = req.user;

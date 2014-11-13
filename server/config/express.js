@@ -17,8 +17,8 @@ var session = require('express-session');
 var favicon = require('serve-favicon');
 
 var config = require('./env');
-var router = require('../router');
 var errors = require('../lib/errors');
+var router = require('../router');
 
 module.exports = function () {
 	var app = express();
@@ -66,10 +66,7 @@ module.exports = function () {
 	app.use(helmet.nosniff());
 	app.use(helmet.ienoopen());
 	app.disable('x-powered-by');
-
-	// set the static files location
-	app.use(express.static(path.resolve(__dirname, '..', '..', config.paths.staticFiles)));
-
+	
 	// add routes
 	app.use('/', router());
 

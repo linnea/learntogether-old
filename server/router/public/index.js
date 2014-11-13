@@ -4,8 +4,6 @@
  * Public request router
  */
 
-var path = require('path');
-
 var express = require('express');
 
 var apiRouter = require('./api');
@@ -13,6 +11,11 @@ var authRouter = require('./auth');
 
 module.exports = function () {
 	var router = express.Router();
+
+	router.use(function (req, res, next) {
+		console.log('hi, public router');
+		next();
+	});
 
 	// public welcome page
 	router.get('/welcome', function (req, res) {

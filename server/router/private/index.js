@@ -3,7 +3,9 @@
 /**
  * Private request router
  * 
- * NOTE: _all_ auth checks happen here in index.js
+ * NOTE: 	ALL authentication checks happen here in index.js
+ * 			all child files can assume authentication
+ * 			BUT each are responsible 
  */
 
 var path = require('path');
@@ -18,18 +20,69 @@ var authRouter = require('./auth');
 module.exports = function () {
 	var router = express.Router();
 
-	// domain.com/api/...
+	router.use(function (req, res, next) {
+		console.log('hi, private router');
+		next();
+	});
+
+	/**
+	 * API requests
+	 * domain.com/api/...
+	 */
+	
 	router.use('/api', users.apiRequiresLogin, apiRouter());
 
-	// domain.com/... 
+	/**
+	 * Web requests
+	 * domain.com/... 
+	 */
+	
 	router.use('/', users.webRequiresLogin, authRouter());
 
-	// any remaining requests go to angular
-	router.use('*', users.webRequiresLogin, function (req, res) {
-		res.sendFile(
-			path.resolve(__dirname, '..', '..', '..', config.paths.angularRoot)
-		);
-	});
+	/**
+	 * Angular requests
+	 */
+	
+	// admin 
+	router.use(
+		'/admin', 
+		users.webRequiresLogin, 
+
+		// authorization goes here?
+		
+		function (req, res) {
+			res.sendFile(
+				path.resolve(__dirname, '..', '..', '..', config.paths.angulars.admin)
+			);
+		}
+	);
+
+	// author
+	router.use(
+		'/author', 
+		users.webRequiresLogin, 
+
+		// authorization goes here?
+
+		function (req, res) {
+			res.sendFile(
+				path.resolve(__dirname, '..', '..', '..', config.paths.angulars.author)
+			);
+		}
+	);
+
+	// main 
+	// CATCH-ALL 
+	// (any unhandled requests end here)
+	router.use(
+		'*', 
+		users.webRequiresLogin, 
+		function (req, res) {
+			res.sendFile(
+				path.resolve(__dirname, '..', '..', '..', config.paths.angulars.main)
+			);
+		}
+	);
 
 	return router;
 };
