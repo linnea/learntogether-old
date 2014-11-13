@@ -20,6 +20,7 @@ module.exports = function () {
 		next();
 	});
 
+
 	/**
 	 * Public
 	 */
@@ -28,6 +29,7 @@ module.exports = function () {
 		'/public',
 		express.static(path.resolve(__dirname, '..', '..', config.paths.statics.public))
 	);
+
 
 	/**
 	 * Private
@@ -67,6 +69,7 @@ module.exports = function () {
 		users.webRequiresLogin,
 		express.static(path.resolve(__dirname, '..', '..', config.paths.statics.privates.admin))
 	);
+
 
 	return router;
 };

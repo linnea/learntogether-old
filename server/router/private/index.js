@@ -5,7 +5,7 @@
  * 
  * NOTE: 	ALL authentication checks happen here in index.js
  * 			all child files can assume authentication
- * 			BUT each are responsible 
+ * 			BUT each are responsible for authorization
  */
 
 var path = require('path');
@@ -26,12 +26,14 @@ module.exports = function () {
 		next();
 	});
 
+
 	/**
 	 * API requests
 	 * domain.com/api/...
 	 */
 	
 	router.use('/api', users.apiRequiresLogin, apiRouter());
+
 
 	/**
 	 * Web requests
@@ -40,11 +42,12 @@ module.exports = function () {
 	
 	router.use('/', users.webRequiresLogin, authRouter());
 
+
 	/**
-	 * Angular requests
+	 * Angular
 	 */
 	
-	// admin 
+	// admin app
 	router.use(
 		'/admin', 
 		users.webRequiresLogin, 
@@ -53,12 +56,12 @@ module.exports = function () {
 		
 		function (req, res) {
 			res.sendFile(
-				path.resolve(__dirname, '..', '..', '..', config.paths.angulars.admin)
+				path.resolve(__dirname, '..', '..', '..', config.paths.angularRoots.admin)
 			);
 		}
 	);
 
-	// author
+	// author app
 	router.use(
 		'/author', 
 		users.webRequiresLogin, 
@@ -67,12 +70,12 @@ module.exports = function () {
 
 		function (req, res) {
 			res.sendFile(
-				path.resolve(__dirname, '..', '..', '..', config.paths.angulars.author)
+				path.resolve(__dirname, '..', '..', '..', config.paths.angularRoots.author)
 			);
 		}
 	);
 
-	// main 
+	// main app
 	// CATCH-ALL 
 	// (any unhandled requests end here)
 	router.use(
@@ -80,10 +83,11 @@ module.exports = function () {
 		users.webRequiresLogin, 
 		function (req, res) {
 			res.sendFile(
-				path.resolve(__dirname, '..', '..', '..', config.paths.angulars.main)
+				path.resolve(__dirname, '..', '..', '..', config.paths.angularRoots.main)
 			);
 		}
 	);
+
 
 	return router;
 };

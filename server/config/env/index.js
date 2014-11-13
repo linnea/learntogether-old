@@ -26,12 +26,12 @@ module.exports = _.extend(
 					author: 'client/private/apps/author',
 					admin: 'client/private/apps/admin'
 				}
-			}
-			angulars: {
+			},
+			angularRoots: {
 				main: 'client/private/apps/main/index.html',
 				author: 'client/private/apps/author/index.html',
 				admin: 'client/private/apps/admin/index.html'
-			},
+			}
 		},
 		port: process.env.PORT || 3000,
 		secure: process.env.SECURE || false,
