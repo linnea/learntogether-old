@@ -14,14 +14,12 @@ module.exports = _.extend(
 		},
 		paths: {
 			favicon: 'client/public/favicon.ico',
-			angulars: {
-				main: 'client/private/apps/main/index.html',
-				author: 'client/private/apps/author/index.html',
-				admin: 'client/private/apps/admin/index.html'
-			},
 			statics: {
 				public: 'client/public',
 				privates: {
+					// private static folders are siloed
+					// so we can grant access to one
+					// without granting access to all
 					libs: 'client/private/libs',
 					assets: 'client/private/assets',
 					main: 'client/private/apps/main',
@@ -29,6 +27,11 @@ module.exports = _.extend(
 					admin: 'client/private/apps/admin'
 				}
 			}
+			angulars: {
+				main: 'client/private/apps/main/index.html',
+				author: 'client/private/apps/author/index.html',
+				admin: 'client/private/apps/admin/index.html'
+			},
 		},
 		port: process.env.PORT || 3000,
 		secure: process.env.SECURE || false,
