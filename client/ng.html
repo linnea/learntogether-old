@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Hello world</title>
+	<meta charset="UTF-8">
+    <base href="/">
+	<title>Learn Together</title>
+	<!-- CSS -->
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/style.css"> <!-- custom styles -->
+
+    <!-- JS -->
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/angular-route/angular-route.min.js"></script>
+
+    <!-- ANGULAR CUSTOM -->
+    <script src="js/UserProfile/UserProfileCtrl.js"></script>
+    <script src="js/UserProfile/UserProfileManager.js"></script>
+    <script src="js/UserProfile/UserProfileService.js"></script>
+    <script src="js/appRoutes.js"></script>
+    <script src="js/learnTogether.js"></script>
 </head>
 <body>
-This is where the node app currently expects the angular root to be located
+<div id="main" ng-app="LearnTogether">
+<a href="/user-profile" >Move to User Profile</a>
+<div ng-view></div>
+</div>
 </body>
 </html>

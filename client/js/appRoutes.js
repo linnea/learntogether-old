@@ -11,7 +11,7 @@ angular.module('appRoutes', [])
 				// user profile page
 				.when('/user-profile', {
 					templateUrl: 'views/UserProfile.html',
-					controller: 'UserProfController'
+					controller: 'UserProfileController'
 				});
 
 			$locationProvider.html5Mode(true);
