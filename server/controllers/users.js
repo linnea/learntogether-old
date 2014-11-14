@@ -8,9 +8,12 @@ var models = require('../models');
 
 var User = models.User;
 
+
 /**
- * Endpoint - GET domain.com/api/users/current
+ * Endpoints
  */
+
+// GET domain.com/api/users/current
 exports.getCurrent = function (req, res) {
 	// grab user from session
 	var user = req.user;
@@ -20,18 +23,101 @@ exports.getCurrent = function (req, res) {
 	res.jsond(user);
 };
 
-/**
- * Endpoint - GET domain.com/api/users/
- */
+// GET domain.com/api/users/
 exports.getAll = function (req, res) {
-	User.findAll().success(function (users) {
-		res.jsond(users);
-	});
+	User.findAll()
+		.success(function (users) {
+			res.jsond({ users: users });
+		})
+		.error(function (error) {
+			res.jsond({ error: error });
+		});
 };
 
+// GET domain.com/api/users/:id
+exports.get = function (req, res) {
+	User.find(req.params.id)
+		.success(function (user) {
+			user.password = undefined;
+			res.jsond({ user: user });
+		})
+		.error(function (error) {
+			res.jsond({ error: error });
+		});
+};
+
+// POST domain.com/api/users/:id
+exports.create = function (req, res) {
+	User.find({where: {email: req.body.email}})
+		.success(function (user) {
+			if (user) {
+				res.jsond({ error: "User already exists" });
+			} else {
+				var user = User.build();
+				user.name = req.body.name;
+				user.email = req.body.email;
+				user.password = req.body.password;
+				user.isAdmin = req.body.isAdmin;
+				user.save()
+					.success(function () {
+						user.password = undefined;
+						res.jsond({ user: user });
+					})
+					.error(function (error) {
+						res.jsond({ error: error });
+					});
+			}
+		})
+		.error(function (error) {
+			res.jsond({ error: error });
+		});
+};
+
+// PUT domain.com/api/users/:id
+exports.update = function (req, res) {
+	User.find(req.params.id)
+		.success(function (user) {
+			user.name = req.body.name || user.name;
+			user.email = req.body.email || user.email;
+			user.isAdmin = req.body.isAdmin || user.isAdmin;
+			user.save()
+				.success(function () {
+					user.password = undefined;
+					res.jsond({ user: user });
+				})
+				.error(function (error) {
+					res.jsond({ error: error });
+				});
+		})
+		.error(function (error) {
+			res.jsond({ error: error });
+		});
+};
+
+// DELETE domain.com/api/users/:id
+exports.delete = function (req, res) {
+	User.find(req.params.id)
+		.success(function (user) {
+			user.destroy()
+				.success(function () {
+					user.password = undefined;
+					res.jsond({ user: user });
+				})
+				.error(function (error) {
+					res.jsond({ error: error });
+				});
+		})
+		.error(function (error) {
+			res.jsond({ error: error });
+		});
+};
+
+
 /**
- * Middleware - require login for api requests
+ * Middleware
  */
+
+// require login for api requests
 exports.apiRequiresLogin = function(req, res, next) {
 	
 	// if request isn't authenticated
@@ -43,9 +129,7 @@ exports.apiRequiresLogin = function(req, res, next) {
 	next();
 };
 
-/**
- * Middleware - require login for web requests
- */
+// require login for web requests
 exports.webRequiresLogin = function(req, res, next) {
 
 	// if request isn't authenticated

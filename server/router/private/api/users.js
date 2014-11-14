@@ -15,10 +15,10 @@ module.exports = function () {
 	router.get('/current', users.getCurrent);
 	
 	// user CRUD
-	//router.delete('/:id', users.delete);
-	//router.put('/:id', users.update);
-	//router.post('/:id', users.create);
-	//router.get('/:id', users.get);
+	router.delete('/:id', users.delete);
+	router.put('/:id', users.update);
+	router.post('/:id', users.create);
+	router.get('/:id', users.get);
 
 	// all users
 	router.get('/', users.getAll);
