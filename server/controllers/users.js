@@ -9,6 +9,14 @@ var models = require('../models');
 var User = models.User;
 
 
+
+/**
+ * NOTE! todo >>> better error handling (use/expand errors lib)
+ */
+
+
+
+
 /**
  * Endpoints
  */
