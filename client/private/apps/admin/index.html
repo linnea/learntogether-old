@@ -2,7 +2,7 @@
 <html ng-app="admin">
 <head>
     <link rel="stylesheet" type="text/css" href="/static/private/libs/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/private/libs/font-awesome/css/font-awesome.css"></script>
+    <link rel="stylesheet" type="text/css" href="/static/private/libs/font-awesome/css/font-awesome.css">
     <script type="text/javascript" src="/static/private/libs/angular/angular.js"></script>
     <script type="text/javascript" src="/static/private/apps/admin/js/admin.js"></script>
 
@@ -25,32 +25,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Bob Ross</td>
-                    <td>rossbob@aol.gov</td>
+                <tr ng-repeat="user in db.users">
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
                     <td><button type="button" class="btn btn-default">Edit</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Bob Ross</td>
-                    <td>rossbob@aol.gov</td>
-                    <td><button type="button" class="btn btn-default">Edit</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Bob Ross</td>
-                    <td>rossbob@aol.gov</td>
-                    <td><button type="button" class="btn btn-default">Edit</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
+                        <button ng-click="db.deleteUser(user.id);" type="button" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    {{db.users}}
 </body>
 </html>
