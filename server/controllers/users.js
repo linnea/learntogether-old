@@ -38,8 +38,12 @@ exports.getAll = function (req, res) {
 exports.get = function (req, res) {
 	User.find(req.params.id)
 		.success(function (user) {
-			user.password = undefined;
-			res.jsond({ user: user });
+			if (user) {
+				user.password = undefined;
+				res.jsond({ user: user });
+			} else {
+				res.jsond({ error: "User not found" });
+			}
 		})
 		.error(function (error) {
 			res.jsond({ error: error });
@@ -77,17 +81,21 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
 	User.find(req.params.id)
 		.success(function (user) {
-			user.name = req.body.name || user.name;
-			user.email = req.body.email || user.email;
-			user.isAdmin = req.body.isAdmin || user.isAdmin;
-			user.save()
-				.success(function () {
-					user.password = undefined;
-					res.jsond({ user: user });
-				})
-				.error(function (error) {
-					res.jsond({ error: error });
-				});
+			if (user) {
+				user.name = req.body.name || user.name;
+				user.email = req.body.email || user.email;
+				user.isAdmin = req.body.isAdmin || user.isAdmin;
+				user.save()
+					.success(function () {
+						user.password = undefined;
+						res.jsond({ user: user });
+					})
+					.error(function (error) {
+						res.jsond({ error: error });
+					});
+			} else {
+				res.jsond({ error: "User not found" });
+			}
 		})
 		.error(function (error) {
 			res.jsond({ error: error });
@@ -98,14 +106,18 @@ exports.update = function (req, res) {
 exports.delete = function (req, res) {
 	User.find(req.params.id)
 		.success(function (user) {
-			user.destroy()
-				.success(function () {
-					user.password = undefined;
-					res.jsond({ user: user });
-				})
-				.error(function (error) {
-					res.jsond({ error: error });
-				});
+			if (user) {
+				user.destroy()
+					.success(function () {
+						user.password = undefined;
+						res.jsond({ user: user });
+					})
+					.error(function (error) {
+						res.jsond({ error: error });
+					});
+			} else {
+				res.jsond({ error: "User not found" });
+			}
 		})
 		.error(function (error) {
 			res.jsond({ error: error });
