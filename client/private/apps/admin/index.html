@@ -1,1 +1,56 @@
-node thinks this is the admin angular app's root
+<!DOCTYPE html>
+<html ng-app="admin">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/private/libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/private/libs/font-awesome/css/font-awesome.css"></script>
+    <script type="text/javascript" src="/static/private/libs/angular/angular.js"></script>
+    <script type="text/javascript" src="/static/private/apps/admin/js/admin.js"></script>
+
+    <title>Admin</title>
+</head>
+<body ng-controller="DatabaseController as db">
+    <div class="container">
+        <div class="page-header text-center">
+            <h1><span class="fa fa-gavel"></span> Admin Page</h1>
+            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        </div>
+        <table class="table">
+            <caption>Table caption?</caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Bob Ross</td>
+                    <td>rossbob@aol.gov</td>
+                    <td><button type="button" class="btn btn-default">Edit</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Bob Ross</td>
+                    <td>rossbob@aol.gov</td>
+                    <td><button type="button" class="btn btn-default">Edit</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Bob Ross</td>
+                    <td>rossbob@aol.gov</td>
+                    <td><button type="button" class="btn btn-default">Edit</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
