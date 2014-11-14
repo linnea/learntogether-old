@@ -27,7 +27,14 @@ module.exports = function () {
 	
 	router.use(
 		'/public',
-		express.static(path.resolve(__dirname, '..', '..', config.paths.statics.public))
+		express.static(
+			path.resolve(
+				__dirname, 
+				'..', 
+				'..', 
+				config.paths.statics.public
+			)
+		)
 	);
 
 
@@ -39,35 +46,70 @@ module.exports = function () {
 	router.use(
 		'/private/libs', 
 		users.webRequiresLogin,
-		express.static(path.resolve(__dirname, '..', '..', config.paths.statics.privates.libs))
+		express.static(
+			path.resolve(
+				__dirname, 
+				'..', 
+				'..', 
+				config.paths.statics.privates.libs
+			)
+		)
 	);
 
 	// assets
 	router.use(
 		'/private/assets', 
 		users.webRequiresLogin,
-		express.static(path.resolve(__dirname, '..', '..', config.paths.statics.privates.assets))
+		express.static(
+			path.resolve(
+				__dirname, 
+				'..', 
+				'..', 
+				config.paths.statics.privates.assets
+			)
+		)
 	);
 
 	// angular - main
 	router.use(
 		'/private/main', 
 		users.webRequiresLogin,
-		express.static(path.resolve(__dirname, '..', '..', config.paths.statics.privates.main))
+		express.static(
+			path.resolve(
+				__dirname, 
+				'..', 
+				'..', 
+				config.paths.statics.privates.main
+			)
+		)
 	);
 
 	// angular - author
 	router.use(
 		'/private/author', 
 		users.webRequiresLogin,
-		express.static(path.resolve(__dirname, '..', '..', config.paths.statics.privates.author))
+		express.static(
+			path.resolve(
+				__dirname, 
+				'..', 
+				'..', 
+				config.paths.statics.privates.author
+			)
+		)
 	);
 
 	// angular - admin
 	router.use(
 		'/private/admin', 
 		users.webRequiresLogin,
-		express.static(path.resolve(__dirname, '..', '..', config.paths.statics.privates.admin))
+		express.static(
+			path.resolve(
+				__dirname, 
+				'..', 
+				'..', 
+				config.paths.statics.privates.admin
+			)
+		)
 	);
 
 
