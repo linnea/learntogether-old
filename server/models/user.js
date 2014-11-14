@@ -5,7 +5,8 @@ module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('User', {
 		name: DataTypes.STRING,
 		email: DataTypes.STRING,
-		password: DataTypes.STRING
+		password: DataTypes.STRING,
+		isAdmin: DataTypes.BOOLEAN
 	}, {
 		instanceMethods: {
 			generateHash: function (password) {
