@@ -17,7 +17,16 @@ exports.getCurrent = function (req, res) {
 	// overwrite sensitive info
 	user.password = undefined;
 	// send response
-	res.json(user);
+	res.jsond(user);
+};
+
+/**
+ * Endpoint - GET domain.com/api/users/
+ */
+exports.getAll = function (req, res) {
+	User.findAll().success(function (users) {
+		res.jsond(users);
+	});
 };
 
 /**
