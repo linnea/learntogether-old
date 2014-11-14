@@ -33,9 +33,16 @@ exports.getCurrent = function (req, res) {
 
 // GET domain.com/api/users/
 exports.getAll = function (req, res) {
-	User.findAll()
+	User.findAll({attributes: ['id', 'name', 'email', 'isAdmin', 'createdAt', 'updatedAt']})
 		.success(function (users) {
-			res.jsond({ users: users });
+			if (users) {
+				_(users).forEach(function (user) {
+					user.password = undefined;
+				});
+				res.jsond({ users: users });
+			} else {
+				res.jsond({ error: "No users found" });
+			}
 		})
 		.error(function (error) {
 			res.jsond({ error: error });
