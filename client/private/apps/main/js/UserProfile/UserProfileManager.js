@@ -13,7 +13,7 @@ userProfileModule.factory('UserProfileManager', ['UserProfileService', function 
 			//promises will not hold "this" property. Copy into variable within function scope
 			var manager = this;
 			userProfileService.getUserId().then(function (data) {
-				manager.userId = data.data.email;
+				manager.userId = data.data.data.email;
 			}, function (data, status) {
 				manager.userId = "Error: " + status
 			})

@@ -16,9 +16,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
     "node_modules/expect.js/*.js",
-    "client/vendor/angular/angular.js",
-    "client/vendor/angular-mocks/angular-mocks.js",
-    "client/js/**/*.js",
+    "client/private/vendor/angular/angular.js",
+    "client/private/vendor/angular-mocks/angular-mocks.js",
+    
+    "client/private/apps/main/**/*.js",
     "test/client/**/*.js",
     ],
 

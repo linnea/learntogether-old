@@ -1,6 +1,6 @@
 //this is currently the only app route. But in the future there will be many app routes
 // This file will be renamed to ITSMODULENAME_route.js
-angular.module('appRoutes', [])
+angular.module('mainRoutes', [])
 
 	.config([
 		'$routeProvider',
@@ -10,7 +10,7 @@ angular.module('appRoutes', [])
 
 				// user profile page
 				.when('/user-profile', {
-					templateUrl: 'views/UserProfile.html',
+					templateUrl: '/static/private/apps/main/views/UserProfile.html',
 					controller: 'UserProfileController'
 				});
 
