@@ -33,7 +33,7 @@ exports.getCurrent = function (req, res) {
 
 // GET domain.com/api/users/
 exports.getAll = function (req, res) {
-	User.findAll({attributes: ['id', 'name', 'email', 'isAdmin', 'createdAt', 'updatedAt']})
+	User.findAll()
 		.success(function (users) {
 			if (users) {
 				_(users).forEach(function (user) {
