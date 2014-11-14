@@ -24,7 +24,7 @@ exports.getCurrent = function (req, res) {
  * Endpoint - GET domain.com/api/users/
  */
 exports.getAll = function (req, res) {
-	Users.findAll().success(function (users) {
+	User.findAll().success(function (users) {
 		res.jsond(users);
 	});
 };

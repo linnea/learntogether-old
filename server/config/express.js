@@ -73,6 +73,7 @@ module.exports = function () {
 		res.jsond = function (data) {
 			res.json({ data: data });
 		}
+		next();
 	});
 	
 	// add routes
