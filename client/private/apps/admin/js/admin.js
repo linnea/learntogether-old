@@ -5,19 +5,19 @@
         var db = this;
         this.users = [];
 
-        function getUsers() {
-            $http.get('/api/users').success(function (data) {
-                db.users = data.data;
+        this.getUsers = function() {
+            $http.get('/api/users').success(function (res) {
+                db.users = res.data.users;
                 console.log(db.users);
             });
         };
 
-        getUsers();
+        db.getUsers();
 
-        function deleteUser(id) {
-            $http.delete('/api/users/' + id).success(function (data) {
+        this.deleteUser = function(id) {
+            $http.delete('/api/users/' + id).success(function (res) {
                 console.log("clicky!");
-                getUsers();
+                db.getUsers();
             });
         };
 
