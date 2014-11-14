@@ -1,44 +1,12 @@
 (function() {
     var admin = angular.module('gemStore', []);
 
-    admin.controller('DatabaseControl', function() {
-        this.products = gems;
-    });
+    admin.controller('DatabaseControl', ['$http', function($http) {
+        var db = this;
+        this.users = [];
 
-
-
-    /////////////////////////////////////////////////////////
-
-
-
-    app.controller("TabController", function() {
-        this.tab = 1;
-
-        this.isSet = function(checkTab) {
-            return this.tab === checkTab;
-        };
-
-        this.setTab = function(setTab) {
-            this.tab = setTab;
-        };
-    });
-
-    app.controller('GalleryController', function(){
-        this.current = 0;
-
-        this.setCurrent = function(imageNumber){
-            this.current = imageNumber || 0;
-        };
-    });
-
-    app.controller("ReviewController", function(){
-
-        this.review = {};
-
-        this.addReview = function(product){
-            product.reviews.push(this.review);
-            this.review = {};
-        };
-
-    });
+        $http.get('ROUTE GOES HERE').success(function(data){
+            db.users = data;
+        });
+    }]);
 })();
