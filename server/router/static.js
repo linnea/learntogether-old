@@ -72,7 +72,7 @@ module.exports = function () {
 
 	// angular - main
 	router.use(
-		'/private/main', 
+		'/private/apps/main', 
 		users.webRequiresLogin,
 		express.static(
 			path.resolve(
@@ -86,7 +86,7 @@ module.exports = function () {
 
 	// angular - author
 	router.use(
-		'/private/author', 
+		'/private/apps/author', 
 		users.webRequiresLogin,
 		express.static(
 			path.resolve(
@@ -100,7 +100,7 @@ module.exports = function () {
 
 	// angular - admin
 	router.use(
-		'/private/admin', 
+		'/private/apps/admin', 
 		users.webRequiresLogin,
 		express.static(
 			path.resolve(
