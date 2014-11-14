@@ -33,34 +33,42 @@ exports.getCurrent = function (req, res) {
 
 // GET domain.com/api/users/
 exports.getAll = function (req, res) {
+	// find all users
 	User.findAll()
 		.success(function (users) {
 			if (users) {
 				_(users).forEach(function (user) {
+					// remove each password
 					user.password = undefined;
 				});
 				res.jsond({ users: users });
 			} else {
+				// 404
 				res.jsond({ error: "No users found" });
 			}
 		})
 		.error(function (error) {
+			// 500?
 			res.jsond({ error: error });
 		});
 };
 
 // GET domain.com/api/users/:id
 exports.get = function (req, res) {
+	// find user by id
 	User.find(req.params.id)
 		.success(function (user) {
 			if (user) {
+				// remove password
 				user.password = undefined;
 				res.jsond({ user: user });
 			} else {
+				// 404
 				res.jsond({ error: "User not found" });
 			}
 		})
 		.error(function (error) {
+			// 500?
 			res.jsond({ error: error });
 		});
 };
@@ -70,6 +78,7 @@ exports.create = function (req, res) {
 	User.find({where: {email: req.body.email}})
 		.success(function (user) {
 			if (user) {
+				// http status?
 				res.jsond({ error: "User already exists" });
 			} else {
 				var user = User.build();
@@ -79,15 +88,18 @@ exports.create = function (req, res) {
 				user.isAdmin = req.body.isAdmin;
 				user.save()
 					.success(function () {
+						// remove password
 						user.password = undefined;
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
+						// 500?
 						res.jsond({ error: error });
 					});
 			}
 		})
 		.error(function (error) {
+			// 500?
 			res.jsond({ error: error });
 		});
 };
@@ -102,17 +114,21 @@ exports.update = function (req, res) {
 				user.isAdmin = req.body.isAdmin || user.isAdmin;
 				user.save()
 					.success(function () {
+						// remove password
 						user.password = undefined;
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
+						// 500?
 						res.jsond({ error: error });
 					});
 			} else {
+				// 404
 				res.jsond({ error: "User not found" });
 			}
 		})
 		.error(function (error) {
+			// 500?
 			res.jsond({ error: error });
 		});
 };
@@ -124,17 +140,21 @@ exports.delete = function (req, res) {
 			if (user) {
 				user.destroy()
 					.success(function () {
+						// remove password
 						user.password = undefined;
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
+						// 500?
 						res.jsond({ error: error });
 					});
 			} else {
+				// 404
 				res.jsond({ error: "User not found" });
 			}
 		})
 		.error(function (error) {
+			// 500?
 			res.jsond({ error: error });
 		});
 };
