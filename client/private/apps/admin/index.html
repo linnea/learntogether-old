@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="/static/private/libs/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/static/private/libs/font-awesome/css/font-awesome.css">
     <script type="text/javascript" src="/static/private/libs/angular/angular.js"></script>
+    <script type="text/javascript" src="/static/private/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript" src="/static/private/apps/admin/js/admin.js"></script>
 
     <title>Admin</title>
@@ -36,6 +37,30 @@
             </tbody>
         </table>
     </div>
-    {{db.users}}
+
+    <div ng-controller="ModalController as mc">
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">I'm a modal!</h3>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li ng-repeat="item in mic.items">
+                        <a ng-click="mic.selected.item = item">{{ item }}</a>
+                    </li>
+                </ul>
+                Selected: <b>{{ mic.selected.item }}</b>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="mic.ok()">OK</button>
+                <button class="btn btn-warning" ng-click="mic.cancel()">Cancel</button>
+            </div>
+        </script>
+
+        <button class="btn btn-default" ng-click="mc.open()">Open me!</button>
+        <button class="btn btn-default" ng-click="mc.open('lg')">Large modal</button>
+        <button class="btn btn-default" ng-click="mc.open('sm')">Small modal</button>
+        <div ng-show="mc.selected">Selection from a modal: {{ mc.selected }}</div>
+    </div>
 </body>
 </html>
