@@ -16,6 +16,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
     "node_modules/expect.js/*.js",
+    "node_modules/sinon/pkg/sinon-1.11.1.js",
     "client/private/vendor/angular/angular.js",
     "client/private/vendor/angular-mocks/angular-mocks.js",
     
