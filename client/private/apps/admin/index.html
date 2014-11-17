@@ -15,8 +15,60 @@
             <h1><span class="fa fa-gavel"></span> Admin Page</h1>
             <a href="/logout" class="btn btn-default btn-sm">Logout</a>
         </div>
+
+        <div ng-controller="ModalController as mc">
+            <!--<script type="text/ng-template" id="myModalContent.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">I'm a modal!</h3>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li ng-repeat="item in mic.items">
+                            <a ng-click="mic.selected.item = item">{{ item }}</a>
+                        </li>
+                    </ul>
+                    Selected: <b>{{ mic.selected.item }}</b>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="mic.ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="mic.cancel()">Cancel</button>
+                </div>
+            </script>-->
+
+            <script type="text/ng-template" id="modalContent.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">Create User</h3>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name"
+                                    ng-model="mic.newUser.name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" class="form-control" name="email"
+                                    ng-model="mic.newUser.email">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name="password"
+                                    ng-model="mic.newUser.password">
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="mic.ok()">OK</button>
+                        <button class="btn btn-warning" ng-click="mic.cancel()">Cancel</button>
+                    </div>
+                </div>
+            </script>
+
+            <button class="btn btn-default pull-right" ng-click="mc.open()"><span class="fa fa-plus"></span> Create User</button>
+            <div ng-show="mc.selected">Selection from a modal: {{ mc.selected }}</div>
+        </div>
+
         <table class="table">
-            <caption>Table caption?</caption>
             <thead>
                 <tr>
                     <th>#</th>
@@ -30,37 +82,12 @@
                     <td>{{user.id}}</td>
                     <td>{{user.name}}</td>
                     <td>{{user.email}}</td>
-                    <td><button type="button" class="btn btn-default">Edit</button>
+                    <td class="text-right"><button type="button" class="btn btn-default">Edit</button>
                         <button ng-click="db.deleteUser(user.id);" type="button" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <div ng-controller="ModalController as mc">
-        <script type="text/ng-template" id="myModalContent.html">
-            <div class="modal-header">
-                <h3 class="modal-title">I'm a modal!</h3>
-            </div>
-            <div class="modal-body">
-                <ul>
-                    <li ng-repeat="item in mic.items">
-                        <a ng-click="mic.selected.item = item">{{ item }}</a>
-                    </li>
-                </ul>
-                Selected: <b>{{ mic.selected.item }}</b>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="mic.ok()">OK</button>
-                <button class="btn btn-warning" ng-click="mic.cancel()">Cancel</button>
-            </div>
-        </script>
-
-        <button class="btn btn-default" ng-click="mc.open()">Open me!</button>
-        <button class="btn btn-default" ng-click="mc.open('lg')">Large modal</button>
-        <button class="btn btn-default" ng-click="mc.open('sm')">Small modal</button>
-        <div ng-show="mc.selected">Selection from a modal: {{ mc.selected }}</div>
     </div>
 </body>
 </html>
