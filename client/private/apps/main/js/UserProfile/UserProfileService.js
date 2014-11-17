@@ -7,8 +7,8 @@ userProfileModule.service('UserProfileService', ['$q', '$http', function ($q, $h
 			var promise = $http.get("/api/users/current");
 			promise.then(function (data, status) {
 				deferred.resolve(data);
-			}, function (data, status) {
-				deferred.reject(status);
+			}, function (data) {
+				deferred.reject(data.status);
 			});
 			return deferred.promise;
 		}
