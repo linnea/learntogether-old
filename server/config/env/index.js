@@ -20,7 +20,7 @@ module.exports = _.extend(
 					// private static folders are siloed
 					// so we can grant access to one
 					// without granting access to all
-					libs: 'client/private/libs',
+					vendor: 'client/private/vendor',
 					assets: 'client/private/assets',
 					main: 'client/private/apps/main',
 					author: 'client/private/apps/author',

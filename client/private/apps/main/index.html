@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<meta charset="UTF-8">
+    <base href="/">
+	<title>Learn Together</title>
+	<!-- CSS -->
+    <link rel="stylesheet" href="/static/private/vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/private/vendor/css/style.css"> <!-- custom styles -->
+
+    <!-- JS -->
+    <script src="/static/private/vendor/angular/angular.min.js"></script>
+    <script src="/static/private/vendor/angular-route/angular-route.min.js"></script>
+
+    <!-- ANGULAR CUSTOM -->
+    <script src="/static/private/apps/main/js/UserProfile/UserProfileCtrl.js"></script>
+    <script src="/static/private/apps/main/js/UserProfile/UserProfileManager.js"></script>
+    <script src="/static/private/apps/main/js/UserProfile/UserProfileService.js"></script>
+    
+    <script src="/static/private/apps/main/js/mainApp.js"></script>
+    <script src="/static/private/apps/main/js/mainRoutes.js"></script>
+
+    
 </head>
 <body>
-	node thinks this is the main angular app's root
-	<script type="text/javascript" src="/static/private/main/js/test.js"></script>
-	<script type="text/javascript">
-		console.log(test);
-	</script>
+<div id="main" ng-app="LearnTogetherMainApp">
+<h1><a href="/user-profile" >Move to User Profile</a></h1>
+<div ng-view></div>
+</div>
 </body>
 </html>

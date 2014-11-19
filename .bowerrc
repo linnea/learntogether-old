@@ -1,3 +1,6 @@
 {
-  "directory": "client/private/libs"
+
+  "directory": "client/private/vendor"
+
 }
+
