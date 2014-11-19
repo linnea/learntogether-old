@@ -4,18 +4,55 @@
     <link rel="stylesheet" type="text/css" href="/static/private/libs/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/static/private/libs/font-awesome/css/font-awesome.css">
     <script type="text/javascript" src="/static/private/libs/angular/angular.js"></script>
+    <script type="text/javascript" src="/static/private/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript" src="/static/private/apps/admin/js/admin.js"></script>
+    <script type="text/javascript" src="/static/private/apps/admin/js/admin_svc.js"></script>
+    <script type="text/javascript" src="/static/private/apps/admin/js/admin_ctrl.js"></script>
 
     <title>Admin</title>
 </head>
-<body ng-controller="DatabaseController as db">
+<body ng-controller="AdminController as ac">
     <div class="container">
         <div class="page-header text-center">
             <h1><span class="fa fa-gavel"></span> Admin Page</h1>
             <a href="/logout" class="btn btn-default btn-sm">Logout</a>
         </div>
+
+        <div>
+            <script type="text/ng-template" id="modalContent.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">Create User</h3>
+                </div>
+                <div class="modal-body">
+                    <form ng-submit="mc.ok()">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name"
+                                    ng-model="mc.newUser.name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" class="form-control" name="email"
+                                    ng-model="mc.newUser.email">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name="password"
+                                    ng-model="mc.newUser.password">
+                        </div>
+                        <!--<input type="submit" class="btn btn-primary">OK</input>-->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">OK</button>
+                            <button class="btn btn-warning" ng-click="mc.cancel()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </script>
+
+            <button class="btn btn-default pull-right" ng-click="ac.open()"><span class="fa fa-plus"></span> Create User</button>
+        </div>
+
         <table class="table">
-            <caption>Table caption?</caption>
             <thead>
                 <tr>
                     <th>#</th>
@@ -25,17 +62,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="user in db.users">
+                <tr ng-repeat="user in ac.users">
                     <td>{{user.id}}</td>
                     <td>{{user.name}}</td>
                     <td>{{user.email}}</td>
-                    <td><button type="button" class="btn btn-default">Edit</button>
-                        <button ng-click="db.deleteUser(user.id);" type="button" class="btn btn-danger">Delete</button>
+                    <td class="text-right"><button type="button" class="btn btn-default">Edit</button>
+                        <button ng-click="ac.delete(user.id);" type="button" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    {{db.users}}
 </body>
 </html>
