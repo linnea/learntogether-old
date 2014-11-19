@@ -21,9 +21,8 @@ module.exports = function (grunt) {
         			compress: true,
         			banner: '/* Learn Together minified JS file */'
         		},
-        		learn_together: {
-        			src: [],
-        			dest: 'client/private/assets/'
+        		files: {
+        			'client/private/apps/main/js/learn_together_main.js': ['client/private/apps/main/**/*.js']
         		}
         	}
         }
