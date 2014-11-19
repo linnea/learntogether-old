@@ -44,14 +44,14 @@ module.exports = function () {
 	
 	// libs
 	router.use(
-		'/private/libs', 
+		'/private/vendor', 
 		users.webRequiresLogin,
 		express.static(
 			path.resolve(
 				__dirname, 
 				'..', 
 				'..', 
-				config.paths.statics.privates.libs
+				config.paths.statics.privates.vendor
 			)
 		)
 	);
