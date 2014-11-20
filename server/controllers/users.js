@@ -76,7 +76,7 @@ exports.create = function (req, res, next) {
 				var user = User.build();
 				user.name = req.body.name;
 				user.email = req.body.email;
-				user.password = req.body.password;
+				user.password = user.generateHash(req.body.password);
 				user.isAdmin = req.body.isAdmin;
 				user.save()
 					.success(function () {
@@ -104,6 +104,10 @@ exports.update = function (req, res, next) {
 				user.name = req.body.name || user.name;
 				user.email = req.body.email || user.email;
 				user.isAdmin = req.body.isAdmin || user.isAdmin;
+				if (user.password !== req.body.password) {
+					// new password, hash it for storage
+					user.password = user.generateHash(req.body.password);
+				}
 				user.save()
 					.success(function () {
 						// remove password
