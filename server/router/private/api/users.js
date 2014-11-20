@@ -17,10 +17,6 @@ module.exports = function () {
 	// user CRUD
 	router.delete('/:id', users.delete);
 	router.put('/:id', users.update);
-
-	// I changed the following route from '/:id' to '/' so that the
-	// database will auto-increment id instead of having to manually set it!
-	// <3 James
 	router.post('/', users.create);
 	router.get('/:id', users.get);
 

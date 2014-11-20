@@ -14,12 +14,6 @@ var users = require('../controllers/users');
 module.exports = function () {
 	var router = express.Router();
 
-	// TEMP
-	router.use(function (req, res, next) {
-		console.log('hi, static router');
-		next();
-	});
-
 
 	/**
 	 * Public

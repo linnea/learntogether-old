@@ -13,12 +13,6 @@ var privateRouter = require('./private');
 module.exports = function () {
 	var router = express.Router();
 
-	// TEMP
-	router.use(function (req, res, next) {
-		console.log('hi, main router');
-		next();
-	});
-
 	// static file requests 
 	router.use('/static', staticRouter());
 

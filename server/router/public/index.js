@@ -12,12 +12,6 @@ var authRouter = require('./auth');
 module.exports = function () {
 	var router = express.Router();
 
-	// TEMP
-	router.use(function (req, res, next) {
-		console.log('hi, public router');
-		next();
-	});
-
 	// public welcome page
 	router.get('/welcome', function (req, res) {
 		res.render('welcome.ejs');
