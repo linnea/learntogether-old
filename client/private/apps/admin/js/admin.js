@@ -2,6 +2,7 @@
 
     var admin = angular.module('admin',
         ['admin.controllers',
-            'admin.services']);
+        'admin.services',
+        'admin.managers']);
 
 })();

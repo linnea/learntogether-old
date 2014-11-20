@@ -5,9 +5,12 @@
     <link rel="stylesheet" type="text/css" href="/static/private/libs/font-awesome/css/font-awesome.css">
     <script type="text/javascript" src="/static/private/libs/angular/angular.js"></script>
     <script type="text/javascript" src="/static/private/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script type="text/javascript" src="/static/private/apps/admin/js/admin.js"></script>
     <script type="text/javascript" src="/static/private/apps/admin/js/admin_svc.js"></script>
     <script type="text/javascript" src="/static/private/apps/admin/js/admin_ctrl.js"></script>
+    <script type="text/javascript" src="/static/private/apps/admin/js/admin_mgr.js"></script>
+    <script type="text/javascript" src="/static/private/apps/admin/js/admin.js"></script>
+
+
 
     <title>Admin</title>
 </head>
@@ -62,12 +65,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="user in ac.users">
+                <tr ng-repeat="(id, user) in ac.um.users">
                     <td>{{user.id}}</td>
                     <td>{{user.name}}</td>
                     <td>{{user.email}}</td>
-                    <td class="text-right"><button type="button" class="btn btn-default">Edit</button>
-                        <button ng-click="ac.delete(user.id);" type="button" class="btn btn-danger">Delete</button>
+                    <td class="text-right">
+                        <button ng-click="ac.um.edit(user.id);" type="button" class="btn btn-default">Edit</button>
+                        <button ng-click="ac.um.delete(user.id);" type="button" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
             </tbody>

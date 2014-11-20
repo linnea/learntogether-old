@@ -8,10 +8,9 @@
 (function () {
     var admin_svc = angular.module('admin.services', []);
 
-    admin_svc.service('User', function ($http) {
+    admin_svc.service('UserService', function ($http) {
         this.getAll = function(callback) {
             $http.get('/api/users').success(function (data) {
-                data = data.data.users;
                 callback(data);
             });
         };
@@ -31,7 +30,7 @@
         };
 
         this.edit = function(id, user, callback) {
-            $http.post('/api/users/' + id, user).success(function (data) {
+            $http.put('/api/users/' + id, user).success(function (data) {
                 callback(data);
             });
         };

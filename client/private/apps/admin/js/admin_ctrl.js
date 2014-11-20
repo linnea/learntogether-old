@@ -1,32 +1,13 @@
+// todo:
+//     : add edit function
+//     : update table without fetching all users
+
 (function() {
     var admin_ctrl = angular.module('admin.controllers', ['ui.bootstrap']);
 
-    admin_ctrl.controller('AdminController', function ($http, $log, $modal, User) {
+    admin_ctrl.controller('AdminController', function ($http, $log, $modal, UserService, UserManager) {
         var ac = this;
-        this.users = [];
-        this.newUser = {};
-
-        (this.getAll = function () {
-            User.getAll(function (data) {
-                ac.users = data;
-            });
-        })();
-
-
-        this.delete = function (id) {
-            User.delete(id, function (data) {
-                console.log("Successfully deleted user @ id="+id);
-                ac.getAll();
-            });
-        };
-
-        this.add = function(user) {
-            User.add(user, function (data) {
-                console.log("Successfully added user " + user.name);
-                ac.getAll();
-            });
-            ac.newUser = {};
-        };
+        ac.um = UserManager;
 
         this.open = function () {
             var modalInstance = $modal.open({
@@ -34,13 +15,13 @@
                 controller: 'ModalController as mc',
                 resolve: {
                     newUser: function() {
-                        return ac.newUser;
+                        return ac.um.newUser;
                     }
                 }
             });
 
             modalInstance.result.then(function (newUser) {
-                ac.add(newUser);
+                ac.um.add(newUser);
             }, function() {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -52,7 +33,7 @@
         this.newUser = newUser;
 
         this.ok = function () {
-            console.log(modalInstance.newUser);
+            //console.log(modalInstance.newUser);
             $modalInstance.close(modalInstance.newUser);
         };
 
