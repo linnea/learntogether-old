@@ -13,15 +13,18 @@ module.exports = function () {
 	
 	// current session user
 	router.get('/current', users.getCurrent);
+
+	// public user profile
+	router.get('/profile/:id', users.getProfile);
 	
 	// user CRUD
-	router.delete('/:id', users.delete);
-	router.put('/:id', users.update);
-	router.post('/', users.create);
-	router.get('/:id', users.get);
+	router.delete('/:id', users.apiRequiresAdmin, users.delete);
+	router.put('/:id', users.apiRequiresAdmin, users.update);
+	router.post('/', users.apiRequiresAdmin, users.create);
+	router.get('/:id', users.apiRequiresAdmin, users.get);
 
 	// all users
-	router.get('/', users.getAll);
+	router.get('/', users.apiRequiresAdmin, users.getAll);
 
 	return router;
 };

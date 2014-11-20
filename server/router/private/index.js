@@ -45,9 +45,7 @@ module.exports = function () {
 	router.use(
 		'/admin', 
 		users.webRequiresLogin, 
-
-		// authorization goes here?
-		
+		users.webRequiresAdmin,
 		function (req, res) {
 			res.sendFile(
 				path.resolve(__dirname, '..', '..', '..', config.paths.angularRoots.admin)
@@ -59,9 +57,7 @@ module.exports = function () {
 	router.use(
 		'/author', 
 		users.webRequiresLogin, 
-
-		// authorization goes here?
-
+		// todo users.webRequiresAuthor,
 		function (req, res) {
 			res.sendFile(
 				path.resolve(__dirname, '..', '..', '..', config.paths.angularRoots.author)

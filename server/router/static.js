@@ -96,11 +96,12 @@ module.exports = function () {
 	router.use(
 		'/private/apps/admin', 
 		users.webRequiresLogin,
+		users.webRequiresAdmin,
 		express.static(
 			path.resolve(
 				__dirname, 
 				'..', 
-				'..', 
+				'..',
 				config.paths.statics.privates.admin
 			)
 		)

@@ -76,6 +76,7 @@ module.exports = function () {
 						newUser.name = req.body.name || 'Default Name';
 						newUser.email = email;
 						newUser.password = newUser.generateHash(password);
+						newUser.isAdmin = req.body.isAdmin;
 
 						// save the user
 						newUser.save()
