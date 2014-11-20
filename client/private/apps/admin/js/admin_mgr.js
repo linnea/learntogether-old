@@ -6,23 +6,16 @@
         var userManager = {
             users   : {},
             newUser : {},
-            editUser: {},
 
             getAll: function () {
                 UserService.getAll(function (userData) {
                     userData = userData.data.users;
-
                     var usersAssoc = {};
                     userData.forEach(function (user) {
                         usersAssoc[user.id] = user;
                     });
-
                     userManager.users = usersAssoc;
                 });
-            },
-
-            get: function() {
-
             },
 
             add: function(user) {
@@ -35,12 +28,13 @@
             },
 
             edit: function(id, user) {
-                UserService.edit(id, user, function (editUser) {
-                    editUser = editUser.data.user;
+                UserService.edit(id, user, function (newUser) {
+                    newUser = newUser.data.user;
                     delete userManager.users[id];
-                    userManager.users[editUser.id] = editUser;
+                    userManager.users[newUser.id] = newUser;
                     console.log("Successfully modified user @ id=" + id);
                 });
+                userManager.newUser = {};
             },
 
             delete: function(id) {
