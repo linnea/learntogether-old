@@ -104,7 +104,7 @@ exports.update = function (req, res, next) {
 				user.name = req.body.name || user.name;
 				user.email = req.body.email || user.email;
 				user.isAdmin = req.body.isAdmin || user.isAdmin;
-				if (user.password !== req.body.password) {
+				if (req.body.password && user.password !== req.body.password) {
 					// new password, hash it for storage
 					user.password = user.generateHash(req.body.password);
 				}
