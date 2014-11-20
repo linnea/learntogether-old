@@ -14,12 +14,6 @@ var users = require('../controllers/users');
 module.exports = function () {
 	var router = express.Router();
 
-	// TEMP
-	router.use(function (req, res, next) {
-		console.log('hi, static router');
-		next();
-	});
-
 
 	/**
 	 * Public
@@ -44,14 +38,14 @@ module.exports = function () {
 	
 	// libs
 	router.use(
-		'/private/libs', 
+		'/private/vendor', 
 		users.webRequiresLogin,
 		express.static(
 			path.resolve(
 				__dirname, 
 				'..', 
 				'..', 
-				config.paths.statics.privates.libs
+				config.paths.statics.privates.vendor
 			)
 		)
 	);

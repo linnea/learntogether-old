@@ -9,20 +9,12 @@ var models = require('../models');
 var User = models.User;
 
 
-
-/**
- * NOTE! todo >>> better error handling (use/expand errors lib)
- */
-
-
-
-
 /**
  * Endpoints
  */
 
 // GET domain.com/api/users/current
-exports.getCurrent = function (req, res) {
+exports.getCurrent = function (req, res, next) {
 	// grab user from session
 	var user = req.user;
 	// overwrite sensitive info
@@ -32,7 +24,7 @@ exports.getCurrent = function (req, res) {
 };
 
 // GET domain.com/api/users/
-exports.getAll = function (req, res) {
+exports.getAll = function (req, res, next) {
 	// find all users
 	User.findAll()
 		.success(function (users) {
@@ -44,17 +36,17 @@ exports.getAll = function (req, res) {
 				res.jsond({ users: users });
 			} else {
 				// 404
-				res.jsond({ error: "No users found" });
+				next(errors.notFound('No users found'));
 			}
 		})
 		.error(function (error) {
-			// 500?
-			res.jsond({ error: error });
+			// 500
+			next(errors.internalServerError('Database error'));
 		});
 };
 
 // GET domain.com/api/users/:id
-exports.get = function (req, res) {
+exports.get = function (req, res, next) {
 	// find user by id
 	User.find(req.params.id)
 		.success(function (user) {
@@ -64,22 +56,22 @@ exports.get = function (req, res) {
 				res.jsond({ user: user });
 			} else {
 				// 404
-				res.jsond({ error: "User not found" });
+				next(errors.notFound('User not found'));
 			}
 		})
 		.error(function (error) {
-			// 500?
-			res.jsond({ error: error });
+			// 500
+			next(errors.internalServerError('Database error'));
 		});
 };
 
-// POST domain.com/api/users/:id
-exports.create = function (req, res) {
+// POST domain.com/api/users/
+exports.create = function (req, res, next) {
 	User.find({where: {email: req.body.email}})
 		.success(function (user) {
 			if (user) {
-				// http status?
-				res.jsond({ error: "User already exists" });
+				// 409
+				next(errors.conflict('User already exists'));
 			} else {
 				var user = User.build();
 				user.name = req.body.name;
@@ -93,19 +85,19 @@ exports.create = function (req, res) {
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
-						// 500?
-						res.jsond({ error: error });
+						// 500
+						next(errors.internalServerError('Database error'));
 					});
 			}
 		})
 		.error(function (error) {
-			// 500?
-			res.jsond({ error: error });
+			// 500
+			next(errors.internalServerError('Database error'));
 		});
 };
 
 // PUT domain.com/api/users/:id
-exports.update = function (req, res) {
+exports.update = function (req, res, next) {
 	User.find(req.params.id)
 		.success(function (user) {
 			if (user) {
@@ -119,22 +111,22 @@ exports.update = function (req, res) {
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
-						// 500?
-						res.jsond({ error: error });
+						// 500
+						next(errors.internalServerError('Database error'));
 					});
 			} else {
 				// 404
-				res.jsond({ error: "User not found" });
+				next(errors.notFound('User not found'));
 			}
 		})
 		.error(function (error) {
-			// 500?
-			res.jsond({ error: error });
+			// 500
+			next(errors.internalServerError('Database error'));
 		});
 };
 
 // DELETE domain.com/api/users/:id
-exports.delete = function (req, res) {
+exports.delete = function (req, res, next) {
 	User.find(req.params.id)
 		.success(function (user) {
 			if (user) {
@@ -145,17 +137,17 @@ exports.delete = function (req, res) {
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
-						// 500?
-						res.jsond({ error: error });
+						// 500
+						next(errors.internalServerError('Database error'));
 					});
 			} else {
 				// 404
-				res.jsond({ error: "User not found" });
+				next(errors.notFound('User not found'));
 			}
 		})
 		.error(function (error) {
-			// 500?
-			res.jsond({ error: error });
+			// 500
+			next(errors.internalServerError('Database error'));
 		});
 };
 

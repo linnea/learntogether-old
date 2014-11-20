@@ -68,7 +68,7 @@ module.exports = function () {
 	app.disable('x-powered-by');
 
 	// add custom res.json() method that namespaces with "data"
-	// to defeat JSON Array Constructor vulnerability
+	// to globally defeat JSON Array Constructor vulnerability
 	app.use(function (req, res, next) {
 		res.jsond = function (data) {
 			res.json({ data: data });
