@@ -1,10 +1,3 @@
-// todo:
-//     : Add proper error handling
-//     : Improve logging
-//     : Define ALL CRUD functions for database
-//     : admin.add constraints on user object
-//     : look into module.value
-
 (function () {
     var admin_svc = angular.module('admin.services', []);
 

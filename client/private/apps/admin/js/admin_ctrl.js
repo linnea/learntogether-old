@@ -1,7 +1,3 @@
-// todo:
-//     : add edit function
-//     : update table without fetching all users
-
 (function() {
     var admin_ctrl = angular.module('admin.controllers', ['ui.bootstrap']);
 
@@ -9,7 +5,11 @@
         var ac = this;
         ac.um = UserManager;
 
-        this.open = function () {
+        this.open = function (id) {
+            if (id) {
+                ac.um.newUser = ac.um.users[id];
+            }
+
             var modalInstance = $modal.open({
                 templateUrl: 'modalContent.html',
                 controller: 'ModalController as mc',
@@ -21,9 +21,14 @@
             });
 
             modalInstance.result.then(function (newUser) {
-                ac.um.add(newUser);
+                if (newUser.id) {
+                    ac.um.edit(newUser.id, newUser);
+                } else {
+                    ac.um.add(newUser);
+                }
             }, function() {
                 $log.info('Modal dismissed at: ' + new Date());
+                ac.um.newUser = {};
             });
         };
     });
@@ -33,7 +38,6 @@
         this.newUser = newUser;
 
         this.ok = function () {
-            //console.log(modalInstance.newUser);
             $modalInstance.close(modalInstance.newUser);
         };
 
