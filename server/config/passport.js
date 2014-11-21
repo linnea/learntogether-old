@@ -118,7 +118,7 @@ module.exports = function () {
 					return done(
 						null,
 						false,
-						req.flash('loginMessage', 'No user found.')
+						req.flash('loginMessage', 'Incorrect username or password.')
 					);
 				}
 
@@ -127,7 +127,7 @@ module.exports = function () {
 					return done(
 						null,
 						false,
-						req.flash('loginMessage', 'Oops! Wrong password.')
+						req.flash('loginMessage', 'Incorrect username or password.')
 					);
 				}
 
