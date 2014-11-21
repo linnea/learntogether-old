@@ -36,8 +36,13 @@ module.exports.badRequest = function (msg) {
 	return err;
 };
 module.exports.unauthorized = function (msg) {
-	var err = new Error(msg || 'You are not authorized to perform this action on this resource');
+	var err = new Error(msg || 'Authentication is required, and has failed or not yet been provided');
 	err.statusCode = 401;
+	return err;
+};
+module.exports.forbidden = function (msg) {
+	var err = new Error(msg || 'You are not authorized to perform this action on this resource');
+	err.statusCode = 403;
 	return err;
 };
 module.exports.notFound = function (msg) {

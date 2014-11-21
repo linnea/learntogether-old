@@ -18,9 +18,9 @@ var User = models.User;
 exports.getCurrent = function (req, res, next) {
 	// grab user from session
 	var user = req.user;
-	// overwrite sensitive info
+	// overwrite password
 	user.password = undefined;
-	// send response
+	// send json
 	res.jsond(user);
 };
 
@@ -31,19 +31,20 @@ exports.getProfile = function (req, res, next) {
 	User.find(req.params.id)
 		.success(function (user) {
 			if (user) {
-				// only return public data
+				// send json
 				res.jsond({
 					profile: {
+						// only public data
 						name: user.name
 					}
 				});
 			} else {
-				// 404
+				// send error 404
 				next(errors.notFound('User not found'));
 			}
 		})
 		.error(function (error) {
-			// 500
+			// send error 500
 			next(errors.internalServerError('Database error'));
 		});
 };
@@ -56,17 +57,18 @@ exports.getAll = function (req, res, next) {
 		.success(function (users) {
 			if (users) {
 				_(users).forEach(function (user) {
-					// remove each password
+					// overwrite each password
 					user.password = undefined;
 				});
+				// send json
 				res.jsond({ users: users });
 			} else {
-				// 404
+				// send error 404
 				next(errors.notFound('No users found'));
 			}
 		})
 		.error(function (error) {
-			// 500
+			// send error 500
 			next(errors.internalServerError('Database error'));
 		});
 };
@@ -78,16 +80,17 @@ exports.get = function (req, res, next) {
 	User.find(req.params.id)
 		.success(function (user) {
 			if (user) {
-				// remove password
+				// overwrite password
 				user.password = undefined;
+				// send json
 				res.jsond({ user: user });
 			} else {
-				// 404
+				// send error 404
 				next(errors.notFound('User not found'));
 			}
 		})
 		.error(function (error) {
-			// 500
+			// send error 500
 			next(errors.internalServerError('Database error'));
 		});
 };
@@ -98,7 +101,7 @@ exports.create = function (req, res, next) {
 	User.find({where: {email: req.body.email}})
 		.success(function (user) {
 			if (user) {
-				// 409
+				// send error 409
 				next(errors.conflict('User already exists'));
 			} else {
 				var user = User.build();
@@ -108,18 +111,19 @@ exports.create = function (req, res, next) {
 				user.isAdmin = req.body.isAdmin;
 				user.save()
 					.success(function () {
-						// remove password
+						// overwrite password
 						user.password = undefined;
+						// send json
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
-						// 500
+						// send error 500
 						next(errors.internalServerError('Database error'));
 					});
 			}
 		})
 		.error(function (error) {
-			// 500
+			// send error 500
 			next(errors.internalServerError('Database error'));
 		});
 };
@@ -139,21 +143,22 @@ exports.update = function (req, res, next) {
 				}
 				user.save()
 					.success(function () {
-						// remove password
+						// overwrite password
 						user.password = undefined;
+						// send json
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
-						// 500
+						// send error 500
 						next(errors.internalServerError('Database error'));
 					});
 			} else {
-				// 404
+				// send error 404
 				next(errors.notFound('User not found'));
 			}
 		})
 		.error(function (error) {
-			// 500
+			// send error 500
 			next(errors.internalServerError('Database error'));
 		});
 };
@@ -166,21 +171,22 @@ exports.delete = function (req, res, next) {
 			if (user) {
 				user.destroy()
 					.success(function () {
-						// remove password
+						// overwrite password
 						user.password = undefined;
+						// send json
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
-						// 500
+						// send error 500
 						next(errors.internalServerError('Database error'));
 					});
 			} else {
-				// 404
+				// send error 404
 				next(errors.notFound('User not found'));
 			}
 		})
 		.error(function (error) {
-			// 500
+			// send error 500
 			next(errors.internalServerError('Database error'));
 		});
 };
@@ -196,7 +202,7 @@ exports.apiRequiresLogin = function(req, res, next) {
 	
 	// if request isn't authenticated
 	if (!req.isAuthenticated()) {
-		// send error
+		// send error 401
 		next(errors.unauthorized());
 	}
 
@@ -222,8 +228,8 @@ exports.apiRequiresAdmin = function(req, res, next) {
 	
 	// if request isn't authenticated
 	if (!req.user.isAdmin) {
-		// send error
-		next(errors.unauthorized());
+		// send error 403
+		next(errors.forbidden());
 	}
 
 	next();
