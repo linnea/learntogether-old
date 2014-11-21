@@ -23,12 +23,17 @@ module.exports = function() {
 			});
 
 		// don't call next
+		// stop express chain
 	};
 };
 
 /**
  * Errors to "throw" in middleware
  * -> next(errors.errorName());
+ *
+ * errors modeled after HTTP status codes:
+ * - https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+ * - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
  */
 module.exports.badRequest = function (msg) {
 	var err = new Error(msg || 'The request could not be understood by the server');
