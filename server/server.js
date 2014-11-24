@@ -30,3 +30,6 @@ app.listen(config.port);
 
 // startup success!
 console.log('Started on port ' + config.port);
+
+// expose app for testing
+module.exports = app;

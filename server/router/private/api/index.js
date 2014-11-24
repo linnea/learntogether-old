@@ -16,7 +16,7 @@ module.exports = function () {
 
 	// NOTE 
 	// this is the last stop for API requests 
-	// (already been through public)
+	// (we've already checked public routers)
 	// so any further requests are 404
 	router.use('/', function (req, res, next) {
 		next(errors.notFound());

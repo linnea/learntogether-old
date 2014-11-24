@@ -21,7 +21,7 @@ exports.getCurrent = function (req, res, next) {
 	// overwrite password
 	user.password = undefined;
 	// send json
-	res.jsond(user);
+	return res.jsond(user);
 };
 
 // public user profile
@@ -32,7 +32,7 @@ exports.getProfile = function (req, res, next) {
 		.success(function (user) {
 			if (user) {
 				// send json
-				res.jsond({
+				return res.jsond({
 					profile: {
 						// only public data
 						name: user.name
@@ -40,12 +40,16 @@ exports.getProfile = function (req, res, next) {
 				});
 			} else {
 				// send error 404
-				next(errors.notFound('User not found'));
+				return next(
+					errors.notFound('User not found')
+				);
 			}
 		})
 		.error(function (error) {
 			// send error 500
-			next(errors.internalServerError('Database error'));
+			return next(
+				errors.internalServerError('Database error')
+			);
 		});
 };
 
@@ -61,15 +65,21 @@ exports.getAll = function (req, res, next) {
 					user.password = undefined;
 				});
 				// send json
-				res.jsond({ users: users });
+				return res.jsond({ 
+					users: users 
+				});
 			} else {
 				// send error 404
-				next(errors.notFound('No users found'));
+				return next(
+					errors.notFound('No users found')
+				);
 			}
 		})
 		.error(function (error) {
 			// send error 500
-			next(errors.internalServerError('Database error'));
+			return next(
+				errors.internalServerError('Database error')
+			);
 		});
 };
 
@@ -83,15 +93,19 @@ exports.get = function (req, res, next) {
 				// overwrite password
 				user.password = undefined;
 				// send json
-				res.jsond({ user: user });
+				return res.jsond({ user: user });
 			} else {
 				// send error 404
-				next(errors.notFound('User not found'));
+				return next(
+					errors.notFound('User not found')
+				);
 			}
 		})
 		.error(function (error) {
 			// send error 500
-			next(errors.internalServerError('Database error'));
+			return next(
+				errors.internalServerError('Database error')
+			);
 		});
 };
 
@@ -102,7 +116,9 @@ exports.create = function (req, res, next) {
 		.success(function (user) {
 			if (user) {
 				// send error 409
-				next(errors.conflict('User already exists'));
+				return next(
+					errors.conflict('User already exists')
+				);
 			} else {
 				var user = User.build();
 				user.name = req.body.name;
@@ -118,13 +134,17 @@ exports.create = function (req, res, next) {
 					})
 					.error(function (error) {
 						// send error 500
-						next(errors.internalServerError('Database error'));
+						return next(
+							errors.internalServerError('Database error')
+						);
 					});
 			}
 		})
 		.error(function (error) {
 			// send error 500
-			next(errors.internalServerError('Database error'));
+			return next(
+				errors.internalServerError('Database error')
+			);
 		});
 };
 
@@ -146,20 +166,28 @@ exports.update = function (req, res, next) {
 						// overwrite password
 						user.password = undefined;
 						// send json
-						res.jsond({ user: user });
+						return res.jsond({ 
+							user: user 
+						});
 					})
 					.error(function (error) {
 						// send error 500
-						next(errors.internalServerError('Database error'));
+						return next(
+							errors.internalServerError('Database error')
+						);
 					});
 			} else {
 				// send error 404
-				next(errors.notFound('User not found'));
+				return next(
+					errors.notFound('User not found')
+				);
 			}
 		})
 		.error(function (error) {
 			// send error 500
-			next(errors.internalServerError('Database error'));
+			return next(
+				errors.internalServerError('Database error')
+			);
 		});
 };
 
@@ -174,20 +202,28 @@ exports.delete = function (req, res, next) {
 						// overwrite password
 						user.password = undefined;
 						// send json
-						res.jsond({ user: user });
+						return res.jsond({ 
+							user: user 
+						});
 					})
 					.error(function (error) {
 						// send error 500
-						next(errors.internalServerError('Database error'));
+						return next(
+							errors.internalServerError('Database error')
+						);
 					});
 			} else {
 				// send error 404
-				next(errors.notFound('User not found'));
+				return next(
+					errors.notFound('User not found')
+				);
 			}
 		})
 		.error(function (error) {
 			// send error 500
-			next(errors.internalServerError('Database error'));
+			return next(
+				errors.internalServerError('Database error')
+			);
 		});
 };
 
@@ -203,7 +239,7 @@ exports.apiRequiresLogin = function(req, res, next) {
 	// if request isn't authenticated
 	if (!req.isAuthenticated()) {
 		// send error 401
-		next(errors.unauthorized());
+		return next(errors.unauthorized());
 	}
 
 	next();
@@ -229,7 +265,7 @@ exports.apiRequiresAdmin = function(req, res, next) {
 	// if request isn't authenticated
 	if (!req.user.isAdmin) {
 		// send error 403
-		next(errors.forbidden());
+		return next(errors.forbidden());
 	}
 
 	next();

@@ -6,10 +6,12 @@
 
 var express = require('express');
 
+var authRouter = require('./auth');
+
 module.exports = function () {
 	var router = express.Router();
 
-	// add all api routers here
+	router.use('/auth', authRouter());
 
 	return router;
 };

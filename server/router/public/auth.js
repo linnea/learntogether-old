@@ -26,7 +26,7 @@ module.exports = function () {
 	// process the login form
 	router.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/', // pass to angular
-		failureRedirect: '/login',
+		failureRedirect: '/auth/login',
 		failureFlash: true
 	}));
 
@@ -46,9 +46,9 @@ module.exports = function () {
 	// process the signup form
 	router.post('/signup', passport.authenticate('local-signup', {
 		// redirect to the secure profile section
-		successRedirect: '/profile',
+		successRedirect: '/auth/profile',
 		// redirect back to the signup page if there's an error
-		failureRedirect: '/signup',
+		failureRedirect: '/auth/signup',
 		// allow flash messages
 		failureFlash: true
 	}));

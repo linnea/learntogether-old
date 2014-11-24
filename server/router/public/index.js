@@ -20,8 +20,8 @@ module.exports = function () {
 	// domain.com/api/...
 	router.use('/api', apiRouter());
 
-	// domain.com/... 
-	router.use(authRouter());
+	// domain.com/auth/... 
+	router.use('/auth', authRouter());
 
 	return router;
 };
