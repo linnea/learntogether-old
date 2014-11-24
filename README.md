@@ -72,7 +72,14 @@ Setup PostgreSQL
 
 From project folder root
 ```
-$ nodemon server/server.js
+$ npm start
+```
+
+### Test
+
+Node tests
+```
+$ make test
 ```
 
 
