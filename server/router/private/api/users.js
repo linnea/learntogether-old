@@ -11,9 +11,6 @@ var users = require('../../../controllers/users');
 
 module.exports = function () {
 	var router = express.Router();
-	
-	// current session user
-	router.get('/current', users.getCurrent);
 
 	// public user profile
 	router.get('/profile/:id', users.getProfile);
