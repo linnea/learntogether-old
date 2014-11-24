@@ -81,7 +81,34 @@ exports.login = function (req, res, next) {
 // un-authenticate session
 // POST domain.com/api/auth/logout
 exports.logout = function (req, res, next) {
+	req.logout();
+	return res.jsond({
+		message: 'Success'
+	});
+};
+
+// un-authenticate session
+// POST domain.com/api/auth/logout
+exports.register = function (req, res, next) {
 	
+
+	// TODO
+	// 
+	// register user publicly
+	// 
+	// both HERE and FORM
+	// ends up with isApproved = FALSE
+	// 
+	// BUT in users/create
+	// isApproved = TRUE
+	// because, admin made
+	// 
+	// SO
+	// - isApproved in user model
+	// - isApproved in database table
+	// - isApproved in admin panel
+
+
 };
 
 

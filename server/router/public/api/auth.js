@@ -14,9 +14,10 @@ module.exports = function () {
 	// current session user, if any
 	router.get('/current', auth.current);
 	
-	// login and logout
+	// login, logout, register
 	router.post('/login', auth.login);
 	router.post('/logout', auth.logout);
+	router.post('/register', auth.register);
 
 	return router;
 };

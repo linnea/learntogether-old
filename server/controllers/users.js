@@ -114,6 +114,7 @@ exports.create = function (req, res, next) {
 				user.email = req.body.email;
 				user.password = user.generateHash(req.body.password);
 				user.isAdmin = req.body.isAdmin;
+				user.isApproved = true; // created by an admin, so...
 				user.save()
 					.success(function () {
 						// overwrite password
@@ -146,6 +147,7 @@ exports.update = function (req, res, next) {
 				user.name = req.body.name || user.name;
 				user.email = req.body.email || user.email;
 				user.isAdmin = req.body.isAdmin;
+				user.isApproved = req.body.isApproved;
 				if (req.body.password && user.password !== req.body.password) {
 					// new password, hash it for storage
 					user.password = user.generateHash(req.body.password);
