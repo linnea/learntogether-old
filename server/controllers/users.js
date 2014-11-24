@@ -13,17 +13,6 @@ var User = models.User;
  * Endpoints
  */
 
-// current session user
-// GET domain.com/api/users/current
-exports.getCurrent = function (req, res, next) {
-	// grab user from session
-	var user = req.user;
-	// overwrite password
-	user.password = undefined;
-	// send json
-	return res.jsond(user);
-};
-
 // public user profile
 // GET domain.com/api/users/profile/:id
 exports.getProfile = function (req, res, next) {

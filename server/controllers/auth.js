@@ -33,7 +33,9 @@ exports.current = function (req, res, next) {
 		user.password = undefined;
 	}
 	// send json
-	return res.jsond(user);
+	return res.jsond({
+		user: user
+	});
 };
 
 // authenticate session
