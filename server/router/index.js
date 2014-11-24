@@ -22,12 +22,10 @@ module.exports = function () {
 	// private api & web requests
 	router.use('/', privateRouter());
 
-	/**
-	 * NOTE
-	 * private router ends with a catch-all
-	 * routing all unhandled requests to main angular app
-	 * so no requests will make it to this point
-	 */
+	// NOTE
+	// no requests will make it to this point
+	// private router ends with a catch-all
+	// pointing all unhandled routes to main angular app
 
 	return router;
 };
