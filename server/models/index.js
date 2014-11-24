@@ -24,7 +24,7 @@ sequelize.authenticate()
 			// what do if database fails?
 
 		} else {
-			console.log('Database connection successful.');
+			console.log('Database connection successful');
 		}
 	});
 

@@ -4,6 +4,10 @@
  * Main application file
  */
 
+console.log('-------------------------------------');
+console.log('Starting up system...');
+console.log('-------------------------------------');
+
 // set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -25,4 +29,4 @@ var app = require('./config/express')();
 app.listen(config.port);
 
 // startup success!
-console.log('LearnTogether >>> started on port ' + config.port);
+console.log('Started on port ' + config.port);

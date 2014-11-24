@@ -48,7 +48,13 @@ module.exports = function () {
 		users.webRequiresAdmin,
 		function (req, res) {
 			res.sendFile(
-				path.resolve(__dirname, '..', '..', '..', config.paths.angularRoots.admin)
+				path.resolve(
+					__dirname,
+					'..',
+					'..',
+					'..',
+					config.paths.angularRoots.admin
+				)
 			);
 		}
 	);
@@ -60,7 +66,13 @@ module.exports = function () {
 		// todo users.webRequiresAuthor,
 		function (req, res) {
 			res.sendFile(
-				path.resolve(__dirname, '..', '..', '..', config.paths.angularRoots.author)
+				path.resolve(
+					__dirname,
+					'..',
+					'..',
+					'..',
+					config.paths.angularRoots.author
+				)
 			);
 		}
 	);
@@ -73,7 +85,13 @@ module.exports = function () {
 		users.webRequiresLogin, 
 		function (req, res) {
 			res.sendFile(
-				path.resolve(__dirname, '..', '..', '..', config.paths.angularRoots.main)
+				path.resolve(
+					__dirname,
+					'..',
+					'..',
+					'..',
+					config.paths.angularRoots.main
+				)
 			);
 		}
 	);
