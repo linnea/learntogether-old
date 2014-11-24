@@ -9,7 +9,7 @@ var path = require('path');
 var express = require('express');
 
 var config = require('../config/env');
-var users = require('../controllers/auth');
+var auth = require('../controllers/auth');
 
 module.exports = function () {
 	var router = express.Router();
