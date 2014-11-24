@@ -13,7 +13,7 @@ var path = require('path');
 var express = require('express');
 
 var config = require('../../config/env');
-var users = require('../../controllers/users');
+var auth = require('../../controllers/auth');
 var apiRouter = require('./api');
 var authRouter = require('./auth');
 
@@ -21,10 +21,10 @@ module.exports = function () {
 	var router = express.Router();
 
 	// domain.com/api/...
-	router.use('/api', users.apiRequiresLogin, apiRouter());
+	router.use('/api', auth.apiRequiresLogin, apiRouter());
 
 	// domain.com/auth/... 
-	router.use('/auth', users.webRequiresLogin, authRouter());
+	router.use('/auth', auth.webRequiresLogin, authRouter());
 
 
 	/**
@@ -34,8 +34,8 @@ module.exports = function () {
 	// admin app
 	router.use(
 		'/admin', 
-		users.webRequiresLogin, 
-		users.webRequiresAdmin,
+		auth.webRequiresLogin, 
+		auth.webRequiresAdmin,
 		function (req, res) {
 			res.sendFile(
 				path.resolve(
@@ -52,8 +52,8 @@ module.exports = function () {
 	// author app
 	router.use(
 		'/author', 
-		users.webRequiresLogin, 
-		// todo users.webRequiresAuthor,
+		auth.webRequiresLogin, 
+		// todo auth.webRequiresAuthor,
 		function (req, res) {
 			res.sendFile(
 				path.resolve(
@@ -72,7 +72,7 @@ module.exports = function () {
 	// (any unhandled requests end here)
 	router.use(
 		'*', 
-		users.webRequiresLogin, 
+		auth.webRequiresLogin, 
 		function (req, res) {
 			res.sendFile(
 				path.resolve(

@@ -9,7 +9,7 @@ var path = require('path');
 var express = require('express');
 
 var config = require('../config/env');
-var users = require('../controllers/users');
+var users = require('../controllers/auth');
 
 module.exports = function () {
 	var router = express.Router();
@@ -39,7 +39,7 @@ module.exports = function () {
 	// libs
 	router.use(
 		'/private/vendor', 
-		users.webRequiresLogin,
+		auth.webRequiresLogin,
 		express.static(
 			path.resolve(
 				__dirname, 
@@ -53,7 +53,7 @@ module.exports = function () {
 	// assets
 	router.use(
 		'/private/assets', 
-		users.webRequiresLogin,
+		auth.webRequiresLogin,
 		express.static(
 			path.resolve(
 				__dirname, 
@@ -67,7 +67,7 @@ module.exports = function () {
 	// angular - main
 	router.use(
 		'/private/apps/main', 
-		users.webRequiresLogin,
+		auth.webRequiresLogin,
 		express.static(
 			path.resolve(
 				__dirname, 
@@ -81,7 +81,7 @@ module.exports = function () {
 	// angular - author
 	router.use(
 		'/private/apps/author', 
-		users.webRequiresLogin,
+		auth.webRequiresLogin,
 		express.static(
 			path.resolve(
 				__dirname, 
@@ -95,8 +95,8 @@ module.exports = function () {
 	// angular - admin
 	router.use(
 		'/private/apps/admin', 
-		users.webRequiresLogin,
-		users.webRequiresAdmin,
+		auth.webRequiresLogin,
+		auth.webRequiresAdmin,
 		express.static(
 			path.resolve(
 				__dirname, 

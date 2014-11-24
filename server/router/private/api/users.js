@@ -6,6 +6,7 @@
 
 var express = require('express');
 
+var auth = require('../../../controllers/auth');
 var users = require('../../../controllers/users');
 
 module.exports = function () {
@@ -18,13 +19,13 @@ module.exports = function () {
 	router.get('/profile/:id', users.getProfile);
 	
 	// user CRUD
-	router.post('/', users.apiRequiresAdmin, users.create);
-	router.get('/:id', users.apiRequiresAdmin, users.get);
-	router.put('/:id', users.apiRequiresAdmin, users.update);
-	router.delete('/:id', users.apiRequiresAdmin, users.delete);
+	router.post('/', auth.apiRequiresAdmin, users.create);
+	router.get('/:id', auth.apiRequiresAdmin, users.get);
+	router.put('/:id', auth.apiRequiresAdmin, users.update);
+	router.delete('/:id', auth.apiRequiresAdmin, users.delete);
 
 	// all users
-	router.get('/', users.apiRequiresAdmin, users.getAll);
+	router.get('/', auth.apiRequiresAdmin, users.getAll);
 
 	return router;
 };
