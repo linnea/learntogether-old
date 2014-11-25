@@ -9,16 +9,6 @@ var models = require('../models');
 var User = models.User;
 
 
-
-
-// NOTE TODO
-// user needs isApproved boolean
-// for public registration to work
-
-
-
-
-
 /**
  * Endpoints
  */
@@ -74,8 +64,8 @@ exports.logout = function (req, res, next) {
 	});
 };
 
-// un-authenticate session
-// POST domain.com/api/auth/logout
+// register new user
+// POST domain.com/api/auth/register
 exports.register = function (req, res, next) {
 	User.find({where: {email: req.body.email}})
 		.success(function (user) {
@@ -149,7 +139,7 @@ exports.webRequiresLogin = function(req, res, next) {
 // require user admin status 
 exports.apiRequiresAdmin = function(req, res, next) {
 	
-	// if request isn't authenticated
+	// if request user isn't admin
 	if (!req.user.isAdmin) {
 		// send error 403
 		return next(errors.forbidden());
@@ -162,7 +152,7 @@ exports.apiRequiresAdmin = function(req, res, next) {
 // require admin status 
 exports.webRequiresAdmin = function(req, res, next) {
 
-	// if request isn't authenticated
+	// if request user isn't admin
 	if (!req.user.isAdmin) {
 		// redirect to root
 		return res.redirect('/');
