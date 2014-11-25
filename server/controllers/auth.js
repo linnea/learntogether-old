@@ -41,34 +41,21 @@ exports.current = function (req, res, next) {
 // authenticate session
 // POST domain.com/api/auth/login
 exports.login = function (req, res, next) {
-
-	// TODO make api-specific strategy
-	// (or something? restructure current?)
-	// to allow more granular error messages
-	// currently, too interwoven with web/flash
-
+	// authenticate user with passport
 	passport.authenticate(
-		'local-login', 
+		'local-login-api',
 		function (err, user, info) {
 			if (err) {
 				// general error
 				return next(err);
 			}
-			if (!user) {
-				// bad user error
-				return next(
-					errors.badRequest(
-						'Not enough user data'
-					)
-				);
-			}
-			// made it! establish session
+			// establish user session
 			req.login(user, function (err) {
 				if (err) {
 					// general error
 					return next(err);
 				}
-				// made it! return session user
+				// success! return session user
 				user.password = undefined;
 				return res.jsond({
 					user: user
@@ -90,25 +77,41 @@ exports.logout = function (req, res, next) {
 // un-authenticate session
 // POST domain.com/api/auth/logout
 exports.register = function (req, res, next) {
-	
-
-	// TODO
-	// 
-	// register user publicly
-	// 
-	// both HERE and FORM
-	// ends up with isApproved = FALSE
-	// 
-	// BUT in users/create
-	// isApproved = TRUE
-	// because, admin made
-	// 
-	// SO
-	// - isApproved in user model
-	// - isApproved in database table
-	// - isApproved in admin panel
-
-
+	User.find({where: {email: req.body.email}})
+		.success(function (user) {
+			if (user) {
+				// send error 409
+				return next(
+					errors.conflict('User already exists')
+				);
+			} else {
+				var user = User.build();
+				user.name = req.body.name;
+				user.email = req.body.email;
+				user.password = user.generateHash(req.body.password);
+				user.isAdmin = req.body.isAdmin;
+				user.isApproved = true; // created by an admin, so...
+				user.save()
+					.success(function () {
+						// overwrite password
+						user.password = undefined;
+						// send json
+						res.jsond({ user: user });
+					})
+					.error(function (error) {
+						// send error 500
+						return next(
+							errors.internalServerError('Database error')
+						);
+					});
+			}
+		})
+		.error(function (error) {
+			// send error 500
+			return next(
+				errors.internalServerError('Database error')
+			);
+		});
 };
 
 

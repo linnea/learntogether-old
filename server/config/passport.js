@@ -7,6 +7,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var errors = require('../lib/errors');
 var models = require('../models');
 
 var User = models.User;
@@ -128,6 +129,56 @@ module.exports = function () {
 						null,
 						false,
 						req.flash('loginMessage', 'Incorrect username or password.')
+					);
+				}
+
+				// all is well, return successful user
+				return done(null, user);
+
+			})
+			.error(function (err) {
+				return done(err);
+			});
+	}));
+
+
+	/**
+	 * Strategy - Local login
+	 *
+	 * restructured to return api-friendly errors
+	 * 
+	 */
+	
+	// we are using named strategies since we have one for login and one for signup
+	// by default, if there was no name, it would just be called "local"
+	passport.use('local-login-api', new LocalStrategy({
+		usernameField: 'email',
+		passwordField: 'password',
+		passReqToCallback: true
+	}, function (req, email, password, done) {
+
+		// find a user whose email matches the one in the form
+		// we're checking to see if user trying to login exists
+		User.find({where: {email: email}})
+			.success(function (user) {
+
+				// if no user is found
+				if (!user) {
+					// error 422
+					return done(
+						errors.unprocessableEntity(
+							'The user\'s email or password was incorrect'
+						)
+					);
+				}
+
+				// if user is found but password is wrong
+				if (!user.validPassword(password)) {
+					// error 422
+					return done(
+						errors.unprocessableEntity(
+							'The user\'s email or password was incorrect'
+						)
 					);
 				}
 

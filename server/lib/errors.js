@@ -60,6 +60,11 @@ module.exports.conflict = function (msg) {
 	err.statusCode = 409;
 	return err;
 };
+module.exports.unprocessableEntity = function (msg) {
+	var err = new Error(msg || 'The server understood the content type and syntax, but was unable to process the contained instructions');
+	err.statusCode = 409;
+	return err;
+};
 module.exports.internalServerError = function (msg) {
 	var err = new Error(msg || 'The server encountered an unexpected condition which prevented it from fulfilling the request');
 	err.statusCode = 500;
