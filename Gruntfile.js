@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         			banner: '/* Learn Together minified JS file */'
         		},
         		files: {
-        			'client/private/apps/main/js/learn_together_main.js': ['client/private/apps/main/**/*.js']
+        			'client/private/apps/main/js/learn_together_main.js': ['client/private/apps/main/**/*.js', 'client/private/apps/common/**/*.js', '!client/private/apps/main/js/learn_together_main.js']
         		}
         	}
         }
