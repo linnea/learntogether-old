@@ -25,8 +25,7 @@ module.exports = function () {
 
 	// domain.com/auth/... 
 	router.use('/auth', auth.webRequiresLogin, authRouter());
-
-	require('trialLearningModule')();
+	
 	/**
 	 * Angular
 	 */
