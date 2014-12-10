@@ -9,7 +9,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
 		//need to set both to false. Temporarily true for testing
 		"isLoaded": true,
 		"isAuthenticated": true,
-	    "roles": []
+    "roles": []
 	};
 
 	/*
@@ -24,31 +24,31 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
     	};
 	}
 
-    function init() {
-    	if(userModel.isLoaded) {
-    		//remove these lines when service is ready
-    		userModel.userRoles = ["Instructor", "Assistant"];
-    		return userModel;
-    	}
-    	else {
-    		if(!loadingPromise) {
-    			loadingPromise = userModelService.getAuthenticatedUser()
-    			.then(function (authUser) {
+  function init() {
+   	if(userModel.isLoaded) {
+   		//remove these lines when service is ready
+   		userModel.userRoles = ["Instructor", "Assistant"];
+   		return userModel;
+   	}
+   	else {
+   		if(!loadingPromise) {
+   			loadingPromise = userModelService.getAuthenticatedUser().then(function (authUser) {
+    			userModel.isLoaded = true;
+          userModel.isAuthenticated = false;	
+          //Perform necessary data and business tuning here
+          return userModel;
+    		}, function (error) {
+   				$log.error('Could not authenticate the user because :' + JSON.stringify(cause));
+   				userModel.isLoaded = true;
+   				userModel.isAuthenticated = false;
+   				userModel.failureCause = createMessageObj(cause);
+   				return $q.reject(userModel.failureCause);
 
-    				return userModel;
-
-    			}, function (error) {
-    				$log.error('Could not authenticate the user because :' + JSON.stringify(cause));
-    				userModel.isLoaded = true;
-    				userModel.isAuthenticated = false;
-    				userModel.failureCause = createMessageObj(cause);
-    				return $q.reject(userModel.failureCause);
-
-    			});
-    		}
-    	}
-    	return loadingPromise;
-    }
+   			});
+   		}
+   	}
+   	return loadingPromise;
+  }
 
 	// PUBLIC DATA & METHODS
 
@@ -66,30 +66,39 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
   	*  Checks if current authenticated user has a role
   	* @param {string} role - role to be checked
    	* @returns {boolean|undefined}
-   	*/
-  	userModel.hasRole = function (role) {
-	    if (userModel.isAuthenticated && angular.isArray(userModel.userRoles)) {
-	      if (_.indexOf(userModel.userRoles, role) >= 0) {
-	        return true;
-	      }
-	    }
-
-	    return false;
+  */
+  userModel.hasRole = function (role) {
+    if (userModel.isAuthenticated && angular.isArray(userModel.userRoles)) {
+      if (_.indexOf(userModel.userRoles, role) >= 0) {
+        return true;
+      }
+    }
+    return false;
 	};
 
+  /**
+    * Checks if current authenticated user is a superuser
+    * @returns {boolean|undefined}
+  */
+
 	userModel.isUserSuperUser = function () {
-    	return userModel.hasRole('ADMIN');
-  	};
+    return userModel.hasRole('ADMIN');
+  };
 
-  	userModel.whenInitialized = function () {
-    	if (userModel.isLoaded && !userModel.isAuthenticated) {
-      		return $q.reject(userModel.failureCause);
-    	} else {
-    		return $q.when(init());
-    	}
-  	};
+  /**
+    * Checks if UserModel has been initialized - maintains singleton status
+    * @returns {promise}
+  */
 
-  	init();
+  userModel.whenInitialized = function () {
+    if (userModel.isLoaded && !userModel.isAuthenticated) {
+      return $q.reject(userModel.failureCause);
+    } else {
+      return $q.when(init());
+    }
+  };
 
-  	return userModel;  
+	init();
+
+ 	return userModel;  
 }]);
