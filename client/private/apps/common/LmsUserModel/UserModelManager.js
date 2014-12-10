@@ -6,9 +6,9 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
 	*/
 	var loadingPromise;
 	var userModel = {
-		//need to set to false. Temporarily true for testing
+		//need to set both to false. Temporarily true for testing
 		"isLoaded": true,
-		"isAuthenticated": false,
+		"isAuthenticated": true,
 	    "roles": []
 	};
 
@@ -69,7 +69,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
    	*/
   	userModel.hasRole = function (role) {
 	    if (userModel.isAuthenticated && angular.isArray(userModel.userRoles)) {
-	      if (_.findWhere(userModel.userRoles, {name: role})) {
+	      if (_.indexOf(userModel.userRoles, role) >= 0) {
 	        return true;
 	      }
 	    }

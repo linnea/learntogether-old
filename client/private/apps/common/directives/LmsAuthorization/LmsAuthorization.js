@@ -15,23 +15,27 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
 	  }
 
 	return {
+		"transclude": "true",
 		"restrict": 'A',
    		"scope": {
-   	  		"lmsVisibleToRole": "@"
+   	  		"lmsVisibleToRole": "="
    		},
-   		"link": function link($scope, $element, $attr, ctrl, $transclude) {
-
+   		"link": function ($scope, $element, $attr, ctrl, $transclude) {
+   		
    			$scope.$watch('lmsVisibleToRole', function(rolesList) {
-   				if(requiredRoleAvailable(rolesList)) {
-   					element.show();
-   				}
+   				if($element) {
+   					if(requiredRoleAvailable(rolesList)) {
+   						$element.css('display', 'inherit');
+   					}
    				else {
-   					element.hide();
+   					$element.css('display', 'none');
+   					}
    				}
+   				
    			});
 
    		}
 
-	}
+	};
 	
-})];
+}]);

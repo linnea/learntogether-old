@@ -64,6 +64,20 @@ module.exports = function () {
 		)
 	);
 
+	//angular-common
+	router.use(
+		'/private/apps/common',
+		auth.webRequiresLogin,
+		express.static(
+			path.resolve(
+				__dirname, 
+				'..', 
+				'..', 
+				config.paths.statics.privates.common
+			)
+		)
+	)
+
 	// angular - main
 	router.use(
 		'/private/apps/main', 
