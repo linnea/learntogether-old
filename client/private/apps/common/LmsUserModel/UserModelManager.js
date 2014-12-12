@@ -1,71 +1,65 @@
 var userModelApp = angular.module('LmsUserModel', []);
 userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', function (userModelService, $q, $log) {
-	"use strict";
-	/*
-	*PRIVATE PROPERTIES
-	*/
-	var loadingPromise;
-	var userModel = {
-		//need to set both to false. Temporarily true for testing
-		"isLoaded": true,
-		"isAuthenticated": true,
+  "use strict";
+  /*
+  *PRIVATE PROPERTIES
+  */
+  var loadingPromise;
+  var userModel = {
+    //need to set both to false. Temporarily true for testing
+    "isLoaded": true,
+    "isAuthenticated": true,
+    "name": null,
+    "email": null,
     "roles": []
-	};
+  };
 
-	/*
-	*PRIVATE METHODS
-	*/
-	function createMessageObj(cause) {
-    	return {
-	    	"messageCode": "NOT_AUTHENTICATED",
-	    	"message": "Could not authenticate the user",
-	    	"causeBy": cause,
-	    	
-    	};
-	}
-
-  function init() {
-   	if(userModel.isLoaded) {
-   		//remove these lines when service is ready
-   		userModel.userRoles = ["Instructor", "Assistant"];
-   		return userModel;
-   	}
-   	else {
-   		if(!loadingPromise) {
-   			loadingPromise = userModelService.getAuthenticatedUser().then(function (authUser) {
-    			userModel.isLoaded = true;
-          userModel.isAuthenticated = false;	
-          //Perform necessary data and business tuning here
-          return userModel;
-    		}, function (error) {
-   				$log.error('Could not authenticate the user because :' + JSON.stringify(cause));
-   				userModel.isLoaded = true;
-   				userModel.isAuthenticated = false;
-   				userModel.failureCause = createMessageObj(cause);
-   				return $q.reject(userModel.failureCause);
-
-   			});
-   		}
-   	}
-   	return loadingPromise;
+  /*
+  *PRIVATE METHODS
+  */
+  function createMessageObj(cause) {
+      return {
+        "messageCode": "NOT_AUTHENTICATED",
+        "message": "Could not authenticate the user",
+        "causeBy": cause,
+        
+      };
   }
 
-	// PUBLIC DATA & METHODS
+  function init() {
+    if(!loadingPromise) {
+        loadingPromise = userModelService.getUserAuthorization().then(function (authUser) {
+          userModel.isLoaded = true;
+          userModel.userRoles = ["Instructor"];
+          //Perform necessary data and business tuning here
+          return userModel;
+        }, function (error) {
+          $log.error('Could not authenticate the user because :' + JSON.stringify(cause));
+          userModel.isLoaded = true;
+          userModel.failureCause = createMessageObj(cause);
+          return $q.reject(userModel.failureCause);
 
-	/**
- 	* Provides array of all the roles assigned to current authenticated user
-	* @returns {Array}
-	*/
-	userModel.getRoles = function () {
-		if (userModel.isAuthenticated) {
-    		return userModel.userRoles;
-    	}
-	};
+        });
+      }
+        
+  }
 
-	/**
-  	*  Checks if current authenticated user has a role
-  	* @param {string} role - role to be checked
-   	* @returns {boolean|undefined}
+  // PUBLIC DATA & METHODS
+
+  /**
+  * Provides array of all the roles assigned to current authenticated user
+  * @returns {Array}
+  */
+  userModel.getRoles = function () {
+    if (userModel.isAuthenticated) {
+        return userModel.userRoles;
+      }
+  };
+
+  /**
+    *  Checks if current authenticated user has a role
+    * @param {string} role - role to be checked
+    * @returns {boolean|undefined}
   */
   userModel.hasRole = function (role) {
     if (userModel.isAuthenticated && angular.isArray(userModel.userRoles)) {
@@ -74,14 +68,14 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
       }
     }
     return false;
-	};
+  };
 
   /**
     * Checks if current authenticated user is a superuser
     * @returns {boolean|undefined}
   */
 
-	userModel.isUserSuperUser = function () {
+  userModel.isUserSuperUser = function () {
     return userModel.hasRole('ADMIN');
   };
 
@@ -91,14 +85,10 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
   */
 
   userModel.whenInitialized = function () {
-    if (userModel.isLoaded && !userModel.isAuthenticated) {
-      return $q.reject(userModel.failureCause);
-    } else {
-      return $q.when(init());
-    }
-  };
+    return loadingPromise;
+  }
 
-	init();
+  init();
 
- 	return userModel;  
+  return userModel;  
 }]);

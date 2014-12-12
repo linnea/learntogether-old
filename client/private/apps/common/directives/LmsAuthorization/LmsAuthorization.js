@@ -23,14 +23,18 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
    		"link": function ($scope, $element, $attr, ctrl, $transclude) {
    		
    			$scope.$watch('lmsVisibleToRole', function(rolesList) {
-   				if($element) {
-   					if(requiredRoleAvailable(rolesList)) {
-   						$element.css('display', 'inherit');
-   					}
-   				else {
-   					$element.css('display', 'none');
-   					}
-   				}
+   				userModel.whenInitialized().then(function () {
+                    if($element) {
+                        if(requiredRoleAvailable(rolesList)) {
+                            $element.css('display', 'inherit');
+                        }
+                        else {
+                            $element.css('display', 'none');
+                        }
+                    }                   
+
+   				}, function (error) {});
+   				
    				
    			});
 

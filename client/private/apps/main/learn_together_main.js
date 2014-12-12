@@ -1,103 +1,113 @@
 var userModelApp = angular.module('LmsUserModel', []);
 userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', function (userModelService, $q, $log) {
-	"use strict";
-	/*
-	*PRIVATE PROPERTIES
-	*/
-	var loadingPromise;
-	var userModel = {
-		//need to set both to false. Temporarily true for testing
-		"isLoaded": true,
-		"isAuthenticated": true,
-	    "roles": []
-	};
+  "use strict";
+  /*
+  *PRIVATE PROPERTIES
+  */
+  var loadingPromise;
+  var userModel = {
+    //need to set both to false. Temporarily true for testing
+    "isLoaded": true,
+    "isAuthenticated": true,
+    "name": null,
+    "email": null,
+    "roles": []
+  };
 
-	/*
-	*PRIVATE METHODS
-	*/
-	function createMessageObj(cause) {
-    	return {
-	    	"messageCode": "NOT_AUTHENTICATED",
-	    	"message": "Could not authenticate the user",
-	    	"causeBy": cause,
-	    	
-    	};
-	}
+  /*
+  *PRIVATE METHODS
+  */
+  function createMessageObj(cause) {
+      return {
+        "messageCode": "NOT_AUTHENTICATED",
+        "message": "Could not authenticate the user",
+        "causeBy": cause,
+        
+      };
+  }
 
-    function init() {
-    	if(userModel.isLoaded) {
-    		//remove these lines when service is ready
-    		userModel.userRoles = ["Instructor", "Assistant"];
-    		return userModel;
-    	}
-    	else {
-    		if(!loadingPromise) {
-    			loadingPromise = userModelService.getAuthenticatedUser()
-    			.then(function (authUser) {
+  function init() {
+    if(!loadingPromise) {
+        loadingPromise = userModelService.getUserAuthorization().then(function (authUser) {
+          userModel.isLoaded = true;
+          userModel.userRoles = ["Instructor"];
+          //Perform necessary data and business tuning here
+          return userModel;
+        }, function (error) {
+          $log.error('Could not authenticate the user because :' + JSON.stringify(cause));
+          userModel.isLoaded = true;
+          userModel.failureCause = createMessageObj(cause);
+          return $q.reject(userModel.failureCause);
 
-    				return userModel;
+        });
+      }
+        
+  }
 
-    			}, function (error) {
-    				$log.error('Could not authenticate the user because :' + JSON.stringify(cause));
-    				userModel.isLoaded = true;
-    				userModel.isAuthenticated = false;
-    				userModel.failureCause = createMessageObj(cause);
-    				return $q.reject(userModel.failureCause);
+  // PUBLIC DATA & METHODS
 
-    			});
-    		}
-    	}
-    	return loadingPromise;
+  /**
+  * Provides array of all the roles assigned to current authenticated user
+  * @returns {Array}
+  */
+  userModel.getRoles = function () {
+    if (userModel.isAuthenticated) {
+        return userModel.userRoles;
+      }
+  };
+
+  /**
+    *  Checks if current authenticated user has a role
+    * @param {string} role - role to be checked
+    * @returns {boolean|undefined}
+  */
+  userModel.hasRole = function (role) {
+    if (userModel.isAuthenticated && angular.isArray(userModel.userRoles)) {
+      if (_.indexOf(userModel.userRoles, role) >= 0) {
+        return true;
+      }
     }
+    return false;
+  };
 
-	// PUBLIC DATA & METHODS
+  /**
+    * Checks if current authenticated user is a superuser
+    * @returns {boolean|undefined}
+  */
 
-	/**
- 	* Provides array of all the roles assigned to current authenticated user
-	* @returns {Array}
-	*/
-	userModel.getRoles = function () {
-		if (userModel.isAuthenticated) {
-    		return userModel.userRoles;
-    	}
-	};
+  userModel.isUserSuperUser = function () {
+    return userModel.hasRole('ADMIN');
+  };
 
-	/**
-  	*  Checks if current authenticated user has a role
-  	* @param {string} role - role to be checked
-   	* @returns {boolean|undefined}
-   	*/
-  	userModel.hasRole = function (role) {
-	    if (userModel.isAuthenticated && angular.isArray(userModel.userRoles)) {
-	      if (_.indexOf(userModel.userRoles, role) >= 0) {
-	        return true;
-	      }
-	    }
+  /**
+    * Checks if UserModel has been initialized - maintains singleton status
+    * @returns {promise}
+  */
 
-	    return false;
-	};
+  userModel.whenInitialized = function () {
+    return loadingPromise;
+  }
 
-	userModel.isUserSuperUser = function () {
-    	return userModel.hasRole('ADMIN');
-  	};
+  init();
 
-  	userModel.whenInitialized = function () {
-    	if (userModel.isLoaded && !userModel.isAuthenticated) {
-      		return $q.reject(userModel.failureCause);
-    	} else {
-    		return $q.when(init());
-    	}
-  	};
-
-  	init();
-
-  	return userModel;  
+  return userModel;  
 }]);
 var userModelApp = angular.module('LmsUserModel');
-userModelApp.service('UserModelService', [function () {
-	this.getAuthenticatedUser = function () {
+userModelApp.service('UserModelService', ['$q', '$http', function ($q, $http) {
+	var deferred = $q.defer(), userModelService;
+	userModelService = {
+		getUserAuthorization : function () {
+			var promise = $http.get('/api/auth/current');
+			promise.then(function (data) {
+				deferred.resolve(data);
+			}, function (error) {
+				deferred.reject(error);
+			});
+			return deferred.promise;
+		}
+	};
 
-	}
+	return userModelService;
 }]);
 var userAuthorizationApp = angular.module('LmsAuthorizationModule', []);
 
@@ -124,14 +134,18 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
    		"link": function ($scope, $element, $attr, ctrl, $transclude) {
    		
    			$scope.$watch('lmsVisibleToRole', function(rolesList) {
-   				if($element) {
-   					if(requiredRoleAvailable(rolesList)) {
-   						$element.css('display', 'inherit');
-   					}
-   				else {
-   					$element.css('display', 'none');
-   					}
-   				}
+   				userModel.whenInitialized().then(function () {
+                    if($element) {
+                        if(requiredRoleAvailable(rolesList)) {
+                            $element.css('display', 'inherit');
+                        }
+                        else {
+                            $element.css('display', 'none');
+                        }
+                    }                   
+
+   				}, function (error) {});
+   				
    				
    			});
 
