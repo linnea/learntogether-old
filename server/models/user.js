@@ -3,10 +3,13 @@ var bcrypt = require('bcrypt-nodejs');
 // create and return Sequelize schema
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('User', {
-		name: DataTypes.STRING,
+		firstName: DataTypes.STRING,
+		lastName: DataTypes.STRING,
 		email: DataTypes.STRING,
 		password: DataTypes.STRING,
-		isAdmin: DataTypes.BOOLEAN
+		isApproved: DataTypes.BOOLEAN,
+		isAdmin: DataTypes.BOOLEAN,
+		role: DataTypes.INTEGER
 	}, {
 		instanceMethods: {
 			generateHash: function (password) {

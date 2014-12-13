@@ -3,6 +3,7 @@
 var _ = require('lodash-node');
 var passport = require('passport');
 
+var config = require('../config/env');
 var errors = require('../lib/errors');
 var models = require('../models');
 
@@ -76,11 +77,15 @@ exports.register = function (req, res, next) {
 				);
 			} else {
 				var user = User.build();
-				user.name = req.body.name;
+				user.firstName = req.body.firstName;
+				user.lastName = req.body.lastName;
 				user.email = req.body.email;
 				user.password = user.generateHash(req.body.password);
-				user.isAdmin = req.body.isAdmin;
-				user.isApproved = true; // created by an admin, so...
+				// DANGER public registration
+				// default user to lowest-level
+				user.isAdmin = false;
+				user.isApproved = false;
+				user.role = config.roles.default;
 				user.save()
 					.success(function () {
 						// overwrite password
@@ -135,6 +140,7 @@ exports.webRequiresLogin = function(req, res, next) {
 	next();
 };
 
+
 // -> api request route
 // require user admin status 
 exports.apiRequiresAdmin = function(req, res, next) {
@@ -159,4 +165,41 @@ exports.webRequiresAdmin = function(req, res, next) {
 	}
 
 	next();
+};
+
+
+// -> api request route
+// require user admin status 
+exports.apiRequiresRole = function (role) {
+	return function(req, res, next) {
+		
+		// if request user isn't super admin
+		if (!req.user.isAdmin) {
+			// if request user role isn't high enough
+			if (req.user.role < role) {
+				// send error 403
+				return next(errors.forbidden());
+			}
+		}
+
+		next();
+	};
+};
+
+// -> web request route
+// require user admin status 
+exports.webRequiresRole = function (role) {
+	return function(req, res, next) {
+		
+		// if reuwst user isn't super admin
+		if (!req.user.isAdmin) {
+			// if reuwst user role isn't high enough
+			if (req.user.role < role) {
+				// redirect to root
+				return res.redirect('/');
+			}
+		}
+
+		next();
+	};
 };

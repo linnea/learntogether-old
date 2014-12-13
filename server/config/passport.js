@@ -7,6 +7,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var config = require('../config/env');
 var errors = require('../lib/errors');
 var models = require('../models');
 
@@ -74,10 +75,15 @@ module.exports = function () {
 
 						// create new user
 						var newUser = User.build();
-						newUser.name = req.body.name || 'Default Name';
+						newUser.firstName = req.body.firstName;
+						newUser.lastName = req.body.lastName;
 						newUser.email = email;
 						newUser.password = newUser.generateHash(password);
-						newUser.isAdmin = req.body.isAdmin;
+						// DANGER signup page is public
+						// user defaults to lowest-level
+						newUser.isApproved = false;
+						newUser.isAdmin = false;
+						newUser.role = config.roles.default;
 
 						// save the user
 						newUser.save()
