@@ -37,7 +37,7 @@ describe('API - Users', function () {
 			});
 	});
 
-	it('authenticating agent as admin', function (done) {
+	it('should authenticate agent as admin', function (done) {
 		agent
 			.post('/api/auth/login')
 			.send(adminCredentials)
@@ -58,9 +58,13 @@ describe('API - Users', function () {
 	
 	var newUser = null;
 	var newUserData = {
-		name: 'Test user',
+		firstName: 'Test',
+		lastName: 'User',
 		email: 'test@test.net',
-		password: 'testestest'
+		password: 'testestest',
+		isApproved: true,
+		isAdmin: false,
+		role: 200,
 	};
 	
 	it('should return all users', function (done) {
@@ -69,6 +73,7 @@ describe('API - Users', function () {
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.users);
 				should.exist(res.body.data.users.length);
@@ -83,12 +88,17 @@ describe('API - Users', function () {
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
 				resUser.should.have.property('id');
-				resUser.name.should.equal(newUserData.name);
+				resUser.firstName.should.equal(newUserData.firstName);
+				resUser.lastName.should.equal(newUserData.lastName);
 				resUser.email.should.equal(newUserData.email);
+				resUser.isApproved.should.equal(newUserData.isApproved);
+				resUser.isAdmin.should.equal(newUserData.isAdmin);
+				resUser.role.should.equal(newUserData.role);
 				resUser.should.not.have.property('password');
 				// save user for later
 				newUser = resUser;
@@ -102,31 +112,42 @@ describe('API - Users', function () {
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
 				resUser.id.should.equal(newUser.id);
-				resUser.name.should.equal(newUser.name);
+				resUser.firstName.should.equal(newUser.firstName);
+				resUser.lastName.should.equal(newUser.lastName);
 				resUser.email.should.equal(newUser.email);
+				resUser.isApproved.should.equal(newUser.isApproved);
+				resUser.isAdmin.should.equal(newUser.isAdmin);
+				resUser.role.should.equal(newUser.role);
 				resUser.should.not.have.property('password');
 				done();
 			});
 	});
 
 	it('should update new user', function (done) {
-		newUser.name = 'Updated name';
+		newUser.firstName = 'Updated';
+		newUser.lastName = 'Name';
 		agent
 			.put('/api/users/' + newUser.id)
 			.send(newUser)
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
 				resUser.id.should.equal(newUser.id);
-				resUser.name.should.equal(newUser.name);
+				resUser.firstName.should.equal(newUser.firstName);
+				resUser.lastName.should.equal(newUser.lastName);
 				resUser.email.should.equal(newUser.email);
+				resUser.isApproved.should.equal(newUser.isApproved);
+				resUser.isAdmin.should.equal(newUser.isAdmin);
+				resUser.role.should.equal(newUser.role);
 				resUser.should.not.have.property('password');
 				done();
 			});
@@ -139,12 +160,17 @@ describe('API - Users', function () {
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
 				resUser.id.should.equal(newUser.id);
-				resUser.name.should.equal(newUser.name);
+				resUser.firstName.should.equal(newUser.firstName);
+				resUser.lastName.should.equal(newUser.lastName);
 				resUser.email.should.equal(newUser.email);
+				resUser.isApproved.should.equal(newUser.isApproved);
+				resUser.isAdmin.should.equal(newUser.isAdmin);
+				resUser.role.should.equal(newUser.role);
 				resUser.should.not.have.property('password');
 				done();
 			});
