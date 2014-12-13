@@ -89,7 +89,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
   }
 
   init();
-
+  
   return userModel;  
 }]);
 var userModelApp = angular.module('LmsUserModel');
@@ -176,7 +176,7 @@ userProfileModule.factory('UserProfileManager', ['UserProfileService', function 
 			//promises will not hold "this" property. Copy into variable within function scope
 			var manager = this;
 			userProfileService.getUserId().then(function (data) {
-				manager.userId = data.data.data.email;
+				manager.userId = data.data.data.user.email;
 			}, function (data, status) {
 				manager.userId = "Error: " + status
 			})
@@ -191,7 +191,7 @@ userProfileModule.service('UserProfileService', ['$q', '$http', function ($q, $h
 	var deferred = $q.defer(), userProfileService;
 	userProfileService = {
 		getUserId : function () {
-			var promise = $http.get("/api/users/current");
+			var promise = $http.get("/api/auth/current");
 			promise.then(function (data, status) {
 				deferred.resolve(data);
 			}, function (data) {

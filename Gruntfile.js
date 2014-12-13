@@ -44,9 +44,20 @@ module.exports = function (grunt) {
         			'client/private/apps/main/learn_together_main.min.js': ['client/private/apps/main/learn_together_main.js']
         		}
         	}
+        },
+
+        watch: {
+            stylus: {
+                files: ['client/private/assets/styl/*.styl'],
+                tasks: [ 'stylus', 'cssmin']
+            },
+            scripts: {
+                files: ['client/private/apps/common/**/*.js', 'client/private/apps/main/**/*.js', '!client/private/apps/main/learn_together_main.js', '!client/private/apps/main/learn_together_main.min.js'],
+                tasks: [ 'concat', 'uglify' ]
+            }
         }
     });
     // Default task.  
-    grunt.registerTask('default', ['stylus', 'concat', 'uglify', 'cssmin']);
+    grunt.registerTask('default', ['stylus', 'concat', 'uglify', 'cssmin', 'watch']);
 
 };

@@ -89,6 +89,6 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
   }
 
   init();
-
+  
   return userModel;  
 }]);
