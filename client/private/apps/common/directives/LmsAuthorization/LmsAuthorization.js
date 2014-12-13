@@ -2,15 +2,20 @@ var userAuthorizationApp = angular.module('LmsAuthorizationModule', []);
 
 userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (userModel) {
 	
-	function requiredRoleAvailable(roleList) {
+	function requiredRoleAvailable(roles) {
 	    var roleAvailable = false;
-	    if (angular.isArray(roleList)){
+	    if (angular.isArray(roles)){
 	      roleList.forEach(function(role){
-	        if (userModel.hasRole(role)) {
+	        if (userModel.hasAuthorization(role)) {
 	        	roleAvailable = true;
 	        }
 	      });
 	    }
+        else if(roles) {
+            if(userModel.hasAuthorization(roles)) {
+                roleAvailable = true;
+            }
+        }
 	    return roleAvailable;
 	  }
 

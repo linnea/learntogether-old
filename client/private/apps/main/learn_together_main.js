@@ -1,3 +1,5 @@
+var dynamicInjector = angular.module('DynamicStaticFileInjector', []);
+
 var userModelApp = angular.module('LmsUserModel', []);
 userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', function (userModelService, $q, $log) {
   "use strict";
@@ -7,11 +9,13 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
   var loadingPromise;
   var userModel = {
     //need to set both to false. Temporarily true for testing
-    "isLoaded": true,
-    "isAuthenticated": true,
-    "name": null,
+    "isLoaded": false,
+    "isApproved": false,
+    "isAdmin": false,
+    "firstName": null,
+    "lastName": null,
     "email": null,
-    "roles": []
+    "role": null
   };
 
   /*
@@ -28,9 +32,15 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
 
   function init() {
     if(!loadingPromise) {
-        loadingPromise = userModelService.getUserAuthorization().then(function (authUser) {
+        loadingPromise = userModelService.getUserAuthorization().then(function (data) {
+          var authUser = data.data.data.user;
           userModel.isLoaded = true;
-          userModel.userRoles = ["Instructor"];
+          userModel.firstName = authUser.firstName;
+          userModel.lastName = authUser.lastName;
+          userModel.isApproved = authUser.isApproved;
+          userModel.isAdmin = authUser.isAdmin;
+          userModel.email =authUser.email;
+          userModel.role = authUser.role;
           //Perform necessary data and business tuning here
           return userModel;
         }, function (error) {
@@ -52,7 +62,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
   */
   userModel.getRoles = function () {
     if (userModel.isAuthenticated) {
-        return userModel.userRoles;
+        return userModel.role;
       }
   };
 
@@ -62,13 +72,39 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
     * @returns {boolean|undefined}
   */
   userModel.hasRole = function (role) {
-    if (userModel.isAuthenticated && angular.isArray(userModel.userRoles)) {
-      if (_.indexOf(userModel.userRoles, role) >= 0) {
+    if (angular.isArray(userModel.role)) {
+      if (_.indexOf(userModel.role, role) >= 0) {
         return true;
       }
     }
+    else if(angular.equals(userModel.role, role)) {
+      return true;
+    }
     return false;
   };
+
+
+  /**
+    *  Checks if current authenticated user has a role
+    * @param {string} role - role to be checked
+    * @returns {boolean|undefined}
+  */
+  userModel.hasAuthorization = function (role) {
+    var isAuthorized = false;
+
+    if (angular.isArray(userModel.role)) {
+      userModel.role.forEach(function (userRole) {
+        if(userRole >= role) {
+          isAuthorized = true;
+        }
+      });
+    }
+    else if(userModel.role >= role) {
+      isAuthorized = true;
+    }
+    return isAuthorized;
+  }
+
 
   /**
     * Checks if current authenticated user is a superuser
@@ -76,7 +112,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
   */
 
   userModel.isUserSuperUser = function () {
-    return userModel.hasRole('ADMIN');
+    return userModel.hasRole(300);
   };
 
   /**
@@ -89,7 +125,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
   }
 
   init();
-  
+
   return userModel;  
 }]);
 var userModelApp = angular.module('LmsUserModel');
@@ -113,15 +149,20 @@ var userAuthorizationApp = angular.module('LmsAuthorizationModule', []);
 
 userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (userModel) {
 	
-	function requiredRoleAvailable(roleList) {
+	function requiredRoleAvailable(roles) {
 	    var roleAvailable = false;
-	    if (angular.isArray(roleList)){
+	    if (angular.isArray(roles)){
 	      roleList.forEach(function(role){
-	        if (userModel.hasRole(role)) {
+	        if (userModel.hasAuthorization(role)) {
 	        	roleAvailable = true;
 	        }
 	      });
 	    }
+        else if(roles) {
+            if(userModel.hasAuthorization(roles)) {
+                roleAvailable = true;
+            }
+        }
 	    return roleAvailable;
 	  }
 
@@ -157,6 +198,11 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
 var userProfileModule = angular.module('UserProfile', []);
 userProfileModule.controller('UserProfileController', ['$scope', 'UserProfileManager', function ($scope, userProfileManager) {
 	$scope.manager = userProfileManager;
+	$scope.currentRoleForTesting = {
+		"admin": 300,
+		"user": 100,
+		"leader": 200	
+	};
 	$scope.getUserId = function () {
 		$scope.manager.getUserId();
 	}

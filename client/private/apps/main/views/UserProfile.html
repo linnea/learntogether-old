@@ -2,7 +2,17 @@
 <h1>Inside the UserProfile page</h1>
 <button ng-click="getUserId()">Fetch User</button>
 <label>{{manager.userId}}</label>
-<div lms-show-for-role lms-visible-to-role="['Instructor']" ng-transclude>
-	we are inside the trial role div
+
+<div lms-show-for-role lms-visible-to-role="currentRoleForTesting.admin" ng-transclude style="display: none;">
+	This text will be displayed if user has admin access
 </div>
+
+<div lms-show-for-role lms-visible-to-role="currentRoleForTesting.leader" ng-transclude style="display: none;">
+this text will be displayed if user has leader access or above
+</div>
+
+<div lms-show-for-role lms-visible-to-role="currentRoleForTesting.user" ng-transclude style="display: none;">
+this text will be displayed if user has user access or above
+</div>
+
 </div>
