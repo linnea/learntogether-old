@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "Users" (
 	"createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
 	"updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
 	"isApproved" BOOLEAN,
-	"role" integer NOT NULL
+	"role" integer NOT NULL,
 	PRIMARY KEY ("id")
 );
 INSERT INTO "Users" ("firstName", "lastName", email, password, "isAdmin", "createdAt", "updatedAt", "isApproved", role) 
