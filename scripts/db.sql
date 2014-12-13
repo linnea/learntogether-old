@@ -7,7 +7,7 @@ GRANT ALL PRIVILEGES ON DATABASE learntogether to root;
 CREATE SCHEMA IF NOT EXISTS "core";
 CREATE TABLE IF NOT EXISTS "Users" (
 	"id"   SERIAL, 
-	"userOtherName" VARCHAR(255),
+	"userFirstName" VARCHAR(255),
 	"userLastName" VARCHAR(255),
 	"email" VARCHAR(255) UNIQUE, 
 	"password" VARCHAR(255), 
