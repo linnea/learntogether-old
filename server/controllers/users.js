@@ -24,7 +24,8 @@ exports.getProfile = function (req, res, next) {
 				return res.jsond({
 					profile: {
 						// only public data
-						name: user.name
+						firstName: user.firstName,
+						lastName: user.lastName
 					}
 				});
 			} else {
@@ -110,11 +111,13 @@ exports.create = function (req, res, next) {
 				);
 			} else {
 				var user = User.build();
-				user.name = req.body.name;
+				user.firstName = req.body.firstName;
+				user.lastName = req.body.lastName;
 				user.email = req.body.email;
 				user.password = user.generateHash(req.body.password);
-				user.isAdmin = req.body.isAdmin;
 				user.isApproved = true; // created by an admin, so...
+				user.isAdmin = req.body.isAdmin;
+				user.role = Number(req.body.role);
 				user.save()
 					.success(function () {
 						// overwrite password
@@ -144,10 +147,12 @@ exports.update = function (req, res, next) {
 	User.find(req.params.id)
 		.success(function (user) {
 			if (user) {
-				user.name = req.body.name || user.name;
+				user.firstName = req.body.firstName || user.firstName;
+				user.lastName = req.body.lastName || user.lastName;
 				user.email = req.body.email || user.email;
-				user.isAdmin = req.body.isAdmin;
 				user.isApproved = req.body.isApproved;
+				user.isAdmin = req.body.isAdmin;
+				user.role = Number(req.body.role);
 				if (req.body.password && user.password !== req.body.password) {
 					// new password, hash it for storage
 					user.password = user.generateHash(req.body.password);

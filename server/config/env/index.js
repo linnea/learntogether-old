@@ -34,6 +34,12 @@ module.exports = _.extend(
 				admin: 'client/private/apps/admin/index.html'
 			}
 		},
+		roles: {
+			user: 100,
+			leader: 200,
+			admin: 300,
+			default: 100
+		},
 		port: process.env.PORT || 3000,
 		secure: process.env.SECURE || false,
 		sessionSecret: 'LeArNiNgIsFuNfOrYoUaNdMeOhWhEe'
