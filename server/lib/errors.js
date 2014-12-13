@@ -62,7 +62,7 @@ module.exports.conflict = function (msg) {
 };
 module.exports.unprocessableEntity = function (msg) {
 	var err = new Error(msg || 'The server understood the content type and syntax, but was unable to process the contained instructions');
-	err.statusCode = 409;
+	err.statusCode = 422;
 	return err;
 };
 module.exports.internalServerError = function (msg) {

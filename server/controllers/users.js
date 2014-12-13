@@ -10,6 +10,43 @@ var User = models.User;
 
 
 /**
+ * Private helpers
+ */
+
+// handle sequelize errors
+function handleDbError(error, next) {
+	// validation fail?
+	var cols = [
+		'firstName', 
+		'lastName', 
+		'email', 
+		'password', 
+		'isApproved', 
+		'isAdmin', 
+		'role'
+	];
+	if (error && _.any(cols, function (col) { return !!error[col]; })) {
+		// validation error, zip together messages and return
+		var msg = "";
+		_.forEach(cols, function (col) {
+			if (error[col]) {
+				msg += error[col] + ' ';
+			}
+		});
+		// send error 422
+		return next(
+			errors.unprocessableEntity('Database validation failed: ' + msg)
+		);
+	} else {
+		// send error 500
+		return next(
+			errors.internalServerError('Database error')
+		);
+	}
+}
+
+
+/**
  * Endpoints
  */
 
@@ -36,10 +73,8 @@ exports.getProfile = function (req, res, next) {
 			}
 		})
 		.error(function (error) {
-			// send error 500
-			return next(
-				errors.internalServerError('Database error')
-			);
+			// database error
+			return handleDbError(error, next);
 		});
 };
 
@@ -66,10 +101,8 @@ exports.getAll = function (req, res, next) {
 			}
 		})
 		.error(function (error) {
-			// send error 500
-			return next(
-				errors.internalServerError('Database error')
-			);
+			// database error
+			return handleDbError(error, next);
 		});
 };
 
@@ -92,10 +125,8 @@ exports.get = function (req, res, next) {
 			}
 		})
 		.error(function (error) {
-			// send error 500
-			return next(
-				errors.internalServerError('Database error')
-			);
+			// database error
+			return handleDbError(error, next);
 		});
 };
 
@@ -115,7 +146,8 @@ exports.create = function (req, res, next) {
 				user.lastName = req.body.lastName;
 				user.email = req.body.email;
 				user.password = user.generateHash(req.body.password);
-				user.isApproved = true; // created by an admin, so...
+				// this is admin only method, safe
+				user.isApproved = req.body.isApproved;
 				user.isAdmin = req.body.isAdmin;
 				user.role = Number(req.body.role);
 				user.save()
@@ -126,18 +158,14 @@ exports.create = function (req, res, next) {
 						res.jsond({ user: user });
 					})
 					.error(function (error) {
-						// send error 500
-						return next(
-							errors.internalServerError('Database error')
-						);
+						// database error
+						return handleDbError(error, next);
 					});
 			}
 		})
 		.error(function (error) {
-			// send error 500
-			return next(
-				errors.internalServerError('Database error')
-			);
+			// database error
+			return handleDbError(error, next);
 		});
 };
 
@@ -167,10 +195,8 @@ exports.update = function (req, res, next) {
 						});
 					})
 					.error(function (error) {
-						// send error 500
-						return next(
-							errors.internalServerError('Database error')
-						);
+						// database error
+						return handleDbError(error, next);
 					});
 			} else {
 				// send error 404
@@ -180,10 +206,8 @@ exports.update = function (req, res, next) {
 			}
 		})
 		.error(function (error) {
-			// send error 500
-			return next(
-				errors.internalServerError('Database error')
-			);
+			// database error
+			return handleDbError(error, next);
 		});
 };
 
@@ -203,10 +227,8 @@ exports.delete = function (req, res, next) {
 						});
 					})
 					.error(function (error) {
-						// send error 500
-						return next(
-							errors.internalServerError('Database error')
-						);
+						// database error
+						return handleDbError(error, next);
 					});
 			} else {
 				// send error 404
@@ -216,9 +238,7 @@ exports.delete = function (req, res, next) {
 			}
 		})
 		.error(function (error) {
-			// send error 500
-			return next(
-				errors.internalServerError('Database error')
-			);
+			// database error
+			return handleDbError(error, next);
 		});
 };
