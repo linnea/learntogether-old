@@ -1,15 +1,53 @@
+'use strict';
+
 var bcrypt = require('bcrypt-nodejs');
+
+var config = require('../config/env');
 
 // create and return Sequelize schema
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('User', {
-		firstName: DataTypes.STRING,
-		lastName: DataTypes.STRING,
-		email: DataTypes.STRING,
-		password: DataTypes.STRING,
-		isApproved: DataTypes.BOOLEAN,
-		isAdmin: DataTypes.BOOLEAN,
-		role: DataTypes.INTEGER
+		firstName: {
+			type: DataTypes.STRING,
+			validate: {
+				isAlpha: true,
+				notNull: true
+			}
+		},
+		lastName: {
+			type: DataTypes.STRING,
+			validate: {
+				isAlpha: true,
+				notNull: true
+			}
+		},
+		email: {
+			type: DataTypes.STRING,
+			validate: {
+				notNull: true
+			}
+		},
+		password: {
+			type: DataTypes.STRING,
+			validate: {
+				notNull: true
+			}
+		},
+		isApproved: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false
+		},
+		isAdmin: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false
+		},
+		role: {
+			type: DataTypes.INTEGER,
+			defaultValue: config.roles.default,
+			validate: {
+				isNumeric: true
+			}
+		}
 	}, {
 		instanceMethods: {
 			generateHash: function (password) {

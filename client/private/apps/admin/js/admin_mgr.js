@@ -22,7 +22,7 @@
                 UserService.add(user, function (newUser) {
                     newUser = newUser.data.user;
                     userManager.users[newUser.id] = newUser;
-                    console.log("Successfully added user " + user.name);
+                    console.log("Successfully added user " + user.firstName + " " + user.lastName);
                 });
                 userManager.newUser = {};
             },
