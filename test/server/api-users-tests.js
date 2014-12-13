@@ -58,13 +58,13 @@ describe('API - Users', function () {
 	
 	var newUser = null;
 	var newUserData = {
-		name: 'Test user',
+		firstName: 'Test',
+		lastName: 'User',
 		email: 'test@test.net',
 		password: 'testestest',
-		// note, these should not work
 		isApproved: true,
-		isAdmin: true,
-		role: 300,
+		isAdmin: false,
+		role: 200,
 	};
 	
 	it('should return all users', function (done) {
@@ -73,6 +73,7 @@ describe('API - Users', function () {
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.users);
 				should.exist(res.body.data.users.length);
@@ -87,6 +88,7 @@ describe('API - Users', function () {
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
@@ -94,9 +96,9 @@ describe('API - Users', function () {
 				resUser.firstName.should.equal(newUserData.firstName);
 				resUser.lastName.should.equal(newUserData.lastName);
 				resUser.email.should.equal(newUserData.email);
-				resUser.isApproved.should.equal(false);
-				resUser.isAdmin.should.equal(false);
-				resUser.role.should.equal(100);
+				resUser.isApproved.should.equal(newUserData.isApproved);
+				resUser.isAdmin.should.equal(newUserData.isAdmin);
+				resUser.role.should.equal(newUserData.role);
 				resUser.should.not.have.property('password');
 				// save user for later
 				newUser = resUser;
@@ -110,6 +112,7 @@ describe('API - Users', function () {
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
@@ -126,18 +129,21 @@ describe('API - Users', function () {
 	});
 
 	it('should update new user', function (done) {
-		newUser.name = 'Updated name';
+		newUser.firstName = 'Updated';
+		newUser.lastName = 'Name';
 		agent
 			.put('/api/users/' + newUser.id)
 			.send(newUser)
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
 				resUser.id.should.equal(newUser.id);
-				resUser.name.should.equal(newUser.name);
+				resUser.firstName.should.equal(newUser.firstName);
+				resUser.lastName.should.equal(newUser.lastName);
 				resUser.email.should.equal(newUser.email);
 				resUser.isApproved.should.equal(newUser.isApproved);
 				resUser.isAdmin.should.equal(newUser.isAdmin);
@@ -154,11 +160,13 @@ describe('API - Users', function () {
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
+				should.not.exist(res.body.error);
 				should.exist(res.body.data);
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
 				resUser.id.should.equal(newUser.id);
-				resUser.name.should.equal(newUser.name);
+				resUser.firstName.should.equal(newUser.firstName);
+				resUser.lastName.should.equal(newUser.lastName);
 				resUser.email.should.equal(newUser.email);
 				resUser.isApproved.should.equal(newUser.isApproved);
 				resUser.isAdmin.should.equal(newUser.isAdmin);

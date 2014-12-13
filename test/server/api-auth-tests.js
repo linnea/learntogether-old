@@ -23,7 +23,72 @@ describe('API - Auth', function () {
 		email: 'root',
 		password: 'root'
 	};
+
+	var newUser = null;
+	var newUserData = {
+		firstName: 'newtest',
+		lastName: 'newtest',
+		email: 'newtest',
+		password: 'newtest',
+		// note: these should NOT work
+		isApproved: true,
+		isAdmin: true,
+		role: 300
+	};
 	
+	it('should have empty current session', function (done) {
+		agent
+			.get('/api/auth/current')
+			.expect(200)
+			.end(function (err, res) {
+				should.not.exist(err);
+				should.exist(res.body.data);
+				should.not.exist(res.body.data.user);
+				should.not.exist(res.body.error);
+				done();
+			});
+	});
+
+	it('should register new user', function (done) {
+		agent
+			.post('/api/auth/register')
+			.send(newUserData)
+			.expect(200)
+			.end(function (err, res) {
+				should.not.exist(err);
+				should.not.exist(res.body.error);
+				should.exist(res.body.data);
+				should.exist(res.body.data.user);
+				var resUser = res.body.data.user;
+				resUser.should.have.property('id');
+				resUser.firstName.should.equal(newUserData.firstName);
+				resUser.lastName.should.equal(newUserData.lastName);
+				resUser.email.should.equal(newUserData.email);
+				
+				// these should not have worked
+				resUser.isApproved.should.equal(false);
+				resUser.isAdmin.should.equal(false);
+				resUser.role.should.equal(100);
+				
+				resUser.should.not.have.property('password');
+				// save user for later
+				newUser = resUser;
+				done();
+			});
+	});
+
+	it('should not authenticate new user', function (done) {
+		agent
+			.post('/api/auth/login')
+			.send(newUserData)
+			.expect(403)
+			.end(function (err, res) {
+				should.not.exist(err);
+				should.exist(res.body.error);
+				done();
+			});
+	});
+
 	it('should have empty current session', function (done) {
 		agent
 			.get('/api/auth/current')
@@ -62,10 +127,34 @@ describe('API - Auth', function () {
 				should.exist(res.body.data.user);
 				var resUser = res.body.data.user;
 				resUser.id.should.equal(admin.id);
-				resUser.name.should.equal(admin.name);
+				resUser.firstName.should.equal(admin.firstName);
+				resUser.lastName.should.equal(admin.lastName);
 				resUser.email.should.equal(admin.email);
 				resUser.isApproved.should.equal(true);
 				resUser.isAdmin.should.equal(true);
+				resUser.should.not.have.property('password');
+				done();
+			});
+	});
+
+	it('should delete new user', function (done) {
+		agent
+			.delete('/api/users/' + newUser.id)
+			.send(newUser)
+			.expect(200)
+			.end(function (err, res) {
+				should.not.exist(err);
+				should.not.exist(res.body.error);
+				should.exist(res.body.data);
+				should.exist(res.body.data.user);
+				var resUser = res.body.data.user;
+				resUser.id.should.equal(newUser.id);
+				resUser.firstName.should.equal(newUser.firstName);
+				resUser.lastName.should.equal(newUser.lastName);
+				resUser.email.should.equal(newUser.email);
+				resUser.isApproved.should.equal(newUser.isApproved);
+				resUser.isAdmin.should.equal(newUser.isAdmin);
+				resUser.role.should.equal(newUser.role);
 				resUser.should.not.have.property('password');
 				done();
 			});

@@ -138,6 +138,15 @@ module.exports = function () {
 					);
 				}
 
+				// if user is found but they're not approved
+				if (!user.isApproved) {
+					return done(
+						null,
+						false,
+						req.flash('loginMessage', 'This user account has not been approved.')
+					);
+				}
+
 				// all is well, return successful user
 				return done(null, user);
 
@@ -184,6 +193,16 @@ module.exports = function () {
 					return done(
 						errors.unprocessableEntity(
 							'The user\'s email or password was incorrect'
+						)
+					);
+				}
+
+				// if user is found but they're not approved
+				if (!user.isApproved) {
+					// error 403
+					return done(
+						errors.forbidden(
+							'This user account has not been approved'
 						)
 					);
 				}

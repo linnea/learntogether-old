@@ -124,6 +124,12 @@ exports.apiRequiresLogin = function(req, res, next) {
 		return next(errors.unauthorized());
 	}
 
+	// if user isn't approved
+	if (!req.user.isApproved) {
+		// send error 403
+		return next(errors.forbidden('User has not been approved'));
+	}
+
 	next();
 };
 
@@ -133,6 +139,12 @@ exports.webRequiresLogin = function(req, res, next) {
 
 	// if request isn't authenticated
 	if (!req.isAuthenticated()) {
+		// redirect to public welcome
+		return res.redirect('/welcome');
+	}
+
+	// if user isn't approved
+	if (!req.user.isApproved) {
 		// redirect to public welcome
 		return res.redirect('/welcome');
 	}
@@ -191,7 +203,7 @@ exports.apiRequiresRole = function (role) {
 exports.webRequiresRole = function (role) {
 	return function(req, res, next) {
 		
-		// if reuwst user isn't super admin
+		// if request user isn't super admin
 		if (!req.user.isAdmin) {
 			// if reuwst user role isn't high enough
 			if (req.user.role < role) {
