@@ -9,10 +9,6 @@ app.constant('UserRoles', {
 });
 var dynamicInjector = angular.module('DynamicStaticFileInjector', []);
 
-dynamicInjector.service('InjectJS', ['$compile', function ($compile) {
-	var head = angular.element(document.getElementsByTagName('head')[0]);
-
-}]);
 var userModelApp = angular.module('LmsUserModel', []);
 userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', function (userModelService, $q, $log) {
   "use strict";
@@ -191,20 +187,10 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
    				userModel.whenInitialized().then(function () {
                     if($element) {
                         if(requiredRoleAvailable(rolesList)) {
-                            $element.removeClass('hidden');
-                            //temporary to be removed
-                            if(userModel.role === 300) {
-                              $element.addClass('adminDiv');  
-                            }
-                            else if(userModel.role === 200) {
-                              $element.addClass('leaderDiv');
-                            }
-                            else {
-                              $element.addClass('userDiv');
-                            }
+                            $element.css('display', 'inherit');
                         }
                         else {
-                            $element.addClass('hidden');
+                            $element.css('display', 'none');
                         }
                     }                   
 
