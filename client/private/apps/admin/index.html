@@ -1,107 +1,111 @@
 <!DOCTYPE html>
 <html ng-app="admin">
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/private/vendor/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/private/vendor/font-awesome/css/font-awesome.css">
-    <script type="text/javascript" src="/static/private/vendor/angular/angular.js"></script>
-    <script type="text/javascript" src="/static/private/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script type="text/javascript" src="/static/private/apps/admin/js/admin.js"></script>
-    <script type="text/javascript" src="/static/private/apps/admin/js/admin_svc.js"></script>
-    <script type="text/javascript" src="/static/private/apps/admin/js/admin_ctrl.js"></script>
-    <script type="text/javascript" src="/static/private/apps/admin/js/admin_mgr.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/private/vendor/bootstrap/dist/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/private/vendor/font-awesome/css/font-awesome.css">
+	<script type="text/javascript" src="/static/private/vendor/angular/angular.js"></script>
+	<script type="text/javascript" src="/static/private/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script type="text/javascript" src="/static/private/apps/admin/js/admin.js"></script>
+	<script type="text/javascript" src="/static/private/apps/admin/js/admin_svc.js"></script>
+	<script type="text/javascript" src="/static/private/apps/admin/js/admin_ctrl.js"></script>
+	<script type="text/javascript" src="/static/private/apps/admin/js/admin_mgr.js"></script>
 
-    <title>Admin</title>
+	<title>Admin</title>
 </head>
 <body ng-controller="AdminController as ac">
-    <div class="container">
-        <div class="page-header text-center">
-            <h1><span class="fa fa-gavel"></span> Admin Page</h1>
-            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-        </div>
+	<div class="container">
+		<div class="page-header text-center">
+			<h1><span class="fa fa-gavel"></span> Admin Page</h1>
+			<a href="/auth/logout" class="btn btn-default btn-sm">Logout</a>
+		</div>
 
-        <div>
-            <script type="text/ng-template" id="modalContent.html">
-                <div class="modal-header">
-                    <h3 ng-hide="mc.newUser.id" class="modal-title">Create User</h3>
-                    <h3 ng-show="mc.newUser.id" class="modal-title">Edit User</h3>
-                </div>
-                <div class="modal-body">
-                    <form ng-submit="mc.ok()">
-                        <div class="form-group">
-                            <label>Approved</label>
-                            <input type="checkbox" name="isApproved"
-                                   ng-model="mc.newUser.isApproved">
-                        </div>
-                        <div class="form-group">
-                            <label>First name</label>
-                            <input type="text" class="form-control" name="firstName"
-                                    ng-model="mc.newUser.firstName">
-                        </div>
-                        <div class="form-group">
-                            <label>Last name</label>
-                            <input type="text" class="form-control" name="lastName"
-                                    ng-model="mc.newUser.lastName">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" class="form-control" name="email"
-                                    ng-model="mc.newUser.email">
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" name="password"
-                                    ng-model="mc.newUser.password">
-                        </div>
-                        <div class="form-group">
-                            <label>Role (number)</label>
-                            <input type="text" class="form-control" name="role"
-                                    ng-model="mc.newUser.role">
-                        </div>
-                        <div class="form-group">
-                            <label>Admin</label>
-                            <input type="checkbox" name="isAdmin"
-                                   ng-model="mc.newUser.isAdmin">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">OK</button>
-                            <button class="btn btn-warning" ng-click="mc.cancel()">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </script>
+		<div>
+			<script type="text/ng-template" id="modalContent.html">
+				<div class="modal-header">
+					<h3 ng-hide="mc.newUser.id" class="modal-title">Create User</h3>
+					<h3 ng-show="mc.newUser.id" class="modal-title">Edit User</h3>
+				</div>
+				<div class="modal-body">
+					<form ng-submit="mc.ok()">
+						<div class="form-group">
+							<label>First name</label>
+							<input type="text" class="form-control" name="firstName"
+									ng-model="mc.newUser.firstName">
+						</div>
+						<div class="form-group">
+							<label>Last name</label>
+							<input type="text" class="form-control" name="lastName"
+									ng-model="mc.newUser.lastName">
+						</div>
+						<div class="form-group">
+							<label>Email</label>
+							<input type="text" class="form-control" name="email"
+									ng-model="mc.newUser.email">
+						</div>
+						<div class="form-group">
+							<label>Password</label>
+							<input type="password" class="form-control" name="password"
+									ng-model="mc.newUser.password">
+						</div>
+						<div class="form-group">
+							<label>Role (user=100, leader=200, admin=300)</label>
+							<input type="text" class="form-control" name="role"
+									ng-model="mc.newUser.role">
+						</div>
+						<div class="well well-sm">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="isAdmin" ng-model="mc.newUser.isAdmin">
+									is Admin (super user)
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="isApproved" ng-model="mc.newUser.isApproved">
+									is Approved
+								</label>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">OK</button>
+							<button class="btn btn-warning" ng-click="mc.cancel()">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</script>
 
-            <button class="btn btn-default pull-right" ng-click="ac.open()"><span class="fa fa-plus"></span> Create User</button>
-        </div>
+			<button class="btn btn-default pull-right" ng-click="ac.open()"><span class="fa fa-plus"></span> Create User</button>
+		</div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Approved</th>
-                    <th>Admin</th>
-                    <th>Role</th>
-                    <th>First</th>
-                    <th>Last</th>
-                    <th>Email</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="user in ac.um.users | orderObjectBy:'id'">
-                    <td>{{user.id}}</td>
-                    <td><i ng-show="user.isApproved" class="fa fa-check"></i></td>
-                    <td><i ng-show="user.isAdmin" class="fa fa-check"></i></td>
-                    <td>{{user.role}}</td>
-                    <td>{{user.firstName}}</td>
-                    <td>{{user.lastName}}</td>
-                    <td>{{user.email}}</td>
-                    <td class="text-right">
-                        <button ng-click="ac.open(user.id);" type="button" class="btn btn-default">Edit</button>
-                        <button ng-click="ac.um.delete(user.id);" type="button" class="btn btn-danger">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="text-muted">ID</th>
+					<th>First name</th>
+					<th>Last name</th>
+					<th>Email address</th>
+					<th>Role</th>
+					<th>Admin</th>
+					<th>Approved</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in ac.um.users | orderObjectBy:'id'">
+					<td class="text-muted">{{user.id}}</td>
+					<td>{{user.firstName}}</td>
+					<td>{{user.lastName}}</td>
+					<td>{{user.email}}</td>
+					<td>{{user.role}}</td>
+					<td><i ng-show="user.isAdmin" class="fa fa-check"></i></td>
+					<td><i ng-show="user.isApproved" class="fa fa-check"></i></td>
+					<td class="text-right">
+						<button ng-click="ac.open(user.id);" type="button" class="btn btn-xs btn-default">Edit</button>
+						<button ng-click="ac.um.delete(user.id);" type="button" class="btn btn-xs btn-danger">Delete</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
