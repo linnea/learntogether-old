@@ -9,6 +9,7 @@ var _ = require('lodash-node');
 var env = process.env.NODE_ENV;
 
 module.exports = _.extend(
+	
 	// settings for any environment
 	{
 		env: env,
@@ -48,9 +49,13 @@ module.exports = _.extend(
 			default: 100
 		},
 		port: process.env.PORT || 3000,
-		secure: process.env.SECURE || false,
-		sessionSecret: 'LeArNiNgIsFuNfOrYoUaNdMeOhWhEe'
+		secure: process.env.SECURE || false
 	},
+	
 	// settings for our current environment
-	require('./' + env) || {}
+	require('./' + env) || {},
+	
+	// secret settings sshhhhhhhh
+	require('./secrets') || {}
+
 );
