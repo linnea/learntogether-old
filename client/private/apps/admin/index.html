@@ -80,25 +80,25 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>Approved</th>
-					<th>Admin</th>
+					<th class="text-muted">ID</th>
+					<th>First name</th>
+					<th>Last name</th>
+					<th>Email address</th>
 					<th>Role</th>
-					<th>First</th>
-					<th>Last</th>
-					<th>Email</th>
+					<th>Admin</th>
+					<th>Approved</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="user in ac.um.users | orderObjectBy:'id'">
-					<td>{{user.id}}</td>
-					<td><i ng-show="user.isApproved" class="fa fa-check"></i></td>
-					<td><i ng-show="user.isAdmin" class="fa fa-check"></i></td>
-					<td>{{user.role}}</td>
+					<td class="text-muted">{{user.id}}</td>
 					<td>{{user.firstName}}</td>
 					<td>{{user.lastName}}</td>
 					<td>{{user.email}}</td>
+					<td>{{user.role}}</td>
+					<td><i ng-show="user.isAdmin" class="fa fa-check"></i></td>
+					<td><i ng-show="user.isApproved" class="fa fa-check"></i></td>
 					<td class="text-right">
 						<button ng-click="ac.open(user.id);" type="button" class="btn btn-xs btn-default">Edit</button>
 						<button ng-click="ac.um.delete(user.id);" type="button" class="btn btn-xs btn-danger">Delete</button>
