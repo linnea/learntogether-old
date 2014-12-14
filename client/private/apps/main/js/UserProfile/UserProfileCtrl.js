@@ -1,11 +1,8 @@
-var userProfileModule = angular.module('UserProfile', []);
-userProfileModule.controller('UserProfileController', ['$scope', 'UserProfileManager', function ($scope, userProfileManager) {
+var userProfileModule = angular.module('UserProfile', ["AppConstants"]);
+userProfileModule.controller('UserProfileController', ['$scope', 'UserProfileManager', 'UserRoles', function ($scope, userProfileManager,userRoles) {
 	$scope.manager = userProfileManager;
-	$scope.currentRoleForTesting = {
-		"admin": 300,
-		"user": 100,
-		"leader": 200	
-	};
+
+	$scope.userRoles = userRoles.userRoles;
 	$scope.getUserId = function () {
 		$scope.manager.getUserId();
 	}

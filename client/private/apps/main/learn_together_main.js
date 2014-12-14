@@ -1,5 +1,18 @@
+var app = angular.module('AppConstants', []);
+
+app.constant('UserRoles', {
+	"userRoles": {
+		"admin": 300,
+		"leader": 200,
+		"user": 100
+	}
+});
 var dynamicInjector = angular.module('DynamicStaticFileInjector', []);
 
+dynamicInjector.service('InjectJS', ['$compile', function ($compile) {
+	var head = angular.element(document.getElementsByTagName('head')[0]);
+
+}]);
 var userModelApp = angular.module('LmsUserModel', []);
 userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', function (userModelService, $q, $log) {
   "use strict";
@@ -178,10 +191,20 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
    				userModel.whenInitialized().then(function () {
                     if($element) {
                         if(requiredRoleAvailable(rolesList)) {
-                            $element.css('display', 'inherit');
+                            $element.removeClass('hidden');
+                            //temporary to be removed
+                            if(userModel.role === 300) {
+                              $element.addClass('adminDiv');  
+                            }
+                            else if(userModel.role === 200) {
+                              $element.addClass('leaderDiv');
+                            }
+                            else {
+                              $element.addClass('userDiv');
+                            }
                         }
                         else {
-                            $element.css('display', 'none');
+                            $element.addClass('hidden');
                         }
                     }                   
 
@@ -195,14 +218,11 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
 	};
 	
 }]);
-var userProfileModule = angular.module('UserProfile', []);
-userProfileModule.controller('UserProfileController', ['$scope', 'UserProfileManager', function ($scope, userProfileManager) {
+var userProfileModule = angular.module('UserProfile', ["AppConstants"]);
+userProfileModule.controller('UserProfileController', ['$scope', 'UserProfileManager', 'UserRoles', function ($scope, userProfileManager,userRoles) {
 	$scope.manager = userProfileManager;
-	$scope.currentRoleForTesting = {
-		"admin": 300,
-		"user": 100,
-		"leader": 200	
-	};
+
+	$scope.userRoles = userRoles.userRoles;
 	$scope.getUserId = function () {
 		$scope.manager.getUserId();
 	}
