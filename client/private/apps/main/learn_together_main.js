@@ -187,10 +187,20 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
    				userModel.whenInitialized().then(function () {
                     if($element) {
                         if(requiredRoleAvailable(rolesList)) {
-                            $element.css('display', 'inherit');
+                            $element.removeClass('hidden');
+                            //temporary to be removed
+                            if(userModel.role === 300) {
+                              $element.addClass('adminDiv');  
+                            }
+                            else if(userModel.role === 200) {
+                              $element.addClass('leaderDiv');
+                            }
+                            else {
+                              $element.addClass('userDiv');
+                            }
                         }
                         else {
-                            $element.css('display', 'none');
+                            $element.addClass('hidden');
                         }
                     }                   
 
