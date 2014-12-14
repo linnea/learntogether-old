@@ -5,8 +5,13 @@ var _ = require('lodash-node');
 /**
  * Load app configurations
  */
+
+var env = process.env.NODE_ENV;
+
 module.exports = _.extend(
+	// settings for any environment
 	{
+		env: env,
 		app: {
 			title: 'LearnTogether',
 			description: 'Modular LMS platform designed for the next generation of online learning',
@@ -28,12 +33,14 @@ module.exports = _.extend(
 				}
 			},
 			angularRoots: {
+				// where to point routes for the angular apps
 				main: 'client/private/apps/main/index.html',
 				author: 'client/private/apps/author/index.html',
 				admin: 'client/private/apps/admin/index.html'
 			}
 		},
 		roles: {
+			// authorization
 			user: 100,
 			leader: 200,
 			admin: 300,
@@ -43,5 +50,6 @@ module.exports = _.extend(
 		secure: process.env.SECURE || false,
 		sessionSecret: 'LeArNiNgIsFuNfOrYoUaNdMeOhWhEe'
 	},
-	require('./' + process.env.NODE_ENV) || {}
+	// settings for our current environment
+	require('./' + env) || {}
 );

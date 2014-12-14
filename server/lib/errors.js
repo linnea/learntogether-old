@@ -1,13 +1,25 @@
 'use strict';
 
+var config = require('../config/env');
+
+
 /**
  * Middleware - http error handler
  */
 module.exports = function() {
 	return function(err, req, res, next) {
-		// strange error?
-		if (!err.statusCode && err.stack) {
-			console.error(err.stack);
+
+		var status = err.statusCode || 500;
+		var message = err.message || err.toString();
+		var stack = err.stack || '';
+
+		if (status === 500 && stack) {
+			// strange error, print it
+			console.error('--> Error 500');
+			console.error(stack);
+		} else if (config.env === 'development') {
+			// dev mode, print it
+			console.error('--> Error ' + status + ': ' + message);
 		}
 
 		// send error status & json
@@ -15,17 +27,14 @@ module.exports = function() {
 		// 	- https://developers.facebook.com/docs/graph-api/using-graph-api/v2.2#errors
 		// 	- https://dev.twitter.com/overview/api/response-codes
 		res
-			.status(err.statusCode || 500)
-			.json({
-				error: {
-					message: err.message || err.toString()
-				}
-			});
+			.status(status)
+			.json({error:{message:message}});
 
 		// don't call next
 		// stop express chain
 	};
 };
+
 
 /**
  * Errors to "throw" in middleware
