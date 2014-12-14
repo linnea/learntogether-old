@@ -14,7 +14,13 @@ module.exports = function () {
 
 	// public welcome page
 	router.get('/welcome', function (req, res) {
-		res.render('welcome.ejs');
+		if (req.isAuthenticated()) {
+			// already logged in? redirect to root
+			res.redirect('/');
+		} else {
+			// load welcome page
+			res.render('welcome.ejs');
+		}
 	});
 
 	// domain.com/api/...
