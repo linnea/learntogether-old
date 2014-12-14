@@ -1,5 +1,19 @@
-<div>
+<div class="jumbotron">
 <h1>Inside the UserProfile page</h1>
-<button ng-click="getUserId()">Fetch User</button>
-<label>{{manager.userId}}</label>
+<p><button ng-click="getUserId()" class="btn btn-primary btn-lg">Fetch User</button>  {{manager.userId}}</p>
+<p></p>
+
+<div class="container-fluid row">
+	<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.admin" ng-transclude>
+		This text will be displayed if user has admin access
+	</div>
+	<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.leader" ng-transclude>
+		This text will be displayed if user has leader access or above
+	</div>
+	<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.user" ng-transclude>
+		This text will be displayed if user has user access or above
+	</div>
+</div>
+
+
 </div>

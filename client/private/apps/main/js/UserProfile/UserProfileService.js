@@ -4,7 +4,7 @@ userProfileModule.service('UserProfileService', ['$q', '$http', function ($q, $h
 	var deferred = $q.defer(), userProfileService;
 	userProfileService = {
 		getUserId : function () {
-			var promise = $http.get("/api/users/current");
+			var promise = $http.get("/api/auth/current");
 			promise.then(function (data, status) {
 				deferred.resolve(data);
 			}, function (data) {
