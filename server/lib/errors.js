@@ -24,8 +24,8 @@ module.exports = function() {
 
 		// send error status & json
 		// error object modeled after:
-		// 	- https://developers.facebook.com/docs/graph-api/using-graph-api/v2.2#errors
-		// 	- https://dev.twitter.com/overview/api/response-codes
+		// - https://developers.facebook.com/docs/graph-api/using-graph-api/v2.2#errors
+		// - https://dev.twitter.com/overview/api/response-codes
 		res
 			.status(status)
 			.json({error:{message:message}});

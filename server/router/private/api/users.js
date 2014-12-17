@@ -6,7 +6,7 @@
 
 var express = require('express');
 
-var auth = require('../../../controllers/auth');
+var auth = require('../../../lib/auth');
 var users = require('../../../controllers/users');
 
 module.exports = function () {
@@ -14,7 +14,7 @@ module.exports = function () {
 
 	// public user profile
 	router.get('/profile/:id', users.getProfile);
-	
+
 	// user CRUD
 	router.post('/', auth.apiRequiresAdmin, users.create);
 	router.get('/:id', auth.apiRequiresAdmin, users.get);

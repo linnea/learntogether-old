@@ -17,6 +17,7 @@ var session = require('express-session');
 var favicon = require('serve-favicon');
 
 var config = require('./env');
+var modules = require('./modules');
 var errors = require('../lib/errors');
 var router = require('../router');
 
@@ -30,7 +31,7 @@ module.exports = function () {
 	// in dev mode?
 	if (process.env.NODE_ENV === 'development') {
 		// log requests
-		app.use(morgan('dev')); 
+		app.use(morgan('dev'));
 	}
 
 	// serve favicon
@@ -56,7 +57,7 @@ module.exports = function () {
 	// passport session
 	app.use(passport.initialize());
 	app.use(passport.session());
-	
+
 	// use connect flash for flash messages
 	app.use(flash());
 
@@ -75,7 +76,10 @@ module.exports = function () {
 		}
 		next();
 	});
-	
+
+	// add modules
+	modules(app);
+
 	// add routes
 	app.use('/', router());
 
