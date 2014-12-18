@@ -5,7 +5,7 @@
  */
 
 console.log('-------------------------------------');
-console.log('Starting up system...');
+console.log(' Starting up system...');
 console.log('-------------------------------------');
 
 // set default node environment to development

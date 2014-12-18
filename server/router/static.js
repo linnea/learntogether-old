@@ -64,7 +64,7 @@ module.exports = function () {
 		)
 	);
 
-	//angular-common
+	//angular - common (shared angular assets)
 	router.use(
 		'/private/apps/common',
 		auth.webRequiresLogin,

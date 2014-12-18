@@ -8,6 +8,12 @@ angular.module('mainRoutes', [])
 		function ($routeProvider, $locationProvider) {
 			$routeProvider
 
+				// homepage
+				.when('/', {
+					templateUrl: '/static/private/apps/main/views/HomePage.html',
+					controller: 'HomePageController'
+				})
+
 				// user profile page
 				.when('/user-profile', {
 					templateUrl: '/static/private/apps/main/views/UserProfile.html',

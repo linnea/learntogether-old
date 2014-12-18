@@ -35,7 +35,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
         "messageCode": "NOT_AUTHENTICATED",
         "message": "Could not authenticate the user",
         "causeBy": cause,
-        
+
       };
   }
 
@@ -60,7 +60,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
 
         });
       }
-        
+
   }
 
   // PUBLIC DATA & METHODS
@@ -135,7 +135,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
 
   init();
 
-  return userModel;  
+  return userModel;
 }]);
 var userModelApp = angular.module('LmsUserModel');
 userModelApp.service('UserModelService', ['$q', '$http', function ($q, $http) {
@@ -157,7 +157,7 @@ userModelApp.service('UserModelService', ['$q', '$http', function ($q, $http) {
 var userAuthorizationApp = angular.module('LmsAuthorizationModule', []);
 
 userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (userModel) {
-	
+
 	function requiredRoleAvailable(roles) {
 	    var roleAvailable = false;
 	    if (angular.isArray(roles)){
@@ -182,7 +182,7 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
    	  		"lmsVisibleToRole": "="
    		},
    		"link": function ($scope, $element, $attr, ctrl, $transclude) {
-   		
+
    			$scope.$watch('lmsVisibleToRole', function(rolesList) {
    				userModel.whenInitialized().then(function () {
                     if($element) {
@@ -190,7 +190,7 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
                             $element.removeClass('hidden');
                             //temporary to be removed
                             if(userModel.role === 300) {
-                              $element.addClass('adminDiv');  
+                              $element.addClass('adminDiv');
                             }
                             else if(userModel.role === 200) {
                               $element.addClass('leaderDiv');
@@ -202,18 +202,82 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
                         else {
                             $element.addClass('hidden');
                         }
-                    }                   
+                    }
 
    				}, function (error) {});
-   				
-   				
+
+
    			});
 
    		}
 
 	};
-	
+
 }]);
+(function () {
+	'use strict';
+
+
+	angular.module('HomePage', ['AppConstants'])
+
+		.controller(
+			'HomePageController',
+			[
+				'$scope',
+				'HomePageManager',
+				function ($scope, HomePageManager) {
+					$scope.manager = HomePageManager;
+				}
+			]
+		);
+
+
+})();
+(function () {
+	'use strict';
+
+
+	angular.module('HomePage')
+
+		.factory(
+			'HomePageManager',
+			[
+				'HomePageService',
+				function (HomePageService) {
+
+					// private variables
+
+					// public interface
+					return {};
+				}
+			]
+		);
+
+
+})();
+(function () {
+	'use strict';
+
+
+	angular.module('HomePage')
+
+		.service(
+			'HomePageService',
+			[
+				'$q',
+				'$http',
+				function ($q, $http) {
+
+					// private variables
+
+					// public interface
+					return {};
+				}
+			]
+		);
+
+
+})();
 var userProfileModule = angular.module('UserProfile', ["AppConstants"]);
 userProfileModule.controller('UserProfileController', ['$scope', 'UserProfileManager', 'UserRoles', function ($scope, userProfileManager,userRoles) {
 	$scope.manager = userProfileManager;
@@ -225,7 +289,7 @@ userProfileModule.controller('UserProfileController', ['$scope', 'UserProfileMan
 }]);
 var userProfileModule = angular.module('UserProfile');
 userProfileModule.factory('UserProfileManager', ['UserProfileService', function (userProfileService) {
-	
+
 	//Private Variables
 	var managerInstance;
 
@@ -267,6 +331,7 @@ userProfileModule.service('UserProfileService', ['$q', '$http', function ($q, $h
 var app = angular.module('LearnTogetherMainApp', [
 	'ngRoute',
 	'mainRoutes',
+	'HomePage',
 	'UserProfile',
 	'LmsUserModel',
 	'LmsAuthorizationModule'
@@ -280,6 +345,12 @@ angular.module('mainRoutes', [])
 		'$locationProvider',
 		function ($routeProvider, $locationProvider) {
 			$routeProvider
+
+				// homepage
+				.when('/', {
+					templateUrl: '/static/private/apps/main/views/HomePage.html',
+					controller: 'HomePageController'
+				})
 
 				// user profile page
 				.when('/user-profile', {

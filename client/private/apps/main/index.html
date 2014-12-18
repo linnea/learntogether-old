@@ -5,8 +5,9 @@
     <base href="/">
 	<title>Learn Together</title>
 	<!-- CSS -->
-    <link rel="stylesheet" href="/static/private/vendor/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/private/assets/css/learn_together.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/private/vendor/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/private/vendor/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/static/private/assets/css/learn_together.min.css">
 
     <!-- JS -->
     <!--
@@ -22,14 +23,15 @@
     <!--
     <script src="/static/private/apps/common/directives/LmsAuthorization/LmsAuthorization.js"></script>
     <script src="/static/private/apps/common/LmsUserModel/UserModelManager.js"></script>
-    <script src="/static/private/apps/common/LmsUserModel/UserModelService.js"></script> 
+    <script src="/static/private/apps/common/LmsUserModel/UserModelService.js"></script>
     -->
 
 </head>
 <body>
-<div id="main" ng-app="LearnTogetherMainApp">
-<h1><a href="/user-profile" >Move to User Profile</a></h1>
-<div ng-view></div>
-</div>
+    <div id="main" ng-app="LearnTogetherMainApp">
+        <div ng-view>
+            <!-- angular routes load here -->
+        </div>
+    </div>
 </body>
 </html>
