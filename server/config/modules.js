@@ -4,6 +4,8 @@
  * Learning module configuration
  */
 
+var UglifyJS = require('uglify-js');
+
 var auth = require('../lib/auth');
 var errors = require('../lib/errors');
 
@@ -47,6 +49,9 @@ moduleNames.forEach(function (moduleName) {
 	console.log('loaded module "' + moduleName + '"');
 
 });
+
+// minify module ng scripts
+moduleNgScripts = UglifyJS.minify(moduleNgScripts, { fromString: true }).code;
 
 
 /**
