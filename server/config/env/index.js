@@ -8,8 +8,8 @@ var _ = require('lodash-node');
 
 var env = process.env.NODE_ENV;
 
-module.exports = _.extend(
-	
+module.exports = _.assign(
+
 	// settings for any environment
 	{
 		env: env,
@@ -51,10 +51,10 @@ module.exports = _.extend(
 		port: process.env.PORT || 3000,
 		secure: process.env.SECURE || false
 	},
-	
+
 	// settings for our current environment
 	require('./' + env) || {},
-	
+
 	// secret settings sshhhhhhhh
 	require('./secrets') || {}
 

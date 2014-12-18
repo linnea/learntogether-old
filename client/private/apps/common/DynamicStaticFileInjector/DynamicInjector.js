@@ -1,1 +1,5 @@
-var dynamicInjector = angular.module('DynamicStaticFileInjector', []);
+(function () {
+
+	var dynamicInjector = angular.module('DynamicStaticFileInjector', []);
+
+})();
