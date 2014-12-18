@@ -35,7 +35,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
         "messageCode": "NOT_AUTHENTICATED",
         "message": "Could not authenticate the user",
         "causeBy": cause,
-
+        
       };
   }
 
@@ -60,7 +60,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
 
         });
       }
-
+        
   }
 
   // PUBLIC DATA & METHODS
@@ -135,7 +135,7 @@ userModelApp.service('UserModelManager', ['UserModelService', '$q', '$log', func
 
   init();
 
-  return userModel;
+  return userModel;  
 }]);
 var userModelApp = angular.module('LmsUserModel');
 userModelApp.service('UserModelService', ['$q', '$http', function ($q, $http) {
@@ -157,7 +157,7 @@ userModelApp.service('UserModelService', ['$q', '$http', function ($q, $http) {
 var userAuthorizationApp = angular.module('LmsAuthorizationModule', []);
 
 userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (userModel) {
-
+	
 	function requiredRoleAvailable(roles) {
 	    var roleAvailable = false;
 	    if (angular.isArray(roles)){
@@ -182,7 +182,7 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
    	  		"lmsVisibleToRole": "="
    		},
    		"link": function ($scope, $element, $attr, ctrl, $transclude) {
-
+   		
    			$scope.$watch('lmsVisibleToRole', function(rolesList) {
    				userModel.whenInitialized().then(function () {
                     if($element) {
@@ -190,7 +190,7 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
                             $element.removeClass('hidden');
                             //temporary to be removed
                             if(userModel.role === 300) {
-                              $element.addClass('adminDiv');
+                              $element.addClass('adminDiv');  
                             }
                             else if(userModel.role === 200) {
                               $element.addClass('leaderDiv');
@@ -202,17 +202,17 @@ userAuthorizationApp.directive("lmsShowForRole", ['UserModelManager', function (
                         else {
                             $element.addClass('hidden');
                         }
-                    }
+                    }                   
 
    				}, function (error) {});
-
-
+   				
+   				
    			});
 
    		}
 
 	};
-
+	
 }]);
 (function () {
 	'use strict';
@@ -289,7 +289,7 @@ userProfileModule.controller('UserProfileController', ['$scope', 'UserProfileMan
 }]);
 var userProfileModule = angular.module('UserProfile');
 userProfileModule.factory('UserProfileManager', ['UserProfileService', function (userProfileService) {
-
+	
 	//Private Variables
 	var managerInstance;
 

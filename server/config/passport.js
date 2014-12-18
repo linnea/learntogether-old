@@ -18,10 +18,10 @@ module.exports = function () {
 	/**
 	 * Session setup
 	 */
-	
+
 	// required for persistent login sessions
 	// passport needs ability to serialize and unserialize users out of session
-	
+
 	// used to serialize the user for the session
 	passport.serializeUser(function (user, done) {
 		done(null, user.id);
@@ -38,78 +38,14 @@ module.exports = function () {
 			});
 	});
 
-	
+
 	/**
-	 * Strategy - Local signup
+	 * Strategy - Local login (web)
 	 */
 
 	// we are using named strategies since we have one for login and one for signup
 	// by default, if there was no name, it would just be called "local"
-	passport.use('local-signup', new LocalStrategy({
-		// by default, local strategy uses username and password
-		// we will override with email
-		usernameField: 'email',
-		passwordField: 'password',
-		// allows us to pass the entire request to the callback
-		passReqToCallback: true
-	},
-	function (req, email, password, done) {
-
-		// asynchronous
-		process.nextTick(function () {
-
-			User.find({where: {email: email}})
-				.success(function (user) {
-
-					// check to see if there's already a user with that email
-					if (user) {
-						return done(
-							// err
-							null, 
-							// user
-							false, 
-							// info
-							req.flash('signupMessage', 'That email is already taken.')
-						);
-					} else {
-
-						// create new user
-						var newUser = User.build();
-						newUser.firstName = req.body.firstName;
-						newUser.lastName = req.body.lastName;
-						newUser.email = email;
-						newUser.password = newUser.generateHash(password);
-						// DANGER signup page is public
-						// user defaults to lowest-level
-						newUser.isApproved = false;
-						newUser.isAdmin = false;
-						newUser.role = config.roles.default;
-
-						// save the user
-						newUser.save()
-							.success(function () {
-								return done(null, newUser);
-							})
-							.error(function (err) {
-								return done(err);
-							});
-
-					}
-				}).error(function (err) {
-					return done(err);
-				});
-		});
-
-	}));
-
-
-	/**
-	 * Strategy - Local login
-	 */
-	
-	// we are using named strategies since we have one for login and one for signup
-	// by default, if there was no name, it would just be called "local"
-	passport.use('local-login', new LocalStrategy({
+	passport.use('local-web', new LocalStrategy({
 		usernameField: 'email',
 		passwordField: 'password',
 		passReqToCallback: true
@@ -161,12 +97,12 @@ module.exports = function () {
 	 * Strategy - Local login
 	 *
 	 * restructured to return api-friendly errors
-	 * 
+	 *
 	 */
-	
+
 	// we are using named strategies since we have one for login and one for signup
 	// by default, if there was no name, it would just be called "local"
-	passport.use('local-login-api', new LocalStrategy({
+	passport.use('local-api', new LocalStrategy({
 		usernameField: 'email',
 		passwordField: 'password',
 		passReqToCallback: true

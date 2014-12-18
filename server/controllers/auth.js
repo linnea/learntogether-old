@@ -33,7 +33,7 @@ exports.current = function (req, res, next) {
 exports.login = function (req, res, next) {
 	// authenticate user with passport
 	passport.authenticate(
-		'local-login-api',
+		'local-api',
 		function (err, user, info) {
 			if (err) {
 				// general error
@@ -105,5 +105,49 @@ exports.register = function (req, res, next) {
 			return next(
 				errors.internalServerError('Database error')
 			);
+		});
+};
+
+// (web) register new user
+// POST domain.com/api/auth/register
+exports.registerWeb = function (req, res, next) {
+	User.find({where: {email: req.body.email}})
+		.success(function (user) {
+			if (user) {
+				// add message & redirect to registration
+				req.flash('registerMessage', 'That email is already taken.');
+				res.redirect('/auth/register');
+				return;
+			} else {
+				var user = User.build();
+				user.firstName = req.body.firstName;
+				user.lastName = req.body.lastName;
+				user.email = req.body.email;
+				user.password = user.generateHash(req.body.password);
+				// DANGER public registration
+				// default user to lowest-level
+				user.isAdmin = false;
+				user.isApproved = false;
+				user.role = config.roles.default;
+				user.save()
+					.success(function () {
+						// add message & redirect to registration
+						req.flash('registerMessage', 'Sign up succesful, but now your account must be approved by an administrator');
+						res.redirect('/auth/register');
+						return;
+					})
+					.error(function (error) {
+						// add message & redirect to registration
+						req.flash('registerMessage', 'A system error has occurred');
+						res.redirect('/auth/register');
+						return;
+					});
+			}
+		})
+		.error(function (error) {
+			// add message & redirect to registration
+			req.flash('registerMessage', 'A system error has occurred');
+			res.redirect('/auth/register');
+			return;
 		});
 };
