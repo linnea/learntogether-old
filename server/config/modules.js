@@ -4,8 +4,6 @@
  * Learning module configuration
  */
 
-var fs = require('fs');
-
 var auth = require('../lib/auth');
 var errors = require('../lib/errors');
 
@@ -25,26 +23,28 @@ moduleNames.forEach(function (moduleName) {
 	// skip if failed
 	if (!module) return;
 
-	// TODO create db if not exists
-	// TODO create db user if not exists
-	// TODO create db connection and pass along
+
+	// TODO create databaser/user/pass if not exist
+	// and send connection info to module
+
 
 	// initialize module
 	module.init({
-		db: null
+		auth: auth,
+		errors: errors,
+		db: {}
 	});
 
 	// add any module scripts
-	// if (module.ngScripts && module.ngScripts.length) {
-	// 	module.ngScripts.forEach(function (filename) {
-	// 		moduleScripts += fs.readFileSync(filename, {
-	// 			encoding: 'utf8'
-	// 		});
-	// 	});
-	// }
+	if (module.ngScripts) {
+		moduleNgScripts += module.ngScripts();
+		moduleNgScripts += '\n';
+	}
 
-	// grab reference to module
+	// save reference to module
 	modules.push(module);
+
+	console.log('loaded module "' + moduleName + '"');
 
 });
 
@@ -77,6 +77,13 @@ module.exports = function (app) {
 	});
 
 	// add module scripts to express chain
+	app.use(
+		'/modules/ng-scripts.js',
+		function (req, res) {
+			res.set('Content-Type', 'application/javascript');
+			res.send(moduleNgScripts);
+		}
+	);
 
 };
 
