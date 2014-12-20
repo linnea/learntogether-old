@@ -5,24 +5,31 @@
  */
 
 var UglifyJS = require('uglify-js');
+var CleanCSS = require('clean-css');
 
 var auth = require('../lib/auth');
 var errors = require('../lib/errors');
 
+
+// TODO NOTE DANGER WARN
+// open question:
+// okay to leave concat js & css in memory?
+// or better to write them to filesystem?
+
+
 var modules = [];
-var moduleNgScripts = '';
+var modulesJS = '';
+var modulesCSS = '';
 var moduleNames = [
 	'test1'
 ];
 
 // require and initialize each module by name
-// also, construct javascript file for angular
+// (also, concat javascript file for angular)
 moduleNames.forEach(function (moduleName) {
 
 	// require module
 	var module = require(moduleName);
-
-	// skip if failed
 	if (!module) return;
 
 
@@ -34,24 +41,38 @@ moduleNames.forEach(function (moduleName) {
 	module.init({
 		auth: auth,
 		errors: errors,
-		db: {}
+		db: {
+			database: "",
+			username: "",
+			password: "",
+			host: "",
+			dialect: "",
+			protocol: "",
+		}
 	});
 
-	// add any module scripts
-	if (module.ngScripts) {
-		moduleNgScripts += module.ngScripts();
-		moduleNgScripts += '\n';
+	// grab any module js
+	if (module.exportJS) {
+		modulesJS += module.exportJS();
+		modulesJS += '\n';
 	}
 
-	// save reference to module
+	// grab any module css
+	if (module.exportCSS) {
+		modulesCSS += module.exportCSS();
+		modulesCSS += '\n';
+	}
+
+	// save reference
 	modules.push(module);
 
 	console.log('loaded module "' + moduleName + '"');
 
 });
 
-// minify module ng scripts
-moduleNgScripts = UglifyJS.minify(moduleNgScripts, { fromString: true }).code;
+// minify module js and css
+modulesJS = UglifyJS.minify(modulesJS, { fromString: true }).code;
+modulesCSS = new CleanCSS().minify(modulesCSS).styles;
 
 
 /**
@@ -61,34 +82,29 @@ moduleNgScripts = UglifyJS.minify(moduleNgScripts, { fromString: true }).code;
 // configuration function
 module.exports = function (app) {
 
-	// add middleware to express chain
+	// add middlewares to express chain
 	modules.forEach(function (module) {
-		app.use(
-			module.middleware({
-				errors: errors
-			})
-		);
+		if (!module.middleware) return;
+		app.use(module.middleware());
 	});
 
 	// add routers to express chain
 	modules.forEach(function (module) {
-		app.use(
-			'/modules/' + module.name,
-			module.router({
-				errors: errors,
-				auth: auth
-			})
-		);
+		if (!module.router) return;
+		app.use('/modules/' + module.name, module.router());
 	});
 
-	// add module scripts to express chain
-	app.use(
-		'/modules/ng-scripts.js',
-		function (req, res) {
-			res.set('Content-Type', 'application/javascript');
-			res.send(moduleNgScripts);
-		}
-	);
+	// add module js to express chain
+	app.use('/modules/all.min.js', function (req, res) {
+		res.set('Content-Type', 'application/javascript');
+		res.send(modulesJS);
+	});
+
+	// add module css to express chain
+	app.use('/modules/all.min.css', function (req, res) {
+		res.set('Content-Type', 'text/css');
+		res.send(modulesCSS);
+	});
 
 };
 
