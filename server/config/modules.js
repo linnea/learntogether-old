@@ -17,15 +17,18 @@ var errors = require('../lib/errors');
 // or better to write them to filesystem?
 
 
-var modules = [];
-var modulesJS = '';
-var modulesCSS = '';
+// modules loaded by name
 var moduleNames = [
 	'test1'
 ];
 
-// require and initialize each module by name
-// (also, concat javascript file for angular)
+var modules = [];
+var modulesClientJS = '';
+var modulesClientCSS = '';
+
+
+// require and initialize each module
+// concat any client-side js and/or css they export
 moduleNames.forEach(function (moduleName) {
 
 	// require module
@@ -51,16 +54,16 @@ moduleNames.forEach(function (moduleName) {
 		}
 	});
 
-	// grab any module js
-	if (module.exportJS) {
-		modulesJS += module.exportJS();
-		modulesJS += '\n';
+	// grab any client-side js
+	if (module.clientJS) {
+		modulesClientJS += module.clientJS();
+		modulesClientJS += '\n';
 	}
 
-	// grab any module css
-	if (module.exportCSS) {
-		modulesCSS += module.exportCSS();
-		modulesCSS += '\n';
+	// grab any client-side css
+	if (module.clientCSS) {
+		modulesClientCSS += module.clientCSS();
+		modulesClientCSS += '\n';
 	}
 
 	// save reference
@@ -71,39 +74,55 @@ moduleNames.forEach(function (moduleName) {
 });
 
 // minify module js and css
-modulesJS = UglifyJS.minify(modulesJS, { fromString: true }).code;
-modulesCSS = new CleanCSS().minify(modulesCSS).styles;
+modulesClientJS = UglifyJS.minify(modulesClientJS, { fromString: true }).code;
+modulesClientCSS = new CleanCSS().minify(modulesClientCSS).styles;
 
 
 /**
  * Interface
  */
 
-// configuration function
+// add module things to express request chain
 module.exports = function (app) {
 
-	// add middlewares to express chain
+
+	//
+	// sidenote
+	//
+	// here the modules are coupled directly with express
+	// however Dr Stearns recommends we maintain our own layer between
+	//
+	// request -> express -> our layer -> modules (middleware, routes)
+	//
+	// so we could add/remove modules dynamically
+	// without needing a server restart to reconfig express
+	//
+
+
+	// add any middleware
 	modules.forEach(function (module) {
-		if (!module.middleware) return;
-		app.use(module.middleware());
+		if (module.middleware) {
+			app.use(module.middleware());
+		}
 	});
 
-	// add routers to express chain
+	// add any routers
 	modules.forEach(function (module) {
-		if (!module.router) return;
-		app.use('/modules/' + module.name, module.router());
+		if (module.router) {
+			app.use('/modules/' + module.name, module.router());
+		}
 	});
 
-	// add module js to express chain
-	app.use('/modules/all.min.js', function (req, res) {
+	// add pile of client js
+	app.use('/modules/client.min.js', function (req, res) {
 		res.set('Content-Type', 'application/javascript');
-		res.send(modulesJS);
+		res.send(modulesClientJS);
 	});
 
-	// add module css to express chain
-	app.use('/modules/all.min.css', function (req, res) {
+	// add pile of client css
+	app.use('/modules/client.min.css', function (req, res) {
 		res.set('Content-Type', 'text/css');
-		res.send(modulesCSS);
+		res.send(modulesClientCSS);
 	});
 
 };
