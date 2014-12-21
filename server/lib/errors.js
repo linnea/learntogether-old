@@ -1,5 +1,7 @@
 'use strict';
 
+var chalk = require('chalk');
+
 var config = require('../config/env');
 
 
@@ -14,12 +16,12 @@ module.exports = function() {
 		var stack = err.stack || '';
 
 		if (status === 500 && stack) {
-			// strange error, print it
-			console.error('--> Error 500');
+			// server error, print it
+			console.error(chalk.bold.bgRed('--> Error 500'));
 			console.error(stack);
 		} else if (config.env === 'development') {
 			// dev mode, print it
-			console.error('--> Error ' + status + ': ' + message);
+			console.error(chalk.bold.bgRed('--> Error ' + status + ':'), message);
 		}
 
 		// send error status & json
@@ -28,7 +30,7 @@ module.exports = function() {
 		// - https://dev.twitter.com/overview/api/response-codes
 		res
 			.status(status)
-			.json({error:{message:message}});
+			.json({ error: { message: message }});
 
 		// don't call next
 		// stop express chain
