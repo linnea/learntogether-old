@@ -20,3 +20,64 @@ h1{
 	padding: 4px 8px;
 	background: #DFF0D8;
 }
+
+/* ///////////////
+// Steps Tracker 
+/////////////// */
+
+.step-tracker {
+	position: absolute;
+	z-index: 10;
+	li {
+		width: 2em;
+		height: 2em;
+		text-align: center;
+ 		line-height: 2em;
+ 		border-radius: 1em;
+		margin: 1em 0;
+		display: block;
+		color: white;
+		position: relative;
+		
+		&::before {
+			content: '';
+  			position: absolute;
+  			top: -2em;
+  			left: .9em;
+  			width: .2em;
+  			height: 4em;
+  			background: black;
+  			z-index: -1;
+		}
+
+		&:first-child {
+			&::before {
+				display: none;
+			}
+		}
+	}
+
+	label {
+		width: 10em;
+		margin-left: 4em;
+		color: black;
+		text-align: left;
+		max-width: none;
+	}
+}
+
+.step-tracker-current {
+	background: blue;
+	cursor: pointer;
+}
+
+.step-tracker-complete {
+	background: green;
+	cursor: pointer;
+}
+
+.step-tracker-incomplete {
+	background: red;
+	cursor:default;
+}
+	

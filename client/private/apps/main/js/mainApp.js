@@ -6,7 +6,8 @@
 		'HomePage',
 		'UserProfile',
 		'LmsUserModel',
-		'LmsAuthorizationModule'
+		'LmsAuthorizationModule',
+		'LMSStepsCompleted'
 	]);
 
 })();

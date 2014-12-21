@@ -1,0 +1,5 @@
+<ul class="step-tracker">
+	<li ng-repeat="step in stepObject.stepperItem" ng-class="{'step-tracker-current': isCurrentStep(step), 'step-tracker-complete': isCompletedStep(step) && !isCurrentStep(step), 'step-tracker-incomplete': !isCompletedStep(step) }" ng-click="moveToStep(step)" >
+		<label>{{step.stepDetails.stepNo}}. {{step.stepDetails.stepName}}<label>
+	</li>
+</ul>
