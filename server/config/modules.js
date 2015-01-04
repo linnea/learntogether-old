@@ -97,6 +97,13 @@ module.exports = function (app) {
 	// so we could add/remove modules dynamically
 	// without needing a server restart to reconfig express
 	//
+	//
+	// BUT
+	// this would also require
+	// rethinking clientJS & clientCSS
+	// -> now: static insertion before runtime
+	// -> need: dynamic insertion during runtime
+	//
 
 
 	// add any middleware
