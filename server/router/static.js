@@ -36,20 +36,6 @@ module.exports = function () {
 	 * Private
 	 */
 
-	// libs
-	router.use(
-		'/private/vendor',
-		auth.webRequiresLogin,
-		express.static(
-			path.resolve(
-				__dirname,
-				'..',
-				'..',
-				config.paths.statics.privates.vendor
-			)
-		)
-	);
-
 	// assets
 	router.use(
 		'/private/assets',

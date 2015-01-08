@@ -26,7 +26,6 @@ module.exports = _.assign(
 					// private static folders are siloed
 					// so we can grant access to one
 					// without granting access to all
-					vendor: 'client/private/vendor',
 					assets: 'client/private/assets',
 					common: 'client/private/apps/common',
 					main: 'client/private/apps/main',

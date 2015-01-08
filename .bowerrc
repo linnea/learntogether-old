@@ -1,6 +1,4 @@
 {
-
-  "directory": "client/private/vendor"
-
+  "directory": "client/public/vendor"
 }
 

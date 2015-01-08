@@ -64,7 +64,7 @@ node_modules
 *.msm
 *.msp
 
- 
+
 #################################################
 ## OSX
 ## https://github.com/github/gitignore/blob/master/Global/OSX.gitignore
@@ -208,4 +208,4 @@ crashlytics-build.properties
 #################################################
 ## Bower
 
-client/private/vendor
+client/public/vendor
