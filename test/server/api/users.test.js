@@ -11,7 +11,7 @@
 var should = require('should');
 var supertest = require('supertest');
 
-var server = require('../../server/server.js');
+var server = require('../../../server/server.js');
 
 
 describe('API - Users', function () {
@@ -28,7 +28,9 @@ describe('API - Users', function () {
 				agent = supertest.agent(app);
 				done();
 			})
-			.catch(done);
+			.catch(function (err) {
+				done(err);
+			});
 	});
 
 	/**

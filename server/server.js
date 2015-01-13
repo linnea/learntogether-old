@@ -30,7 +30,7 @@ module.exports = new Promise(function (resolve, reject) {
 
 			console.error('Unable to connect to database:', err);
 
-			// reject promise & pass error
+			// reject promise with error
 			reject(err);
 
 		} else {
@@ -49,7 +49,7 @@ module.exports = new Promise(function (resolve, reject) {
 			// startup success!
 			console.log(chalk.bold.blue('Server listening on port ' + config.port));
 
-			// resolve promise & pass app
+			// resolve promise with app
 			resolve(app);
 
 		}
