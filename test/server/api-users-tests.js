@@ -11,19 +11,36 @@
 var should = require('should');
 var supertest = require('supertest');
 
-var app = require('../../server/server.js');
-
-var agent = supertest.agent(app);
+var server = require('../../server/server.js');
 
 
 describe('API - Users', function () {
+
+	/**
+	 * Server test
+	 */
+
+	var agent = null;
+
+	it('should have running server', function (done) {
+		server
+			.then(function (app) {
+				agent = supertest.agent(app);
+				done();
+			})
+			.catch(done);
+	});
+
+	/**
+	 * Authentication tests
+	 */
 
 	var admin = null;
 	var adminCredentials = {
 		email: 'root',
 		password: 'root'
 	};
-	
+
 	it('should respond with 401 to unauthed calls', function (done) {
 		agent
 			.get('/api/users')
@@ -53,9 +70,9 @@ describe('API - Users', function () {
 	});
 
 	/**
-	 * Authenticated tests
+	 * Main tests
 	 */
-	
+
 	var newUser = null;
 	var newUserData = {
 		firstName: 'Test',
@@ -66,7 +83,7 @@ describe('API - Users', function () {
 		isAdmin: false,
 		role: 200,
 	};
-	
+
 	it('should return all users', function (done) {
 		agent
 			.get('/api/users/')
