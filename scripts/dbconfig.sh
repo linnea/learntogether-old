@@ -6,4 +6,4 @@
 ##		     schema: core
 ##		     tables: users
 ## Inserts root into table, with login credentials 
-psql < ./scripts/db.sql 
+psql -f ./scripts/db.sql 
