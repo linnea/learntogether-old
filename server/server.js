@@ -1,6 +1,7 @@
 'use strict';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+// http://www.hacksparrow.com/running-express-js-in-production-mode.html
 
 console.log('-------------------------------------');
 console.log(' Starting up server...');
@@ -66,13 +67,6 @@ module.exports = new Promise(function (resolve, reject) {
 
 
 
-
-
-
-
-
-
-
 /**
  * TODO
  * - http->https
@@ -80,4 +74,3 @@ module.exports = new Promise(function (resolve, reject) {
  * - logging (http://blog.nodejs.org/2012/03/28/service-logging-in-json-with-bunyan/)
  * - forever (https://www.npmjs.com/package/forever)
  */
-

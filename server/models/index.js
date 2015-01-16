@@ -3,6 +3,7 @@
 var _ = require('lodash-node');
 
 var sequelize = require('../lib/sequelize')();
+// http://sequelize.readthedocs.org/en/latest/
 
 
 /**
