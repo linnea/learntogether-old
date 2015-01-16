@@ -19,7 +19,7 @@ var sequelize = require('./lib/sequelize')();
 
 /**
  * Check db connection and start server
- * (exposes promise for testing)
+ * (and expose promise for testing)
  */
 module.exports = new Promise(function (resolve, reject) {
 	sequelize.authenticate().complete(function(err) {
