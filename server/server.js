@@ -30,6 +30,7 @@ module.exports = new Promise(function (resolve, reject) {
 			 */
 
 			console.error('Unable to connect to database:', err);
+			console.log(chalk.bold.red('Server startup failed'));
 
 			// reject promise with error
 			reject(err);
