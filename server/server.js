@@ -18,7 +18,6 @@ var sequelize = require('./lib/sequelize')();
 
 
 console.log(config);
-console.log(process.env);
 
 
 /**
