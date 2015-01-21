@@ -8,8 +8,8 @@ var _ = require('lodash-node');
 
 var env = process.env.NODE_ENV;
 
-module.exports = _.extend(
-	
+module.exports = _.assign(
+
 	// settings for any environment
 	{
 		env: env,
@@ -26,7 +26,6 @@ module.exports = _.extend(
 					// private static folders are siloed
 					// so we can grant access to one
 					// without granting access to all
-					vendor: 'client/private/vendor',
 					assets: 'client/private/assets',
 					common: 'client/private/apps/common',
 					main: 'client/private/apps/main',
@@ -51,10 +50,10 @@ module.exports = _.extend(
 		port: process.env.PORT || 3000,
 		secure: process.env.SECURE || false
 	},
-	
+
 	// settings for our current environment
 	require('./' + env) || {},
-	
+
 	// secret settings sshhhhhhhh
 	require('./secrets') || {}
 

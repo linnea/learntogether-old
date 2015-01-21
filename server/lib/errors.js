@@ -1,5 +1,7 @@
 'use strict';
 
+var chalk = require('chalk');
+
 var config = require('../config/env');
 
 
@@ -14,21 +16,21 @@ module.exports = function() {
 		var stack = err.stack || '';
 
 		if (status === 500 && stack) {
-			// strange error, print it
-			console.error('--> Error 500');
+			// server error, print it
+			console.error(chalk.bold.red('Error 500'));
 			console.error(stack);
 		} else if (config.env === 'development') {
 			// dev mode, print it
-			console.error('--> Error ' + status + ': ' + message);
+			console.error(chalk.bold.red('Error ' + status), message);
 		}
 
 		// send error status & json
 		// error object modeled after:
-		// 	- https://developers.facebook.com/docs/graph-api/using-graph-api/v2.2#errors
-		// 	- https://dev.twitter.com/overview/api/response-codes
+		// - https://developers.facebook.com/docs/graph-api/using-graph-api/v2.2#errors
+		// - https://dev.twitter.com/overview/api/response-codes
 		res
 			.status(status)
-			.json({error:{message:message}});
+			.json({ error: { message: message }});
 
 		// don't call next
 		// stop express chain

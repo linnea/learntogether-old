@@ -2,7 +2,7 @@
 
 /**
  * Private request router
- * 
+ *
  * NOTE: 	all authentication checks happen here in index.js
  * 			all child files can assume authentication
  * 			but each are responsible for authorization
@@ -13,7 +13,7 @@ var path = require('path');
 var express = require('express');
 
 var config = require('../../config/env');
-var auth = require('../../controllers/auth');
+var auth = require('../../lib/auth');
 var apiRouter = require('./api');
 var authRouter = require('./auth');
 
@@ -23,17 +23,17 @@ module.exports = function () {
 	// domain.com/api/...
 	router.use('/api', auth.apiRequiresLogin, apiRouter());
 
-	// domain.com/auth/... 
+	// domain.com/auth/...
 	router.use('/auth', auth.webRequiresLogin, authRouter());
-	
+
 	/**
 	 * Angular
 	 */
-	
+
 	// admin app
 	router.use(
-		'/admin', 
-		auth.webRequiresLogin, 
+		'/admin',
+		auth.webRequiresLogin,
 		auth.webRequiresAdmin,
 		function (req, res) {
 			res.sendFile(
@@ -50,8 +50,8 @@ module.exports = function () {
 
 	// author app
 	router.use(
-		'/author', 
-		auth.webRequiresLogin, 
+		'/author',
+		auth.webRequiresLogin,
 		// todo auth.webRequiresAuthor,
 		function (req, res) {
 			res.sendFile(
@@ -67,11 +67,11 @@ module.exports = function () {
 	);
 
 	// main app
-	// CATCH-ALL 
+	// CATCH-ALL
 	// (any unhandled requests end here)
 	router.use(
-		'*', 
-		auth.webRequiresLogin, 
+		'*',
+		auth.webRequiresLogin,
 		function (req, res) {
 			res.sendFile(
 				path.resolve(

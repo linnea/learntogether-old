@@ -1,9 +1,13 @@
-var app = angular.module('AppConstants', []);
+(function () {
 
-app.constant('UserRoles', {
-	"userRoles": {
-		"admin": 300,
-		"leader": 200,
-		"user": 100
-	}
-});
+	var app = angular.module('AppConstants', []);
+
+	app.constant('UserRoles', {
+		"userRoles": {
+			"admin": 300,
+			"leader": 200,
+			"user": 100
+		}
+	});
+
+})();

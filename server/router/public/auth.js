@@ -7,6 +7,8 @@
 var express = require('express');
 var passport = require('passport');
 
+var auth = require('../../controllers/auth');
+
 module.exports = function () {
 	var router = express.Router();
 
@@ -18,13 +20,13 @@ module.exports = function () {
 	// show the login form
 	router.get('/login', function (req, res) {
 		// render the page and pass in any flash data if it exists
-		res.render('login.ejs', { 
-			message: req.flash('loginMessage') 
+		res.render('login.ejs', {
+			message: req.flash('loginMessage')
 		});
 	});
 
 	// process the login form
-	router.post('/login', passport.authenticate('local-login', {
+	router.post('/login', passport.authenticate('local-web', {
 		successRedirect: '/', // pass to angular
 		failureRedirect: '/auth/login',
 		failureFlash: true
@@ -32,32 +34,25 @@ module.exports = function () {
 
 
 	/**
-	 * Signup
+	 * Register
 	 */
 
-	// show the signup form
-	router.get('/signup', function (req, res) {
+	// show the registration form
+	router.get('/register', function (req, res) {
 		// render the page and pass in any flash data if it exists
-		res.render('signup.ejs', { 
-			message: req.flash('signupMessage') 
+		res.render('register.ejs', {
+			message: req.flash('registerMessage')
 		});
 	});
 
-	// process the signup form
-	router.post('/signup', passport.authenticate('local-signup', {
-		// redirect to the secure profile section
-		successRedirect: '/auth/profile',
-		// redirect back to the signup page if there's an error
-		failureRedirect: '/auth/signup',
-		// allow flash messages
-		failureFlash: true
-	}));
+	// process the registration form
+	router.post('/register', auth.registerWeb);
 
 
 	/**
-	 * Signout
+	 * Logout
 	 */
-	
+
 	router.get('/logout', function (req, res) {
 		req.logout();
 		res.redirect('/');

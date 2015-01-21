@@ -1,20 +1,32 @@
-//this is currently the only app route. But in the future there will be many app routes
-// This file will be renamed to ITSMODULENAME_route.js
-angular.module('mainRoutes', [])
+(function () {
 
-	.config([
-		'$routeProvider',
-		'$locationProvider',
-		function ($routeProvider, $locationProvider) {
-			$routeProvider
+	//this is currently the only app route. But in the future there will be many app routes
+	// This file will be renamed to ITSMODULENAME_route.js
+	angular.module('mainRoutes', [])
 
-				// user profile page
-				.when('/user-profile', {
-					templateUrl: '/static/private/apps/main/views/UserProfile.html',
-					controller: 'UserProfileController'
-				});
+		.config([
+			'$routeProvider',
+			'$locationProvider',
+			function ($routeProvider, $locationProvider) {
+				$routeProvider
 
-			$locationProvider.html5Mode(true);
+					// homepage
+					.when('/', {
+						templateUrl: '/static/private/apps/main/views/HomePage.html',
+						controller: 'HomePageController'
+					})
 
-		}
-	]);
+					// user profile page
+					.when('/user-profile', {
+						templateUrl: '/static/private/apps/main/views/UserProfile.html',
+						controller: 'UserProfileController'
+					})
+
+					.otherwise('/');
+
+				$locationProvider.html5Mode(true);
+
+			}
+		]);
+
+})();

@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('lodash-node');
 var passport = require('passport');
 
 var config = require('../config/env');
@@ -34,7 +33,7 @@ exports.current = function (req, res, next) {
 exports.login = function (req, res, next) {
 	// authenticate user with passport
 	passport.authenticate(
-		'local-login-api',
+		'local-api',
 		function (err, user, info) {
 			if (err) {
 				// general error
@@ -109,109 +108,46 @@ exports.register = function (req, res, next) {
 		});
 };
 
-
-/**
- * Middleware
- */
-
-// -> api request route
-// require user login
-exports.apiRequiresLogin = function(req, res, next) {
-	
-	// if request isn't authenticated
-	if (!req.isAuthenticated()) {
-		// send error 401
-		return next(errors.unauthorized());
-	}
-
-	// if user isn't approved
-	if (!req.user.isApproved) {
-		// send error 403
-		return next(errors.forbidden('User has not been approved'));
-	}
-
-	next();
-};
-
-// -> web request route
-// require user login
-exports.webRequiresLogin = function(req, res, next) {
-
-	// if request isn't authenticated
-	if (!req.isAuthenticated()) {
-		// redirect to public welcome
-		return res.redirect('/welcome');
-	}
-
-	// if user isn't approved
-	if (!req.user.isApproved) {
-		// redirect to public welcome
-		return res.redirect('/welcome');
-	}
-
-	next();
-};
-
-
-// -> api request route
-// require user admin status 
-exports.apiRequiresAdmin = function(req, res, next) {
-	
-	// if request user isn't admin
-	if (!req.user.isAdmin) {
-		// send error 403
-		return next(errors.forbidden());
-	}
-
-	next();
-};
-
-// -> web request route
-// require admin status 
-exports.webRequiresAdmin = function(req, res, next) {
-
-	// if request user isn't admin
-	if (!req.user.isAdmin) {
-		// redirect to root
-		return res.redirect('/');
-	}
-
-	next();
-};
-
-
-// -> api request route
-// require user admin status 
-exports.apiRequiresRole = function (role) {
-	return function(req, res, next) {
-		
-		// if request user isn't super admin
-		if (!req.user.isAdmin) {
-			// if request user role isn't high enough
-			if (req.user.role < role) {
-				// send error 403
-				return next(errors.forbidden());
+// (web) register new user
+// POST domain.com/api/auth/register
+exports.registerWeb = function (req, res, next) {
+	User.find({where: {email: req.body.email}})
+		.success(function (user) {
+			if (user) {
+				// add message & redirect to registration
+				req.flash('registerMessage', 'That email is already taken.');
+				res.redirect('/auth/register');
+				return;
+			} else {
+				var user = User.build();
+				user.firstName = req.body.firstName;
+				user.lastName = req.body.lastName;
+				user.email = req.body.email;
+				user.password = user.generateHash(req.body.password);
+				// DANGER public registration
+				// default user to lowest-level
+				user.isAdmin = false;
+				user.isApproved = false;
+				user.role = config.roles.default;
+				user.save()
+					.success(function () {
+						// add message & redirect to registration
+						req.flash('registerMessage', 'Sign up succesful, but now your account must be approved by an administrator');
+						res.redirect('/auth/register');
+						return;
+					})
+					.error(function (error) {
+						// add message & redirect to registration
+						req.flash('registerMessage', 'A system error has occurred');
+						res.redirect('/auth/register');
+						return;
+					});
 			}
-		}
-
-		next();
-	};
-};
-
-// -> web request route
-// require user admin status 
-exports.webRequiresRole = function (role) {
-	return function(req, res, next) {
-		
-		// if request user isn't super admin
-		if (!req.user.isAdmin) {
-			// if reuwst user role isn't high enough
-			if (req.user.role < role) {
-				// redirect to root
-				return res.redirect('/');
-			}
-		}
-
-		next();
-	};
+		})
+		.error(function (error) {
+			// add message & redirect to registration
+			req.flash('registerMessage', 'A system error has occurred');
+			res.redirect('/auth/register');
+			return;
+		});
 };

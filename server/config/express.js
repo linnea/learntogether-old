@@ -30,7 +30,7 @@ module.exports = function () {
 	// in dev mode?
 	if (process.env.NODE_ENV === 'development') {
 		// log requests
-		app.use(morgan('dev')); 
+		app.use(morgan('dev'));
 	}
 
 	// serve favicon
@@ -56,7 +56,7 @@ module.exports = function () {
 	// passport session
 	app.use(passport.initialize());
 	app.use(passport.session());
-	
+
 	// use connect flash for flash messages
 	app.use(flash());
 
@@ -75,7 +75,7 @@ module.exports = function () {
 		}
 		next();
 	});
-	
+
 	// add routes
 	app.use('/', router());
 

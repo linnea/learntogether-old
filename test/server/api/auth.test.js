@@ -11,12 +11,31 @@
 var should = require('should');
 var supertest = require('supertest');
 
-var app = require('../../server/server.js');
-
-var agent = supertest.agent(app);
+var server = require('../../../server/server.js');
 
 
 describe('API - Auth', function () {
+
+	/**
+	 * Server test
+	 */
+
+	var agent = null;
+
+	it('should have running server', function (done) {
+		server
+			.then(function (app) {
+				agent = supertest.agent(app);
+				done();
+			})
+			.catch(function (err) {
+				done(err);
+			});
+	});
+
+	/**
+	 * Main tests
+	 */
 
 	var admin = null;
 	var adminCredentials = {
@@ -35,7 +54,7 @@ describe('API - Auth', function () {
 		isAdmin: true,
 		role: 300
 	};
-	
+
 	it('should have empty current session', function (done) {
 		agent
 			.get('/api/auth/current')
@@ -64,12 +83,12 @@ describe('API - Auth', function () {
 				resUser.firstName.should.equal(newUserData.firstName);
 				resUser.lastName.should.equal(newUserData.lastName);
 				resUser.email.should.equal(newUserData.email);
-				
+
 				// these should not have worked
 				resUser.isApproved.should.equal(false);
 				resUser.isAdmin.should.equal(false);
 				resUser.role.should.equal(100);
-				
+
 				resUser.should.not.have.property('password');
 				// save user for later
 				newUser = resUser;

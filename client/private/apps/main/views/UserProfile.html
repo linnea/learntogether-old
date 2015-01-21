@@ -1,19 +1,34 @@
 <div class="jumbotron">
-<h1>Inside the UserProfile page</h1>
-<p><button ng-click="getUserId()" class="btn btn-primary btn-lg">Fetch User</button>  {{manager.userId}}</p>
-<p></p>
+	<div class="container">
 
-<div class="container-fluid row">
-	<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.admin" ng-transclude>
-		This text will be displayed if user has admin access
-	</div>
-	<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.leader" ng-transclude>
-		This text will be displayed if user has leader access or above
-	</div>
-	<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.user" ng-transclude>
-		This text will be displayed if user has user access or above
-	</div>
-</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<h1>
+					<i class="fa fa-user"></i>
+					User profile
+				</h1>
+				<p>
+					<button ng-click="getUserId()" class="btn btn-primary btn-lg">
+						Fetch user
+					</button>
+					{{manager.userId}}
+				</p>
+			</div>
+		</div>
 
+		<div class="row">
+			<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.admin" ng-transclude>
+				This text will be displayed if user has admin access
+			</div>
+			<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.leader" ng-transclude>
+				This text will be displayed if user has leader access or above
+			</div>
+			<div class="col-md-4 col-sm-12 hidden" lms-show-for-role lms-visible-to-role="userRoles.user" ng-transclude>
+				This text will be displayed if user has user access or above
+			</div>
+		</div>
 
+		<div class="row" lms-steps-tracker step-object="trialStepObject"></div>
+
+	</div>
 </div>

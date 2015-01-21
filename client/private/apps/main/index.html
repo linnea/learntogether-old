@@ -2,34 +2,43 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-    <base href="/">
+	<base href="/">
 	<title>Learn Together</title>
 	<!-- CSS -->
-    <link rel="stylesheet" href="/static/private/vendor/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/private/assets/css/learn_together.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/public/vendor/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/public/vendor/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="/static/private/assets/css/learn_together.min.css">
 
-    <!-- JS -->
-    <!--
-    <script src="/static/private/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-    -->
+	<!-- learning module client styles -->
+	<link rel="stylesheet" type="text/css" href="/modules/client.min.css">
 
-    <script src="/static/private/vendor/angular/angular.min.js"></script>
-    <script src="/static/private/vendor/angular-route/angular-route.min.js"></script>
-    <script src="/static/private/vendor/underscore/underscore-min.js"></script>
+	<!-- JS -->
+	<!--
+	<script src="/static/public/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+	-->
 
-    <!-- ANGULAR CUSTOM -->
-    <script src="/static/private/apps/main/learn_together_main.js"></script>
-    <!--
-    <script src="/static/private/apps/common/directives/LmsAuthorization/LmsAuthorization.js"></script>
-    <script src="/static/private/apps/common/LmsUserModel/UserModelManager.js"></script>
-    <script src="/static/private/apps/common/LmsUserModel/UserModelService.js"></script> 
-    -->
+	<script src="/static/public/vendor/angular/angular.min.js"></script>
+	<script src="/static/public/vendor/angular-route/angular-route.min.js"></script>
+	<script src="/static/public/vendor/underscore/underscore-min.js"></script>
+
+	<!-- ANGULAR CUSTOM -->
+	<script src="/static/private/apps/main/learn_together_main.js"></script>
+
+	<!-- learning module client scripts -->
+	<script src="/modules/client.min.js"></script>
+
+	<!--
+	<script src="/static/private/apps/common/directives/LmsAuthorization/LmsAuthorization.js"></script>
+	<script src="/static/private/apps/common/LmsUserModel/UserModelManager.js"></script>
+	<script src="/static/private/apps/common/LmsUserModel/UserModelService.js"></script>
+	-->
 
 </head>
 <body>
-<div id="main" ng-app="LearnTogetherMainApp">
-<h1><a href="/user-profile" >Move to User Profile</a></h1>
-<div ng-view></div>
-</div>
+	<div id="main" ng-app="LearnTogetherMainApp">
+		<div ng-view>
+			<!-- angular routes load here -->
+		</div>
+	</div>
 </body>
 </html>

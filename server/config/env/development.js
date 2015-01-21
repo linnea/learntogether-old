@@ -2,9 +2,9 @@
 
 module.exports = {
 	db: {
-		database : "learntogether",
-		username : "root",
-		password : "root",
+		database: "learntogether",
+		username: "root",
+		password: "root",
 		host: "127.0.0.1",
 		dialect: "postgres",
 		protocol: "postgres",

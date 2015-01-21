@@ -14,14 +14,14 @@ module.exports = function () {
 	/**
 	 * Profile
 	 */
-	
+
 	router.get('/profile', function (req, res) {
 		// grab user from session
 		var user = req.user;
 		// overwrite sensitive info
 		user.password = undefined;
 		// render the profile page
-		res.render('profile.ejs', { 
+		res.render('profile.ejs', {
 			user: user
 		});
 	});
