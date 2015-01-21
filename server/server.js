@@ -17,9 +17,6 @@ var configExpress = require('./config/express');
 var sequelize = require('./lib/sequelize')();
 
 
-console.log(config);
-
-
 /**
  * Check db connection and start server
  * (and expose promise for testing)
