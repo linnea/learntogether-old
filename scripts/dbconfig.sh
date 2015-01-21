@@ -7,5 +7,5 @@
 ##		     tables: users
 ## Inserts root into table, with login credentials 
 psql -f ./scripts/createDatabase.sql 
-psql -f ./scripts/createTables.sql 
+psql -d learntogether -f ./scripts/createTables.sql 
 
