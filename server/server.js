@@ -110,11 +110,12 @@ module.exports = new Promise(function (resolve, reject) {
 							// upgrade sequelize to 2.0
 							// https://github.com/sequelize/sequelize/issues/2282
 							// https://github.com/sequelize/sequelize/wiki/Upgrading-to-2.0
-							//
+
 							// console.log(chalk.bold.yellow('Closing database connection...'));
 							// sequelize.close(function () {
 							// 	chalk.bold.red('Database connection closed')
 							// });
+
 						});
 					};
 				};
