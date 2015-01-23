@@ -4,7 +4,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 // http://www.hacksparrow.com/running-express-js-in-production-mode.html
 
 console.log('-------------------------------------');
-console.log(' Starting up server...');
+console.log(' Starting up servers...');
 console.log('-------------------------------------');
 
 
@@ -32,7 +32,7 @@ module.exports = new Promise(function (resolve, reject) {
 			 * Error
 			 */
 
-			console.error('Unable to connect to database:', err);
+			console.error(chalk.bold.yellow('Unable to connect to database:', err));
 			console.error(chalk.bold.red('Server startup failed'));
 
 			// reject promise with error
@@ -44,7 +44,7 @@ module.exports = new Promise(function (resolve, reject) {
 			 * Success
 			 */
 
-			console.log('Database connection successful');
+			console.log(chalk.bold.green('Database connection successful'));
 
 			// configure passport & express
 			configPassport();
@@ -72,7 +72,7 @@ module.exports = new Promise(function (resolve, reject) {
 			// start listening for HTTPS
 			httpsServer.listen(config.https_port, function () {
 				console.log(
-					chalk.bold.blue(
+					chalk.bold.cyan(
 						'HTTPS app server listening on port ' +
 						httpsServer.address().port
 					)
@@ -82,12 +82,46 @@ module.exports = new Promise(function (resolve, reject) {
 			// start listening for HTTP
 			httpServer.listen(config.http_port, function () {
 				console.log(
-					chalk.bold.cyan(
+					chalk.bold.blue(
 						'HTTP redirect server listening on port ' +
 						httpServer.address().port
 					)
 				);
 			});
+
+			// graceful shutdown
+			// when the process is killed, this will close the server, refusing all new requests
+			// but continuing to process existing ones, calling the callback when finished
+			(function () {
+				var isShutDown = false;
+				function makeShutdown(signal) {
+					return function () {
+						if (isShutDown) return;
+						else isShutDown = true;
+						console.log();
+						console.log(chalk.bold.yellow(signal + ' signal, shutting down servers...'));
+						httpServer.close(function() {
+							console.log(chalk.bold.red('HTTP redirect server shut down'));
+						});
+						httpsServer.close(function() {
+							console.log(chalk.bold.red('HTTPS app server shut down'));
+
+							// NOTE TODO
+							// upgrade sequelize to 2.0
+							// https://github.com/sequelize/sequelize/issues/2282
+							// https://github.com/sequelize/sequelize/wiki/Upgrading-to-2.0
+
+							// console.log(chalk.bold.yellow('Closing database connection...'));
+							// sequelize.close(function () {
+							// 	chalk.bold.red('Database connection closed')
+							// });
+
+						});
+					};
+				};
+				process.on('SIGTERM', makeShutdown('SIGTERM'));
+				process.on('SIGINT', makeShutdown('SIGINT'));
+			})();
 
 			// resolve promise with express app
 			resolve(app);
