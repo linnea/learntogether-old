@@ -1,3 +1,22 @@
+/* 
+	List of Database Tables 
+		- Users
+		- Job
+		- learningNode
+		- learningMethod
+		- learningItem
+		- itemLevel
+*/
+
+/*
+TODO:
+	Add Learner to Schema (All Learners will be Users but not all Users are Learners)
+	Add UserID to Learner and Leader tables
+	Cache//Indexing database
+	eval-learner is just an "attempt" at a specific challenge/problem -- each entry in here is a different attempt
+	Add isDeleted/isActive flags for all tables for lazy delete
+*/
+
 CREATE SCHEMA IF NOT EXISTS "core";
 
 -- Users Table 
@@ -68,9 +87,6 @@ ALTER TABLE "learningMethod" ALTER COLUMN "title" SET DEFAULT "Title";
 ALTER TABLE "learningMethod" ALTER COLUMN "shapeFile" SET DEFAULT "Shape";
 
 
-
-
-
 -- learningItem Table 
 CREATE TABLE IF NOT EXISTS "learningItem" (
 	"id"   SERIAL, 
@@ -99,9 +115,6 @@ ALTER TABLE "itemLevel" ALTER COLUMN "title" SET DEFAULT "Title";
 ALTER TABLE "itemLevel" ALTER COLUMN "contentItemID" SET DEFAULT 1;
 ALTER TABLE "itemLevel" ALTER COLUMN "levelNum" SET DEFAULT 0;
 ALTER TABLE "itemLevel" ALTER COLUMN "learningMethodID" SET DEFAULT 1;
-
-
-
 
 -- Inserts a superadmin, root, into the databse for access in the system. 
 INSERT INTO "Users" ("firstName", "lastName", email, password, "isAdmin", "createdAt", "updatedAt", "isApproved", role) 
