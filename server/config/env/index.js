@@ -46,9 +46,7 @@ module.exports = _.assign(
 			leader: 200,
 			admin: 300,
 			default: 100
-		},
-		port: process.env.PORT || 3000,
-		secure: process.env.SECURE || false
+		}
 	},
 
 	// settings for our current environment

@@ -1,6 +1,13 @@
 'use strict';
 
+var fs = require('fs');
+
 module.exports = {
+	domain: "localhost",
+	http_port: process.env.HTTP_PORT || 3000,
+	https_port: process.env.HTTPS_PORT || 4000,
+	private_key: fs.readFileSync(__dirname + '/ssl/local-key.pem', 'utf-8'),
+	public_cert: fs.readFileSync(__dirname + '/ssl/local-cert.pem', 'utf-8'),
 	db: {
 		database: "learntogether",
 		username: "root",
