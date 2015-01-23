@@ -1,0 +1,19 @@
+<testsuite name="Mocha Tests" tests="17" failures="0" errors="0" skipped="0" timestamp="Fri, 23 Jan 2015 11:50:13 GMT" time="0.612">
+<testcase classname="API - Auth" name="should have running server" time="0.061"/>
+<testcase classname="API - Auth" name="should have empty current session" time="0.018"/>
+<testcase classname="API - Auth" name="should register new user" time="0.155"/>
+<testcase classname="API - Auth" name="should not authenticate new user" time="0.065"/>
+<testcase classname="API - Auth" name="should have empty current session" time="0.003"/>
+<testcase classname="API - Auth" name="should authenticate agent as admin" time="0.061"/>
+<testcase classname="API - Auth" name="should have admin in current session" time="0.008"/>
+<testcase classname="API - Auth" name="should delete new user" time="0.014"/>
+<testcase classname="API - Users" name="should have running server" time="0.001"/>
+<testcase classname="API - Users" name="should respond with 401 to unauthed calls" time="0.008"/>
+<testcase classname="API - Users" name="should authenticate agent as admin" time="0.075"/>
+<testcase classname="API - Users" name="should return all users" time="0.009"/>
+<testcase classname="API - Users" name="should create new user" time="0.066"/>
+<testcase classname="API - Users" name="should read new user" time="0.007"/>
+<testcase classname="API - Users" name="should update new user" time="0.011"/>
+<testcase classname="API - Users" name="should delete new user" time="0.01"/>
+<testcase classname="API - Users" name="should not read new user" time="0.007"/>
+</testsuite>
