@@ -1,4 +1,11 @@
 #!/bin/bash
 
-## ADD ROOT USER, CREATE SYNTHERGIZEDB DATABASE, GRANT ALL PRIVILEGES
-psql < ./scripts/db.sql 
+## ADD ROOT USER, CREATE learntogeter DATABASE, GRANT ALL PRIVILEGES
+## Calls ./scripts/db.sql 
+## Creates database: learntogether
+##		     schema: core
+##		     tables: users
+## Inserts root into table, with login credentials 
+psql -f ./scripts/createDatabase.sql 
+psql -d learntogether -f ./scripts/createTables.sql 
+
