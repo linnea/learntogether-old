@@ -17,12 +17,12 @@ var User = models.User;
 function handleDbError(error, next) {
 	// validation fail?
 	var cols = [
-		'firstName', 
-		'lastName', 
-		'email', 
-		'password', 
-		'isApproved', 
-		'isAdmin', 
+		'firstName',
+		'lastName',
+		'email',
+		'password',
+		'isApproved',
+		'isAdmin',
 		'role'
 	];
 	if (error && _.any(cols, function (col) { return !!error[col]; })) {
@@ -50,34 +50,6 @@ function handleDbError(error, next) {
  * Endpoints
  */
 
-// public user profile
-// GET domain.com/api/users/profile/:id
-exports.getProfile = function (req, res, next) {
-	// find user by id
-	User.find(req.params.id)
-		.success(function (user) {
-			if (user) {
-				// send json
-				return res.jsond({
-					profile: {
-						// only public data
-						firstName: user.firstName,
-						lastName: user.lastName
-					}
-				});
-			} else {
-				// send error 404
-				return next(
-					errors.notFound('User not found')
-				);
-			}
-		})
-		.error(function (error) {
-			// database error
-			return handleDbError(error, next);
-		});
-};
-
 // get all users
 // GET domain.com/api/users/
 exports.getAll = function (req, res, next) {
@@ -90,8 +62,8 @@ exports.getAll = function (req, res, next) {
 					user.password = undefined;
 				});
 				// send json
-				return res.jsond({ 
-					users: users 
+				return res.jsond({
+					users: users
 				});
 			} else {
 				// send error 404
@@ -190,8 +162,8 @@ exports.update = function (req, res, next) {
 						// overwrite password
 						user.password = undefined;
 						// send json
-						return res.jsond({ 
-							user: user 
+						return res.jsond({
+							user: user
 						});
 					})
 					.error(function (error) {
@@ -222,8 +194,8 @@ exports.delete = function (req, res, next) {
 						// overwrite password
 						user.password = undefined;
 						// send json
-						return res.jsond({ 
-							user: user 
+						return res.jsond({
+							user: user
 						});
 					})
 					.error(function (error) {
