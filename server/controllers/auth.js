@@ -14,7 +14,7 @@ var User = models.User;
  */
 
 // currently authenticated session user, if any
-// GET domain.com/api/auth/current
+// GET domain.com/api/v1/auth/current
 exports.current = function (req, res, next) {
 	// grab user from session
 	var user = req.user;
@@ -29,7 +29,7 @@ exports.current = function (req, res, next) {
 };
 
 // authenticate session
-// POST domain.com/api/auth/login
+// POST domain.com/api/v1/auth/login
 exports.login = function (req, res, next) {
 	// authenticate user with passport
 	passport.authenticate(
@@ -56,7 +56,7 @@ exports.login = function (req, res, next) {
 };
 
 // un-authenticate session
-// POST domain.com/api/auth/logout
+// POST domain.com/api/v1/auth/logout
 exports.logout = function (req, res, next) {
 	req.logout();
 	return res.jsond({
@@ -65,7 +65,7 @@ exports.logout = function (req, res, next) {
 };
 
 // register new user
-// POST domain.com/api/auth/register
+// POST domain.com/api/v1/auth/register
 exports.register = function (req, res, next) {
 	User.find({where: {email: req.body.email}})
 		.success(function (user) {
@@ -109,7 +109,7 @@ exports.register = function (req, res, next) {
 };
 
 // (web) register new user
-// POST domain.com/api/auth/register
+// POST domain.com/api/v1/auth/register
 exports.registerWeb = function (req, res, next) {
 	User.find({where: {email: req.body.email}})
 		.success(function (user) {
