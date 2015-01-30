@@ -58,6 +58,7 @@ module.exports = new Promise(function (resolve, reject) {
 
 			// create HTTP server for forwarding to HTTPS
 			var httpServer = http.createServer(function (req, res) {
+				console.log(chalk.bold.yellow('Redirecting HTTP request: ' + req.url));
 				var redirectUrl = 'https://' + config.domain;
 				if (config.https_port !== 443) {
 					redirectUrl += ':' + config.https_port;
