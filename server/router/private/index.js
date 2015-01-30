@@ -20,8 +20,8 @@ var authRouter = require('./auth');
 module.exports = function () {
 	var router = express.Router();
 
-	// domain.com/api/...
-	router.use('/api', auth.apiRequiresLogin, apiRouter());
+	// domain.com/api/v1/...
+	router.use('/api/v1', auth.apiRequiresLogin, apiRouter());
 
 	// domain.com/auth/...
 	router.use('/auth', auth.webRequiresLogin, authRouter());

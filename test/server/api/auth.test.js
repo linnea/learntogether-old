@@ -57,7 +57,7 @@ describe('API - Auth', function () {
 
 	it('should have empty current session', function (done) {
 		agent
-			.get('/api/auth/current')
+			.get('/api/v1/auth/current')
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
@@ -70,7 +70,7 @@ describe('API - Auth', function () {
 
 	it('should register new user', function (done) {
 		agent
-			.post('/api/auth/register')
+			.post('/api/v1/auth/register')
 			.send(newUserData)
 			.expect(200)
 			.end(function (err, res) {
@@ -98,7 +98,7 @@ describe('API - Auth', function () {
 
 	it('should not authenticate new user', function (done) {
 		agent
-			.post('/api/auth/login')
+			.post('/api/v1/auth/login')
 			.send(newUserData)
 			.expect(403)
 			.end(function (err, res) {
@@ -110,7 +110,7 @@ describe('API - Auth', function () {
 
 	it('should have empty current session', function (done) {
 		agent
-			.get('/api/auth/current')
+			.get('/api/v1/auth/current')
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
@@ -123,7 +123,7 @@ describe('API - Auth', function () {
 
 	it('should authenticate agent as admin', function (done) {
 		agent
-			.post('/api/auth/login')
+			.post('/api/v1/auth/login')
 			.send(adminCredentials)
 			.expect(200)
 			.end(function (err, res) {
@@ -138,7 +138,7 @@ describe('API - Auth', function () {
 
 	it('should have admin in current session', function (done) {
 		agent
-			.get('/api/auth/current')
+			.get('/api/v1/auth/current')
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
@@ -158,7 +158,7 @@ describe('API - Auth', function () {
 
 	it('should delete new user', function (done) {
 		agent
-			.delete('/api/users/' + newUser.id)
+			.delete('/api/v1/users/' + newUser.id)
 			.send(newUser)
 			.expect(200)
 			.end(function (err, res) {

@@ -51,7 +51,7 @@ function handleDbError(error, next) {
  */
 
 // get all users
-// GET domain.com/api/users/
+// GET domain.com/api/v1/users/
 exports.getAll = function (req, res, next) {
 	// find all users
 	User.findAll()
@@ -79,7 +79,7 @@ exports.getAll = function (req, res, next) {
 };
 
 // CRUD - read user
-// GET domain.com/api/users/:id
+// GET domain.com/api/v1/users/:id
 exports.get = function (req, res, next) {
 	// find user by id
 	User.find(req.params.id)
@@ -103,7 +103,7 @@ exports.get = function (req, res, next) {
 };
 
 // CRUD - create user
-// POST domain.com/api/users/
+// POST domain.com/api/v1/users/
 exports.create = function (req, res, next) {
 	User.find({where: {email: req.body.email}})
 		.success(function (user) {
@@ -142,7 +142,7 @@ exports.create = function (req, res, next) {
 };
 
 // CRUD - update user
-// PUT domain.com/api/users/:id
+// PUT domain.com/api/v1/users/:id
 exports.update = function (req, res, next) {
 	User.find(req.params.id)
 		.success(function (user) {
@@ -184,7 +184,7 @@ exports.update = function (req, res, next) {
 };
 
 // CRUD - delete user
-// DELETE domain.com/api/users/:id
+// DELETE domain.com/api/v1/users/:id
 exports.delete = function (req, res, next) {
 	User.find(req.params.id)
 		.success(function (user) {

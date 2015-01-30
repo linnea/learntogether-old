@@ -6,7 +6,7 @@
 		var deferred = $q.defer(), userProfileService;
 		userProfileService = {
 			getUserId : function () {
-				var promise = $http.get("/api/auth/current");
+				var promise = $http.get("/api/v1/auth/current");
 				promise.then(function (data, status) {
 					deferred.resolve(data);
 				}, function (data) {
