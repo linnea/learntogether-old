@@ -8,4 +8,3 @@
 ## Inserts root into table, with login credentials 
 psql -f ./scripts/createDatabase.sql 
 psql -d learntogether -f ./scripts/createTables.sql 
-
