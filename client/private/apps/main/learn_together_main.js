@@ -159,7 +159,7 @@
 		var deferred = $q.defer(), userModelService;
 		userModelService = {
 			getUserAuthorization : function () {
-				var promise = $http.get('/api/auth/current');
+				var promise = $http.get('/api/v1/auth/current');
 				promise.then(function (data) {
 					deferred.resolve(data);
 				}, function (error) {
@@ -233,10 +233,10 @@
 			"link": function ($scope, $element, $attr, ctrl, $transclude) {
 				$scope.moveToStep = function (step) {
 					if(step.stepDetails.stepComplete) {
-						$scope.stepObject.currentStep = step.stepDetails.stepNo;	
+						$scope.stepObject.currentStep = step.stepDetails.stepNo;
 					}
-					
-				}; 
+
+				};
 				$scope.moveNextStep = function () {
 					$scope.stepObject.currentStep++;
 				};
@@ -253,7 +253,7 @@
 				};
 			}
 		};
-	
+
 
 	}]);
 })();
@@ -488,7 +488,7 @@
 		var deferred = $q.defer(), userProfileService;
 		userProfileService = {
 			getUserId : function () {
-				var promise = $http.get("/api/auth/current");
+				var promise = $http.get("/api/v1/auth/current");
 				promise.then(function (data, status) {
 					deferred.resolve(data);
 				}, function (data) {

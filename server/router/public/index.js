@@ -23,10 +23,10 @@ module.exports = function () {
 		}
 	});
 
-	// domain.com/api/...
-	router.use('/api', apiRouter());
+	// domain.com/api/v1/...
+	router.use('/api/v1', apiRouter());
 
-	// domain.com/auth/... 
+	// domain.com/auth/...
 	router.use('/auth', authRouter());
 
 	return router;

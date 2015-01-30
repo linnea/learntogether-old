@@ -45,7 +45,7 @@ describe('API - Users', function () {
 
 	it('should respond with 401 to unauthed calls', function (done) {
 		agent
-			.get('/api/users')
+			.get('/api/v1/users')
 			.expect(401)
 			.end(function (err, res) {
 				should.not.exist(err);
@@ -58,7 +58,7 @@ describe('API - Users', function () {
 
 	it('should authenticate agent as admin', function (done) {
 		agent
-			.post('/api/auth/login')
+			.post('/api/v1/auth/login')
 			.send(adminCredentials)
 			.expect(200)
 			.end(function (err, res) {
@@ -88,7 +88,7 @@ describe('API - Users', function () {
 
 	it('should return all users', function (done) {
 		agent
-			.get('/api/users/')
+			.get('/api/v1/users/')
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
@@ -102,7 +102,7 @@ describe('API - Users', function () {
 
 	it('should create new user', function (done) {
 		agent
-			.post('/api/users/')
+			.post('/api/v1/users/')
 			.send(newUserData)
 			.expect(200)
 			.end(function (err, res) {
@@ -127,7 +127,7 @@ describe('API - Users', function () {
 
 	it('should read new user', function (done) {
 		agent
-			.get('/api/users/' + newUser.id)
+			.get('/api/v1/users/' + newUser.id)
 			.expect(200)
 			.end(function (err, res) {
 				should.not.exist(err);
@@ -151,7 +151,7 @@ describe('API - Users', function () {
 		newUser.firstName = 'Updated';
 		newUser.lastName = 'Name';
 		agent
-			.put('/api/users/' + newUser.id)
+			.put('/api/v1/users/' + newUser.id)
 			.send(newUser)
 			.expect(200)
 			.end(function (err, res) {
@@ -174,7 +174,7 @@ describe('API - Users', function () {
 
 	it('should delete new user', function (done) {
 		agent
-			.delete('/api/users/' + newUser.id)
+			.delete('/api/v1/users/' + newUser.id)
 			.send(newUser)
 			.expect(200)
 			.end(function (err, res) {
@@ -197,7 +197,7 @@ describe('API - Users', function () {
 
 	it('should not read new user', function (done) {
 		agent
-			.get('/api/users/' + newUser.id)
+			.get('/api/v1/users/' + newUser.id)
 			.expect(404)
 			.end(function (err, res) {
 				should.not.exist(err);

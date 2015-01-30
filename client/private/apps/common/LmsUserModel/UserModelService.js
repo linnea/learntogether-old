@@ -5,7 +5,7 @@
 		var deferred = $q.defer(), userModelService;
 		userModelService = {
 			getUserAuthorization : function () {
-				var promise = $http.get('/api/auth/current');
+				var promise = $http.get('/api/v1/auth/current');
 				promise.then(function (data) {
 					deferred.resolve(data);
 				}, function (error) {
