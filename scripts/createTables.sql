@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS "itemLevel" (
 
 
 -- Inserts a superadmin, root, into the databse for access in the system. 
-INSERT INTO "Users" ("firstName", "lastName", email, password, "isAdmin", "createdAt", "updatedAt", "isApproved", role) 
+INSERT INTO "Users" ("firstName", "lastName", "email", "password", "isAdmin", "createdAt", "updatedAt", "isApproved", "role") 
 VALUES ('root', 'root', 'root', '$2a$08$qOepzilN.F074dhepDHv8unJ2VWqBj9ctMCKUwqwrvad1.Qsd2Pcu', TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE, 300);
 GRANT ALL PRIVILEGES ON TABLE "Users" TO root;
 GRANT ALL PRIVILEGES ON "Users_id_seq" TO root;
