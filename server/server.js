@@ -92,6 +92,7 @@ module.exports = new Promise(function (resolve, reject) {
 				);
 			});
 
+
 			// graceful shutdown
 			// when the process is killed, this will close the server, refusing all new requests
 			// but continuing to process existing ones, calling the callback when finished
@@ -156,6 +157,7 @@ module.exports = new Promise(function (resolve, reject) {
 				process.on('SIGINT', makeHandleShutdown('SIGINT'));
 
 			})();
+
 
 			// resolve promise with express app
 			resolve(app);
