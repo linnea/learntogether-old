@@ -1,11 +1,13 @@
 'use strict';
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 // http://www.hacksparrow.com/running-express-js-in-production-mode.html
+// http://en.wikipedia.org/wiki/Development_environment_(software_development_process)
 
 console.log('-------------------------------------');
 console.log(' Starting up servers...');
 console.log('-------------------------------------');
+console.log('Environment "' + process.env.NODE_ENV + '"');
 
 
 var http = require('http');
@@ -93,35 +95,66 @@ module.exports = new Promise(function (resolve, reject) {
 			// graceful shutdown
 			// when the process is killed, this will close the server, refusing all new requests
 			// but continuing to process existing ones, calling the callback when finished
+			//
+			// new!
+			// force killing current connections also
+			// because server was taking forever to exit
+			// (so, is this even needed anymore? TBD)
+			// http://stackoverflow.com/questions/14626636
 			(function () {
+
 				var isShutDown = false;
-				function makeShutdown(signal) {
-					return function () {
+				var sockets = {};
+
+				function handleConnection(socket) {
+					// add newly connected socket
+					var key = socket.remoteAddress + ':' + socket.remotePort;
+					sockets[key] = socket;
+					console.log(chalk.bold.yellow('( ) socket opened: ' + key));
+					// remove socket when it closes
+					socket.once('close', function () {
+						delete sockets[key];
+						console.log(chalk.bold.yellow('(X) socket closed: ' + key));
+					});
+				}
+
+				function makeHandleShutdown(signal) {
+					return function handleShutdown() {
 						if (isShutDown) return;
 						else isShutDown = true;
 						console.log();
 						console.log(chalk.bold.yellow(signal + ' signal, shutting down servers...'));
+						// close http server
 						httpServer.close(function() {
 							console.log(chalk.bold.red('HTTP redirect server shut down'));
 						});
+						// close https server
 						httpsServer.close(function() {
 							console.log(chalk.bold.red('HTTPS app server shut down'));
-
 							// NOTE TODO
 							// upgrade sequelize to 2.0
 							// https://github.com/sequelize/sequelize/issues/2282
 							// https://github.com/sequelize/sequelize/wiki/Upgrading-to-2.0
-
 							// console.log(chalk.bold.yellow('Closing database connection...'));
 							// sequelize.close(function () {
 							// 	chalk.bold.red('Database connection closed')
 							// });
-
+						});
+						// destroy remaining sockets
+						Object.keys(sockets).forEach(function (key) {
+							sockets[key].destroy();
 						});
 					};
 				};
-				process.on('SIGTERM', makeShutdown('SIGTERM'));
-				process.on('SIGINT', makeShutdown('SIGINT'));
+
+				// listen for server connections
+				httpServer.on('connection', handleConnection);
+				httpsServer.on('connection', handleConnection);
+
+				// listen for shutdown signals
+				process.on('SIGTERM', makeHandleShutdown('SIGTERM'));
+				process.on('SIGINT', makeHandleShutdown('SIGINT'));
+
 			})();
 
 			// resolve promise with express app

@@ -1,3 +1,8 @@
+#
+#	https://gist.github.com/saidinesh5/2727732
+#	https://github.com/subtub/common-makefiles
+#
+
 start:
 	## run as: make start db=<hostname_of_postgres_server>
 	psql -d learntogether -h "$(db)" -f scripts/createTables.sql
