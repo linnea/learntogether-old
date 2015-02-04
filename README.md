@@ -1,41 +1,9 @@
-### Vagrant Branch
-This branch adds a Vagrant-powered Ubuntu virtual box for testing and development of LearnTogether.  
-Advantages:
-* Common OS environment makes for cohesive development
-* Working with Linux gives us a headstart on deployment issues
-* Change OS-level configs without screwing up your laptop
-
-### How It Works:
-Vagrant is wrapper for VirtualBox that allows for efficient config and boot of virtual machines.  By authoring a Vagrantfile (like the one in this repo), you can configure various aspects of a VM such as OS distro, networking, provisioning and virtual hardware (RAM, CPU, etc).  Then, it takes one simple command to boot the entire VM: `vagrant up`.
-
-### Prereqs:
-You will need to download and install both VirtualBox and Vagrant for your host OS to use the features in this branch:
-* VirtualBox: https://www.virtualbox.org/wiki/Downloads
-* Vagrant: https://www.vagrantup.com/downloads.html  
-
-Then, in the command line, run `vagrant up` in the root of the repository.  Vagrant will pull the OS binaries, install dependencies, set up the database, and launch LearnTogether.  It will forward port 3001 through localhost, so `localhost:3001` in the web browser will bring up LearnTogether hosted on your own local Linux VM.  Saved changes will restart the server like usual.
-
-Bingo, you're ready to develop in an environment consistent with the rest of the team.
-
-### Tips:
-* When you're done working, run `vagrant halt` to shut down the vm.  `vagrant up` will bring it back up.
-* If you have a problem, run `vagrant destroy` to wipe the VM out completely.
-* `vagrant status` shows you the status of the VM.
-
-### Issues:
-* Nasty red text on npm install (no performance issues, just looks bad)
-* Password entry on vagrant up for NFS share mounting: should be supressed
-* Reload on save is kind of flakey
-
 LearnTogether
 ===========
+Modular LMS platform designed for the next generation of online learning.  
+***note:*** *for how to contribute to this project, see `CONTRIBUTING.md`*
 
-Modular LMS platform designed for the next generation of online learning.
-  
-### Installation
-
-**Prerequisites**
-
+### Prereqs
 Install Homebrew, Node.js, Bower, Nodemon
 ```
 $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -44,43 +12,16 @@ $ npm install -g bower
 $ npm install -g nodemon
 ```
 
-Install PostgreSQL 
-- Mac  
-  - [Postgres.app](http://postgresapp.com/) (PG server) + [add CLI tools](http://postgresapp.com/documentation/cli-tools.html)
-  - [PG Commander](https://eggerapps.at/pgcommander/) (GUI client)  
-- Other
-  - [Postgres downloads](http://www.postgresql.org/download/) (various OS options)  
-
-**Local**
-
-Clone git repo, setup db, install node/bower packages
-```
-$ git clone https://github.com/alexburner/synthergize.git
-$ cd synthergize
-$ ./scripts/dbconfig.sh
-$ npm install
-$ bower install
-```
-
-Setup PostgreSQL
-- If you have a pre-existing PostgreSQL database named "learntogether" run the tear down script first `./scripts/dbteardown.sh`
-- Then run the build script: `./scripts/dbconfig.sh`
+Install PostgreSQL  
+ [Postgres.app](http://postgresapp.com/) (PG server) + [add CLI tools](http://postgresapp.com/documentation/cli-tools.html)   
+ [PG Commander](https://eggerapps.at/pgcommander/) (GUI client)  
 
 
-
-### Run
-
-From project folder root
-```
-$ npm start
-```
-
-### Test
-
-Node tests
-```
-$ make test
-```
+### Makefile
+Use the Make functions:  
+`make install`: download dependencies, populate database  
+`make start`: start server listening on port 4000  
+`make cleanup`: tear down database, delete dependencies, flush cache
 
 
 TODO
