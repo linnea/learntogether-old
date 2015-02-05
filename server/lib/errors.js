@@ -19,8 +19,8 @@ module.exports = function() {
 			// server error, print it
 			console.error(chalk.bold.red('Error 500'));
 			console.error(stack);
-		} else if (config.env === 'development') {
-			// dev mode, print it
+		} else {
+			// handled error, print it
 			console.error(chalk.bold.red('Error ' + status), message);
 		}
 

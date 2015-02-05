@@ -9,6 +9,9 @@ var Sequelize = require('sequelize');
 
 var config = require('../config/env');
 
+// specify db query consoling
+config.db.logging = console.log;
+
 module.exports = function () {
 	return new Sequelize(
 		config.db.database, // String
