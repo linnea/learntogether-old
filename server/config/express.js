@@ -27,11 +27,8 @@ module.exports = function () {
 	 * Middleware fiesta
 	 */
 
-	// in dev mode?
-	if (process.env.NODE_ENV === 'development') {
-		// log requests
-		app.use(morgan('dev'));
-	}
+	// log requests
+	app.use(morgan('dev'));
 
 	// serve favicon
 	app.use(favicon(path.resolve(__dirname, '..', '..', config.paths.favicon)));

@@ -111,11 +111,11 @@ module.exports = new Promise(function (resolve, reject) {
 					// add newly connected socket
 					var key = socket.remoteAddress + ':' + socket.remotePort;
 					sockets[key] = socket;
-					console.log(chalk.bold.yellow('( ) socket opened: ' + key));
+					//console.log(chalk.bold.yellow('( ) socket opened: ' + key));
 					// remove socket when it closes
 					socket.once('close', function () {
 						delete sockets[key];
-						console.log(chalk.bold.yellow('(X) socket closed: ' + key));
+						//console.log(chalk.bold.yellow('(X) socket closed: ' + key));
 					});
 				}
 
@@ -178,8 +178,6 @@ module.exports = new Promise(function (resolve, reject) {
 
 /**
  * TODO
- * - http->https
- * - graceful shutdown
  * - logging (http://blog.nodejs.org/2012/03/28/service-logging-in-json-with-bunyan/)
  * - forever (https://www.npmjs.com/package/forever)
  */
