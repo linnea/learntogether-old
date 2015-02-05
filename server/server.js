@@ -178,6 +178,5 @@ module.exports = new Promise(function (resolve, reject) {
 
 /**
  * TODO
- * - logging (http://blog.nodejs.org/2012/03/28/service-logging-in-json-with-bunyan/)
  * - forever (https://www.npmjs.com/package/forever)
  */
